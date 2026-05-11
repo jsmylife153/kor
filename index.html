@@ -212,6 +212,8 @@ footer{background:var(--green-dark);color:rgba(255,255,255,.85);padding:48px 5% 
 .fade-up{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
 .fade-up.visible{opacity:1;transform:none}
 </style>
+<link rel="manifest" href="/kor/manifest.json">
+<link rel="apple-touch-icon" href="/kor/icons/icon-192.png">
 </head>
 <body>
 
@@ -946,6 +948,15 @@ function closeArticle(){
   window.scrollTo(0,-(parseInt(top||'0')));
 }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeArticle(); });
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('/kor/sw.js')
+      .then(function(reg){ console.log('SW registered'); })
+      .catch(function(err){ console.log('SW error:', err); });
+  });
+}
 </script>
 </body>
 </html>

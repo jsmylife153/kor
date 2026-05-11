@@ -1,23 +1,90 @@
 {
-  "name": "JS 집중력·기억력 향상훈련",
-  "short_name": "JS훈련",
-  "description": "시력강화·집중력·기억력·문장기억·독서능력 5가지 뇌 훈련 앱.",
-  "start_url": "/kor/index.html",
+  "name": "JS 두뇌훈련 — 집중력·기억력·치매예방",
+  "short_name": "JS두뇌훈련",
+  "description": "시력강화·집중력·기억력·문장기억·독서능력 5가지 과학적 두뇌 훈련. 치매 예방, 기억력 향상, 속독 훈련을 무료로 제공합니다.",
+  "start_url": "/kor/",
   "scope": "/kor/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#1a1a1a",
-  "theme_color": "#99FF66",
+  "background_color": "#f9faf8",
+  "theme_color": "#2d8c4e",
   "lang": "ko-KR",
-  "categories": ["education", "health", "lifestyle"],
+  "categories": [
+    "education",
+    "health",
+    "lifestyle"
+  ],
   "icons": [
-    { "src": "/kor/icons/icon-72.png",   "sizes": "72x72",   "type": "image/png", "purpose": "any maskable" },
-    { "src": "/kor/icons/icon-96.png",   "sizes": "96x96",   "type": "image/png", "purpose": "any maskable" },
-    { "src": "/kor/icons/icon-128.png",  "sizes": "128x128", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/kor/icons/icon-144.png",  "sizes": "144x144", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/kor/icons/icon-152.png",  "sizes": "152x152", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/kor/icons/icon-192.png",  "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/kor/icons/icon-384.png",  "sizes": "384x384", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/kor/icons/icon-512.png",  "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    {
+      "src": "/kor/icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/kor/icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/kor/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/kor/icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/kor/icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/kor/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/kor/icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/kor/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/kor/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "JS 두뇌훈련 홈"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "훈련 시작",
+      "short_name": "훈련",
+      "description": "두뇌 훈련 바로 시작",
+      "url": "/kor/app.html",
+      "icons": [
+        {
+          "src": "/kor/icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
   ]
 }
