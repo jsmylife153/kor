@@ -39,7 +39,16 @@ html,body{width:100%;height:100%;background:#1a1a1a;display:flex;align-items:cen
 }
 #TR{flex:1 1 auto;min-height:0;position:relative;background:#f0efe8;}
 canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
-#SH{position:absolute;transform:translate(-50%,-50%);border-radius:50%;opacity:0;}
+#SH{
+  will-change:left,top,opacity,transform;
+  position:absolute;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  opacity:0;
+  transition:opacity .04s;
+  pointer-events:none;
+  z-index:3;
+}
 #WE{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-family:'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-weight:700;color:#111;letter-spacing:.04em;pointer-events:none;opacity:0;}
 #slots{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;display:none;}
 .badge{font-size:clamp(9px,1.1vw,11px);background:#fff;border:1px solid #2a9e00;border-radius:4px;padding:2px 8px;color:#1a1a1a;font-weight:500;}
@@ -936,7 +945,13 @@ document.addEventListener('webkitfullscreenchange', onFSChange);
 
 /* ═══ Constants ═══════════════════════════════════ */
 const ROWS=6, CF=1.12, TOP=0.16, BOT=0.16;
-const COLORS=[{fill:'#111',border:'#000'},{fill:'#D32F2F',border:'#B71C1C'},{fill:'#1565C0',border:'#0D47A1'},{fill:'#2E7D32',border:'#1B5E20'}];
+const COLORS=[
+  {fill:'#FF0000',dark:'#990000',light:'#FF9999'},  /* 빨강 */
+  {fill:'#FFDD00',dark:'#AA7700',light:'#FFEE77'},  /* 노랑 */
+  {fill:'#00EE00',dark:'#006600',light:'#88FF88'},  /* 초록 */
+  {fill:'#0044FF',dark:'#0022AA',light:'#88AAFF'},  /* 파랑 */
+  {fill:'#EE00EE',dark:'#770077',light:'#FF88FF'},  /* 보라 */
+];
 const SPD={1:{ms:950,l:'매우 느림'},2:{ms:700,l:'느림'},3:{ms:450,l:'보통'},4:{ms:250,l:'빠름'},5:{ms:100,l:'매우 빠름'}};
 const PH=[{label:'1단계 가로',mode:'h'},{label:'2단계 세로',mode:'v'},{label:'3단계 랜덤',mode:'r'}];
 const V_DUR=[60,60,90], C_DUR=[60,60,60];
@@ -1049,12 +1064,31 @@ function drawGrid() {
 function pClr() { return COLORS[Math.floor(Math.random()*COLORS.length)]; }
 function shSz() {
   const H=TR.offsetHeight||300;
-  const big=Math.max(14,Math.floor(H*0.065));
-  const small=Math.max(7,Math.floor(H*0.032));
+  const big=Math.max(18,Math.floor(H*0.075));   /* 더 크게 */
+  const small=Math.max(10,Math.floor(H*0.038)); /* 점도 조금 크게 */
   return (shape==='dot'||(shape==='alt'&&alt)) ? small : big;
 }
-function apSh() { const sz=shSz(); SH.style.width=sz+'px'; SH.style.height=sz+'px'; SH.style.borderRadius='50%'; }
-function apCl(c) { SH.style.background=c.fill; SH.style.border='.5px solid '+c.border; }
+function apSh() {
+  const sz=shSz();
+  SH.style.width=sz+'px'; SH.style.height=sz+'px';
+  if(shape==='cross'){
+    SH.style.borderRadius='12%';
+    SH.style.transform='translate(-50%,-50%) rotate(45deg)';
+  } else {
+    SH.style.borderRadius='50%';
+    SH.style.transform='translate(-50%,-50%)';
+  }
+}
+function apCl(c) {
+  /* 센터 조명: 정중앙이 가장 밝고 가장자리로 갈수록 어두워지는 구형 효과 */
+  SH.style.background=
+    'radial-gradient(circle at 50% 50%, white 0%, '+c.light+' 15%, '+c.fill+' 48%, '+c.dark+' 88%, #000 100%)';
+  SH.style.border='none';
+  SH.style.boxShadow=
+    'inset 0 0 12px 4px rgba(0,0,0,.45), '   /* 가장자리 안쪽 음영 */
+    +'0 6px 18px rgba(0,0,0,.35), '           /* 바닥 그림자 */
+    +'0 0 0 3px '+c.dark;                     /* 테두리 링 */
+}
 function plSh(pi) { const {x,y}=gXY(pi); SH.style.left=x+'px'; SH.style.top=y+'px'; SH.style.opacity='1'; }
 function vBlink(cb) {
   const half=Math.max(18,SPD[spd].ms/(bc*2));
