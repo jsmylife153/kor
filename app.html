@@ -14,28 +14,17 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{width:100%;height:100%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-family:-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;overflow:hidden;font-weight:500;}
+html,body{width:100%;height:100%;background:#1a1a1a;margin:0;padding:0;overflow:hidden;font-family:-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;font-weight:500;}
 #app{
-  /* 가로: 16:9 비율 유지, 세로: 전체 뷰포트 사용 */
-  position:relative;
+  position:absolute;
   display:flex;
   flex-direction:column;
-  border-radius:10px;
+  border-radius:6px;
   overflow:visible;
   box-shadow:0 8px 40px rgba(0,0,0,.6);
-}
-@media (orientation:landscape){
-  #app{
-    width:min(100vw, calc(100dvh * 16/9));
-    height:min(100dvh, calc(100vw * 9/16));
-  }
-}
-@media (orientation:portrait){
-  #app{
-    width:100vw;
-    height:100dvh;
-    border-radius:0;
-  }
+  width:1280px;
+  height:720px;
+  transform-origin:top left;
 }
 #TR{flex:1 1 auto;min-height:0;position:relative;background:#f0efe8;}
 canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
@@ -51,36 +40,34 @@ canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
 }
 #WE{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-family:'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-weight:700;color:#111;letter-spacing:.04em;pointer-events:none;opacity:0;}
 #slots{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;display:none;}
-.badge{font-size:clamp(10px,1.2vw,12px);background:rgba(255,255,255,.85);border:1px solid #4dc922;border-radius:8px;padding:0 10px;color:#1a1a1a;font-weight:900 !important;display:inline-flex;align-items:center;height:34px;letter-spacing:-.01em;}
+.badge{font-size:16px !important;background:rgba(255,255,255,.85);border:1.5px solid #4dc922;border-radius:8px;padding:0 12px;color:#1a1a1a;font-weight:900 !important;display:inline-flex;align-items:center;height:44px;letter-spacing:-.01em;}
 #bc{font-weight:500;color:#111;min-width:58px;text-align:center;}
 /* Controls bar */
 /* ── 컨트롤바: 가로=1줄, 세로=2줄 ───────────── */
 #cbar{
   flex:none;
   display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:3px 4px;
-  padding:4px 10px;
+  flex-direction:column;
+  justify-content:center;
+  gap:4px;
+  padding:5px 170px 5px 10px;
   background:#99FF66;
-  border-top:1.5px solid #4dc922;
+  border-top:2px solid #4dc922;
   overflow:visible;
-  min-height:44px;
-  padding:0 10px;
+  min-height:64px;
+  position:relative;
 }
-/* 가로 모드: 1줄 고정 */
+/* 가로 모드 */
 @media (orientation:landscape){
-  #cbar{ flex-wrap:nowrap; min-height:44px; padding:0 10px; }
+  #cbar{ flex-direction:column; justify-content:center; gap:4px; min-height:64px; padding:5px 170px 5px 10px; }
   #app{ flex-direction:column; }
 }
-/* 세로 모드: 2줄 허용, 훈련 영역 축소 */
+/* 세로 모드 */
 @media (orientation:portrait){
-  #cbar{ flex-wrap:wrap; padding:5px 8px; }
+  #cbar{ flex-wrap:wrap; padding:5px 6px; gap:3px; }
   #TR{ flex:1 1 auto; }
-  /* 세로 모드에서 앱 높이 조정 */
   #app{ flex-direction:column; }
 }
-/* 세로 구분선 숨기기 (세로모드 2줄에서 불필요) */
 @media (orientation:portrait){
   #cbar .sep{ display:none; }
   #cbar .row2-sep{ display:block; width:100%; height:0; flex-basis:100%; }
@@ -88,11 +75,12 @@ canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
 @media (orientation:landscape){
   #cbar .row2-sep{ display:none; }
 }
+/* 모바일: transform:scale로 비율 유지 - 별도 미디어쿼리 불필요 */
 button{font-size:clamp(9px,1vw,10px);padding:2px 6px;border:1px solid #2a9e00;border-radius:5px;background:transparent;cursor:pointer;white-space:nowrap;transition:background .1s;}
 button:hover{background:#f0f0f0;}
 button.active{background:#cce0ff;color:#0047cc;border-color:#0047cc;font-weight:600;}
 .sep{width:.5px;height:14px;background:#ddd;flex-shrink:0;}
-input[type=range]{flex:1;min-width:36px;max-width:90px;}
+input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 /* Training overlay */
 #OV{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.87);z-index:30;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
 #ov-msg{display:flex;flex-direction:column;align-items:center;gap:10px;width:92%;max-width:560px;text-align:center;}
@@ -111,8 +99,8 @@ input[type=range]{flex:1;min-width:36px;max-width:90px;}
 /* DS badge */
 #dsBadge{position:absolute;bottom:8px;left:8px;z-index:10;font-size:10px;background:rgba(255,255,255,.92);border:.5px solid #ddd;border-radius:4px;padding:2px 8px;color:#666;display:flex;align-items:center;gap:4px;}
 /* 집중기억 훈련 */
-#fmArea{display:none;position:absolute;top:44px;left:0;width:100%;height:calc(100% - 44px);padding:4px 4% 44px;box-sizing:border-box;overflow:hidden;background:#f0efe8;}
-#fmContent{line-height:1.50;word-break:keep-all;white-space:pre-wrap;overflow:hidden;max-height:calc(100% - 8px);font-weight:600;letter-spacing:.01em;}
+#fmArea{display:none;position:absolute;top:60px;left:0;width:100%;height:calc(100% - 60px);padding:4px 4% 70px;box-sizing:border-box;overflow:hidden;background:#f0efe8;}
+#fmContent{line-height:1.42;word-break:keep-all;white-space:pre-wrap;overflow:hidden;max-height:calc(100% - 8px);font-weight:600;letter-spacing:.01em;}
 .fm-w{color:#d5d5d5;transition:color .06s;font-weight:600;}
 .fm-w.on{color:#111 !important;}
 #fmCompleteOV,#fmQuizOV,#fmResultOV{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:36;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;box-sizing:border-box;}
@@ -120,22 +108,22 @@ input[type=range]{flex:1;min-width:36px;max-width:90px;}
 .fmOptBtn{width:100%;text-align:left;font-size:clamp(12px,1.8vw,15px);padding:10px 16px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;cursor:pointer;transition:background .15s;}
 .fmOptBtn:hover{background:rgba(255,255,255,.22);}
 /* Settings modal */
-#settBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;}
+#settBg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9000;align-items:center;justify-content:center;}
 #settBg.open{display:flex;}
-#settBox{background:#fff;border-radius:14px;width:min(94vw,540px);max-height:80%;overflow:hidden;display:flex;flex-direction:column;}
+#settBox{background:#fff;border-radius:16px;width:94%;max-width:660px;max-height:70%;overflow:hidden;display:flex;flex-direction:column;}
 #settTabs{display:flex;border-bottom:.5px solid #eee;}
 .stab{flex:1;padding:11px 0;font-size:12px;font-weight:500;text-align:center;cursor:pointer;color:#888;border:none;border-radius:0;background:transparent;}
 .stab.on{color:#185fa5;border-bottom:2px solid #185fa5;}
-#settBody{padding:18px 20px;overflow-y:auto;flex:1;font-size:12px;line-height:1.8;color:#444;}
-#settBody h4{font-size:13px;font-weight:500;color:#111;margin:14px 0 5px;}
+#settBody{padding:22px 26px;overflow-y:auto;flex:1;font-size:16px;line-height:1.9;color:#444;}
+#settBody h4{font-size:18px;font-weight:700;color:#111;margin:18px 0 8px;}
 #settBody h4:first-child{margin-top:0;}
 #settBody ul{padding-left:16px;}
 #settBody .step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
-#settBody .snum{min-width:22px;height:22px;border-radius:50%;background:#378ADD;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;}
+#settBody .snum{min-width:30px;height:30px;border-radius:50%;background:#378ADD;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;}
 .settFoot{padding:12px 20px;border-top:.5px solid #eee;display:flex;gap:8px;}
-.settFoot button{flex:1;font-size:12px;padding:9px 0;border-radius:8px;}
+.settFoot button{flex:1;font-size:16px;padding:13px 0;border-radius:10px;}
 /* Data modal */
-#dataBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;}
+#dataBg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9000;align-items:center;justify-content:center;}
 #dataBg.open{display:flex;}
 #dataBox{background:#fff;border-radius:12px;padding:20px 22px;width:min(92vw,460px);max-height:90vh;overflow-y:auto;}
 #dataBox h3{font-size:14px;font-weight:500;margin-bottom:14px;color:#111;}
@@ -148,12 +136,17 @@ input[type=range]{flex:1;min-width:36px;max-width:90px;}
 #loadSt.err{color:#D32F2F;}
 .lsItem{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#f5f5f5;border-radius:6px;margin-bottom:6px;}
 /* Fullscreen */
-body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;border-radius:0;}
+body:fullscreen #app,body:-webkit-full-screen #app{
+  border-radius:0;
+  transform:none !important;
+  width:100vw !important; height:100vh !important;
+  left:0 !important; top:0 !important;
+}
 /* ── New Control Bar ── */
 /* cbar 추가 스타일 - 위 기본 CSS와 통합됨 */
 #cbar-top{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap;}
 #cbar-mid{display:flex;align-items:center;gap:6px;width:100%;justify-content:center;padding:2px 0;}
-.cbtn-play{height:34px;padding:0 14px;border-radius:8px;border:1.5px solid;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:12px;font-weight:700;flex-shrink:0;transition:all .18s;white-space:nowrap;}
+.cbtn-play{height:48px;padding:0 24px;border-radius:10px;border:1.5px solid;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:19px;font-weight:700;flex-shrink:0;transition:all .18s;white-space:nowrap;}
 .cbtn-play:active{opacity:.8;}
 .cbtn-play.play{background:#fff;color:#2d8c4e;border-color:#2d8c4e;}
 .cbtn-play.stop{background:#fff;color:#c62828;border-color:#e53935;}
@@ -166,7 +159,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 .tm-sel-btn{height:34px;padding:0 10px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.8);color:#1a5e33;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s;display:inline-flex;align-items:center;gap:3px;}
 #tmDropWrap{position:relative;flex-shrink:0;}
 #tmDropToggle{display:none;}
-#tmDropBtn2{height:34px;padding:0 12px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;user-select:none;}
+#tmDropBtn2{height:42px;padding:0 14px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:17px;font-weight:700;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;user-select:none;}
 #tmDropBtn2:hover{background:#fff;}
 #tmArrow{font-size:9px;transition:transform .2s;display:inline-block;}
 #tmDropPanel{display:none;position:absolute;bottom:calc(100% + 6px);left:0;background:#fff;border-radius:10px;box-shadow:0 -4px 24px rgba(0,0,0,.22);overflow:hidden;min-width:160px;z-index:9999;border:1px solid #e0e0e0;}
@@ -185,45 +178,45 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 .tmDItem:hover,.tmDItem:active{background:#e8f5ec;}
 .tmDItem.active{background:#2d8c4e;color:#fff;font-weight:700;}
 .tmDItem.active:hover{background:#1a5e33;}
-.lv-grp{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,.7);border-radius:8px;padding:0 8px;border:1.5px solid #2d8c4e;height:34px;}
-.lv-grp span{font-size:11px;color:#1a5e33;font-weight:800;margin-right:2px;}
-.lv-btn{font-size:11px;padding:1px 8px;border-radius:8px;border:1px solid #2d8c4e;background:transparent;color:#1a5e33;cursor:pointer;font-weight:800;}
+.lv-grp{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.7);border-radius:8px;padding:0 8px;border:1.5px solid #2d8c4e;height:42px;}
+.lv-grp span{font-size:16px;color:#1a5e33;font-weight:800;margin-right:3px;}
+.lv-btn{font-size:17px;padding:4px 12px;border-radius:7px;border:1.5px solid #2d8c4e;background:transparent;color:#1a5e33;cursor:pointer;font-weight:800;}
 .lv-btn.active{background:#2d8c4e;color:#fff;font-weight:700;}
-.spd-grp{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.7);border-radius:8px;padding:0 8px;border:1.5px solid #2d8c4e;height:34px;}
-.spd-grp span{font-size:11px;color:#1a5e33 !important;font-weight:800;}
+.spd-grp{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.7);border-radius:8px;padding:0 10px;border:1.5px solid #2d8c4e;height:42px;}
+.spd-grp span{font-size:16px;color:#1a5e33 !important;font-weight:800;}
 #spsl,#spsl2,#spsl3{accent-color:#0044FF;}
 /* #splb 개별 스타일 제거 - spd-grp span으로 통일 */
-.cfg-btn{font-size:12px;height:34px;padding:0 12px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;cursor:pointer;font-weight:700;display:inline-flex;align-items:center;}
+.cfg-btn{font-size:20px;height:48px;padding:0 14px;border-radius:10px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;cursor:pointer;font-weight:700;display:inline-flex;align-items:center;}
 /* 훈련 팝업 */
 /* ── 훈련 안내 팝업 ── */
-#tmPopBg{position:fixed;inset:0;background:transparent;z-index:300;display:flex;align-items:center;justify-content:center;pointer-events:none;}
-#tmPopBox{background:#fff;border-radius:18px;max-width:460px;width:92%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative;cursor:default;pointer-events:auto;}
+#tmPopBg{position:absolute;inset:0;background:transparent;z-index:300;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+#tmPopBox{background:#fff;border-radius:22px;max-width:660px;width:94%;overflow:visible;box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative;cursor:default;pointer-events:auto;}
 /* 헤더 */
-#tmPopHead{background:linear-gradient(135deg,#1a5e33,#2d8c4e 60%,#4aab6d);padding:20px 22px 16px;display:flex;align-items:center;gap:12px;}
-#tmPopIcon{font-size:36px;line-height:1;flex-shrink:0;}
-#tmPopTitle{font-size:20px;font-weight:900;color:#fff;margin:0;letter-spacing:-.01em;}
+#tmPopHead{background:linear-gradient(135deg,#1a5e33,#2d8c4e 60%,#4aab6d);padding:26px 28px 20px;display:flex;align-items:center;gap:16px;}
+#tmPopIcon{font-size:52px;line-height:1;flex-shrink:0;}
+#tmPopTitle{font-size:28px;font-weight:900;color:#fff;margin:0;letter-spacing:-.01em;}
 #tmPopTag{font-size:10px;background:rgba(255,255,255,.2);color:#fff;padding:2px 8px;border-radius:8px;display:inline-block;margin-top:3px;}
 /* tmPopClose 제거됨 */
 /* 오디오 바 */
-#tmPopAudioWrap{display:flex;align-items:center;gap:8px;padding:10px 18px;background:#f5faf6;border-bottom:1px solid #e5ede7;}
-#tmPopAudioBtn{width:32px;height:32px;border-radius:50%;background:#2d8c4e;color:#fff;border:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#tmPopAudioWrap{display:flex;align-items:center;gap:10px;padding:14px 24px;background:#f5faf6;border-bottom:1px solid #e5ede7;}
+#tmPopAudioBtn{width:46px;height:46px;border-radius:50%;background:#2d8c4e;color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 #tmPopAudioBtn:hover{background:#1a5e33;}
 #tmPopAudioBar{flex:1;height:4px;background:#cde8d3;border-radius:4px;overflow:hidden;cursor:pointer;}
 #tmPopAudioProg{height:100%;background:#2d8c4e;width:0%;transition:width .3s linear;}
-#tmPopAudioTime{font-size:11px;color:#888;min-width:34px;text-align:right;}
+#tmPopAudioTime{font-size:15px;color:#888;min-width:44px;text-align:right;}
 /* 본문 */
-#tmPopBody{padding:16px 20px 10px;font-size:13px;line-height:1.85;color:#333;max-height:36vh;overflow-y:auto;}
+#tmPopBody{padding:20px 28px 14px;font-size:18px;line-height:1.9;color:#333;max-height:60vh;overflow-y:visible;}
 #tmPopBody b{color:#1a5e33;font-weight:700;}
 /* 하단 */
-#tmPopFoot{padding:10px 20px 18px;text-align:center;}
-#tmPopHint{font-size:12px;color:#888;display:flex;align-items:center;justify-content:center;gap:6px;}
-#tmPopHintBtn{background:#e8f5ec;color:#1a5e33;border-radius:6px;padding:3px 10px;font-size:12px;font-weight:700;}
+#tmPopFoot{padding:14px 28px 22px;text-align:center;}
+#tmPopHint{font-size:16px;color:#888;display:flex;align-items:center;justify-content:center;gap:8px;}
+#tmPopHintBtn{background:#e8f5ec;color:#1a5e33;border-radius:8px;padding:5px 14px;font-size:16px;font-weight:700;}
 /* 오디오설정 숨김 */
 #tmPopMuteNote{font-size:10px;color:#aaa;margin-left:2px;}
 
 #fsFab{display:none;}
 /* 사용자 등록 모달 */
-#nameBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:400;align-items:center;justify-content:center;}
+#nameBg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center;}
 #nameBg.open{display:flex;}
 #nameBox{background:#fff;border-radius:14px;padding:26px 28px;width:min(88vw,380px);text-align:center;}
 #nameBox h3{font-size:16px;font-weight:500;color:#111;margin-bottom:8px;}
@@ -257,19 +250,49 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 </head>
 <body>
 <div id="app">
+
+<!-- 훈련 안내 팝업 -->
+<div id="tmPopBg" style="display:none;">
+  <div id="tmPopBox" onclick="event.stopPropagation()">
+    <!-- 헤더 -->
+    <div id="tmPopHead">
+      <span id="tmPopIcon">👁</span>
+      <div>
+        <div id="tmPopTitle">시력강화 훈련</div>
+      </div>
+    </div>
+    <!-- 오디오 플레이어 -->
+    <div id="tmPopAudioWrap">
+      <button id="tmPopAudioBtn" onclick="togglePopAudio()">▶</button>
+      <div id="tmPopAudioBar" onclick="seekPopAudio(event)">
+        <div id="tmPopAudioProg"></div>
+      </div>
+      <span id="tmPopAudioTime">0:00</span>
+      <span id="tmPopMuteNote"></span>
+    </div>
+    <!-- 본문 -->
+    <div id="tmPopBody"></div>
+    <!-- 하단 안내 -->
+    <div id="tmPopFoot">
+      <div id="tmPopHint">
+        단계를 설정한 후 <span id="tmPopHintBtn">▶ 시작</span> 버튼을 눌러 훈련을 시작하세요
+      </div>
+    </div>
+  </div>
+</div>
   <div id="TR">
     <canvas id="gc"></canvas>
 
     <!-- Top badges -->
-    <div style="position:absolute;top:0;left:0;width:100%;min-height:44px;background:#99FF66;border-bottom:1.5px solid #4dc922;display:flex;align-items:center;justify-content:space-between;padding:4px 10px;box-sizing:border-box;z-index:10;">
+    <div style="position:absolute;top:0;left:0;width:100%;height:60px;background:#99FF66;border-bottom:2px solid #4dc922;display:flex;align-items:center;justify-content:space-between;padding:0 14px;box-sizing:border-box;z-index:10;">
       <div style="display:flex;gap:5px;align-items:center;">
         <span class="badge" id="ba">왕복 0회</span>
         <span class="badge" id="bb">1 / 72</span>
-        <span class="badge" id="bc">⏱ 60s</span>
+        <span class="badge" id="bc">60s</span>
       </div>
       <div style="display:flex;align-items:center;gap:7px;">
         <div id="dotArea" style="display:flex;gap:3px;align-items:center;"></div>
-        <span id="tlabel" style="font-size:clamp(10px,1.2vw,12px);font-weight:800;color:#1a1a1a;">시력강화 훈련 · 1단계 가로</span>
+        <span id="tlabel" style="font-size:24px;font-weight:900;color:#1a1a1a;">시력강화 훈련 · 1단계 가로</span>
       </div>
     </div>
 
@@ -350,7 +373,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 
   <!-- Controls bar -->
   <div id="cbar">
-    <div style="display:flex;align-items:center;width:100%;gap:6px;flex-wrap:nowrap;">
+    <div style="display:flex;align-items:center;width:100%;gap:5px;flex-wrap:nowrap;overflow:visible;">
 
       <!-- 훈련 선택 드롭업 -->
       <div id="tmDropWrap" style="flex-shrink:0;position:relative;">
@@ -386,10 +409,10 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
         </div>
         <!-- 시작/종료: 속도 바로 오른쪽 고정 -->
         <button id="btnSt" class="cbtn-play play" onclick="toggleStart()" title="시작">
-          <svg viewBox="0 0 36 36" width="13" height="13" fill="currentColor"><polygon points="10,6 30,18 10,30"/></svg> 시작
+          <svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><polygon points="10,6 30,18 10,30"/></svg> 시작
         </button>
         <button id="btnSt2" class="cbtn-play stop" onclick="handleEnd()" title="마침/결과확인">
-          <svg viewBox="0 0 36 36" width="13" height="13" fill="currentColor"><rect x="8" y="8" width="20" height="20" rx="3"/></svg> 종료
+          <svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><rect x="8" y="8" width="20" height="20" rx="3"/></svg> 종료
         </button>
         <div style="display:none;">
           <button id="bsh-c" onclick="setShape('circle')"></button>
@@ -456,17 +479,17 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
            단순하게: cv가 none이면 cw/cv3 바로 뒤에 버튼 출력 -->
       <div id="btnGroup_cw" style="display:none;align-items:center;gap:6px;flex-shrink:0;">
         <button id="btnSt_cw2" class="cbtn-play play" onclick="toggleStart()" title="시작">
-          <svg viewBox="0 0 36 36" width="13" height="13" fill="currentColor"><polygon points="10,6 30,18 10,30"/></svg> 시작
+          <svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><polygon points="10,6 30,18 10,30"/></svg> 시작
         </button>
         <button id="btnSt2_cw2" class="cbtn-play stop" onclick="handleEnd()" title="마침/결과확인">
-          <svg viewBox="0 0 36 36" width="13" height="13" fill="currentColor"><rect x="8" y="8" width="20" height="20" rx="3"/></svg> 종료
+          <svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><rect x="8" y="8" width="20" height="20" rx="3"/></svg> 종료
         </button>
       </div>
 
-      <!-- 우측: 설정 + 전체화면 (밀어내기) -->
-      <div style="margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:4px;">
-        <button class="cfg-btn" onclick="openSett()" style="font-size:16px;">⚙</button>
-        <button onclick="toggleFS()" style="height:34px;padding:0 12px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:11px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">⛶ 전체화면</button>
+      <!-- 우측: 설정 + 전체화면 (절대 우측 고정) -->
+      <div style="position:absolute;right:12px;bottom:8px;display:flex;align-items:center;gap:4px;z-index:10;">
+        <button class="cfg-btn" onclick="openSett()" style="font-size:22px;">⚙</button>
+        <button onclick="toggleFS()" style="height:48px;padding:0 16px;border-radius:10px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">⛶ 전체화면</button>
       </div>
 
     </div><!-- /outer flex -->
@@ -1360,7 +1383,7 @@ document.addEventListener('fullscreenchange', onFSChange);
 document.addEventListener('webkitfullscreenchange', onFSChange);
 
 /* ═══ Constants ═══════════════════════════════════ */
-const ROWS=5, CF=1.12, TOP=0.22, BOT=0.12;
+const ROWS=5, CF=1.12, TOP=0.17, BOT=0.10;
 const COLORS=[
   {fill:'#FF0000',dark:'#990000',light:'#FF9999'},  /* 빨강 */
   {fill:'#FFDD00',dark:'#AA7700',light:'#FFEE77'},  /* 노랑 */
@@ -1475,8 +1498,8 @@ function pClr() {
 }
 function shSz() {
   const H=TR.offsetHeight||300;
-  const big=Math.max(18,Math.floor(H*0.075));
-  const small=Math.max(10,Math.floor(H*0.038));
+  const big=Math.max(22,Math.floor(H*0.10));   /* 큰원: 더 크게 */
+  const small=Math.max(6,Math.floor(H*0.025));  /* 작은원: 더 작게 */
   /* 수준2: 교대 교체 시 작은 원 */
   if (vLv===2 && vLvAlt) return small;
   /* 수준3: 교대 교체 시 이미지 (크기는 big과 동일) */
@@ -2015,7 +2038,7 @@ function updSB() {
 }
 function updTimerB() {
   const el=document.getElementById('bc');
-  el.textContent='⏱ '+remSec+'s';
+  el.textContent=remSec+'s';
   el.style.color=remSec<=10?'#D32F2F':'#111';
   el.style.borderColor=remSec<=10?'#D32F2F':'#2a9e00';
 }
@@ -2092,8 +2115,8 @@ function setLV(l) {
 
 /* 모든 재생 버튼(btnSt, btnSt2, btnSt3) 동기 업데이트 */
 function updPlayBtns(state) {
-  const PLAY_SVG='<svg viewBox="0 0 36 36" width="13" height="13" fill="currentColor"><polygon points="10,6 30,18 10,30"/></svg> 시작';
-  const PAUSE_SVG='<svg viewBox="0 0 36 36" width="13" height="13" fill="currentColor"><rect x="8" y="6" width="7" height="24" rx="2"/><rect x="21" y="6" width="7" height="24" rx="2"/></svg> 일시정지';
+  const PLAY_SVG='<svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><polygon points="10,6 30,18 10,30"/></svg> 시작';
+  const PAUSE_SVG='<svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><rect x="8" y="6" width="7" height="24" rx="2"/><rect x="21" y="6" width="7" height="24" rx="2"/></svg> 일시정지';
   ['btnSt','btnSt_cw2'].forEach(id => {
     const b=document.getElementById(id); if(!b) return;
     if(state==='running') {
@@ -2259,10 +2282,12 @@ function init() {
   initDB().then(() => {
     try {
       const saved = localStorage.getItem('jstr_lastDS');
-      if (saved && (saved === 'default' || sheetsData[saved])) {
-        activeDS = saved;
-        updDsBadge();
-        renderNavDS();
+      if (saved === 'default') {
+        activeDS = 'default';
+        updDsBadge(); renderNavDS();
+      } else if (saved && sheetsData[saved]) {
+        /* IndexedDB 로드 완료 후 팩 복원 */
+        switchDS(saved);
       }
     } catch(e) {}
   });
@@ -2521,7 +2546,7 @@ function initRanking() {
   initFirebase();
   /* 첫 실행 시 이름 등록 안내 */
   if (!userName) {
-    setTimeout(openNameModal, 800);
+    setTimeout(openNameModal, 600);
   }
   updateNameDisplay();
   updateScoreBadge();
@@ -2640,13 +2665,14 @@ function calcFmFontSize(){
   var trEl=document.getElementById('TR');
   var trH=trEl.offsetHeight||500;
   var trW=trEl.offsetWidth||375;
-  /* 높이 기준: 7줄 + 상단바(32) + 여백(50) */
-  var availH=Math.max(100, trH-32-50);
-  var fsH=Math.floor(availH/7/1.50);
-  /* 너비 기준: 한 줄 평균 9글자, 한국어 폭 ≈ fs*0.95, 좌우 패딩 8% */
+  var topBar=60, cbarEl=document.getElementById('cbar');
+  var cbarH=cbarEl?cbarEl.offsetHeight:64;
+  /* 8줄 표시: 실제 사용 가능 높이 기준 */
+  var availH=Math.max(100, trH - topBar - cbarH - 16);
+  var fsH=Math.floor(availH/8/1.42);
+  /* 너비 기준: 한 줄 평균 9글자 */
   var fsW=Math.floor(trW*0.88/(9*0.95));
-  /* 둘 중 작은 값 선택 → 가로/세로 모두 이탈 없음 */
-  return Math.max(10, Math.min(fsH, fsW));
+  return Math.max(14, Math.min(fsH, fsW));
 }
 function calcFmWPP(){
   var trEl=document.getElementById('TR');
@@ -2682,7 +2708,8 @@ function fmLoadPageGray(wordStart){
   var content = document.getElementById('fmContent');
   content.style.fontSize = fs+'px';
   var trEl = document.getElementById('TR');
-  var maxH = trEl.offsetHeight - 32 - 50; /* 사용 가능 높이 */
+  var topBar = 60, cbarH = document.getElementById('cbar').offsetHeight||64;
+  var maxH = trEl.offsetHeight - topBar - cbarH - 16; /* 상단바+하단바+여유 */
 
   /* 초기 WPP로 시도 */
   var wpp = calcFmWPP();
@@ -2858,35 +2885,6 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
-<!-- 훈련 안내 팝업 -->
-<div id="tmPopBg" style="display:none;">
-  <div id="tmPopBox" onclick="event.stopPropagation()">
-    <!-- 헤더 -->
-    <div id="tmPopHead">
-      <span id="tmPopIcon">👁</span>
-      <div>
-        <div id="tmPopTitle">시력강화 훈련</div>
-      </div>
-    </div>
-    <!-- 오디오 플레이어 -->
-    <div id="tmPopAudioWrap">
-      <button id="tmPopAudioBtn" onclick="togglePopAudio()">▶</button>
-      <div id="tmPopAudioBar" onclick="seekPopAudio(event)">
-        <div id="tmPopAudioProg"></div>
-      </div>
-      <span id="tmPopAudioTime">0:00</span>
-      <span id="tmPopMuteNote"></span>
-    </div>
-    <!-- 본문 -->
-    <div id="tmPopBody"></div>
-    <!-- 하단 안내 -->
-    <div id="tmPopFoot">
-      <div id="tmPopHint">
-        단계를 설정한 후 <span id="tmPopHintBtn">▶ 시작</span> 버튼을 눌러 훈련을 시작하세요
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 /* ═══ 훈련 안내 팝업 + 오디오 ════════════════════════ */
@@ -3029,6 +3027,41 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
+/* ═══ 앱 비율 스케일링 ══════════════════════════════
+   transform-origin: top left 기준
+   left/top 으로 중앙 배치 → 검은 여백 없이 꽉 채움
+══════════════════════════════════════════════════ */
+(function scaleApp() {
+  const BASE_W = 1280, BASE_H = 720;
+
+  function fit() {
+    const app = document.getElementById('app');
+    if (!app) return;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    /* 가로/세로 모두 동일: 화면에 꽉 맞게 scale 계산 */
+    const scale = Math.min(vw / BASE_W, vh / BASE_H);
+
+    /* 스케일 후 실제 크기 */
+    const scaledW = BASE_W * scale;
+    const scaledH = BASE_H * scale;
+
+    /* top-left 기준 → 중앙에 오도록 offset 계산 */
+    const left = (vw - scaledW) / 2;
+    const top  = (vh - scaledH) / 2;
+
+    app.style.transform = 'scale(' + scale + ')';
+    app.style.left = left + 'px';
+    app.style.top  = top  + 'px';
+  }
+
+  window.addEventListener('load',   fit);
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', function(){ setTimeout(fit, 200); });
+  document.addEventListener('DOMContentLoaded', fit);
+})();
+
 /* ═══ 훈련 선택 드롭업 ════════════════════════════ */
 
 /* tmDropPanel: CSS :checked로 표시, JS는 닫기만 담당 */
@@ -3141,6 +3174,8 @@ document.addEventListener('click', function(e) {
     if(!wrap || !wrap.contains(e.target)) closeFmDrop();
   }
 });
+
+/* ═══ 앱 시작: setTimeout(init,100) 으로 통합됨 */
 </script>
 </body>
 </html>
