@@ -36,6 +36,7 @@ canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
   opacity:0;
   transition:opacity .04s;
   pointer-events:none;
+  background-color:transparent;
   z-index:3;
 }
 #WE{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-family:'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-weight:700;color:#111;letter-spacing:.04em;pointer-events:none;opacity:0;}
@@ -1253,6 +1254,8 @@ async function loadCustomPack(btn) {
 /* 훈련 적용 */
 function applyPack(label, btn) {
   switchDS(label);
+  /* 즉시 localStorage에도 저장 */
+  try { localStorage.setItem('jstr_lastDS', label); } catch(e) {}
   const st = document.getElementById('quickPackSt');
   if (st) st.textContent = '✅ "' + label + '" 팩이 훈련에 적용되었습니다!';
   if (btn) {
@@ -1406,18 +1409,22 @@ let spd=3, tState='idle', phase=0;
 let tId=null, bId=null, cdId=null, riId=null;
 let navOpen=null, aC=null, lay={mx:30,fs:14};
 let shape='circle', alt=false, bc=1, curColor=COLORS[0], vLv=1, vLvAlt=false, imgIdx=0, vColors=[COLORS[0],COLORS[1]];
+let _vPhaseImg = 0; /* 현재 단계의 고정 이미지 번호 */
 let posIdx=0, moveDir=1, counter=0, remSec=60;
 let wl=2, lv='하', stepN=0, repSteps=new Set(), inRep=false, lastW=null;
 let repAll=[[],[],[]], usedW=new Set();
 let mRound=0, mCycle=0, mWIdx=0, roundWords=[], allRoundWords=[];
 let curSentIdx=0, currentSents=[], allRoundData=[], usedSents=new Set(), slotWordSpans=[];
 
-const TR=document.getElementById('TR');
-const CNV=document.getElementById('gc');
-const SH=document.getElementById('SH');
-const WE=document.getElementById('WE');
-const OV=document.getElementById('OV');
-const slotsEl=document.getElementById('slots');
+let TR=null, CNV=null, SH=null, WE=null, OV=null, slotsEl=null;
+function initDOM() {
+  TR=document.getElementById('TR');
+  CNV=document.getElementById('gc');
+  SH=document.getElementById('SH');
+  WE=document.getElementById('WE');
+  OV=document.getElementById('OV');
+  slotsEl=document.getElementById('slots');
+}
 
 /* ═══ Audio ═══════════════════════════════════════ */
 function gAC() {
@@ -1497,13 +1504,16 @@ function pClr() {
   return vColors[0];
 }
 function shSz() {
-  const H=TR.offsetHeight||300;
-  const big=Math.max(22,Math.floor(H*0.10));   /* 큰원: 더 크게 */
-  const small=Math.max(6,Math.floor(H*0.025));  /* 작은원: 더 작게 */
-  /* 수준2: 교대 교체 시 작은 원 */
-  if (vLv===2 && vLvAlt) return small;
-  /* 수준3: 교대 교체 시 이미지 (크기는 big과 동일) */
-  return big;
+  const H = TR.offsetHeight || 300;
+  return Math.max(22, Math.floor(H * 0.10)); /* 큰원 크기 반환 */
+}
+function shSzSmall() {
+  const H = TR.offsetHeight || 300;
+  return Math.max(6, Math.floor(H * 0.025)); /* 작은원 */
+}
+function shSzImg() {
+  const H = TR.offsetHeight || 300;
+  return Math.max(60, Math.floor(H * 0.16)); /* 이미지: 큰원보다 크게 */
 }
 
 /* 시력 수준 설정 */
@@ -1524,6 +1534,24 @@ function setVLv(n) {
     if(el) el.className=v===n?'lv-btn active':'lv-btn';
   });
   shape='circle'; bc=1;
+}
+
+
+/* ═══ 알파파 배경음 (시력강화 전용) ══════════════════ */
+let _alphaAudio = null;
+function startAlpha() {
+  if (_alphaAudio) return;
+  _alphaAudio = new Audio('https://jsmylife153.github.io/kor/audio/alpha.mp3');
+  _alphaAudio.loop = true;
+  _alphaAudio.volume = 0.35;
+  _alphaAudio.play().catch(function(){});
+}
+function stopAlpha() {
+  if (_alphaAudio) {
+    _alphaAudio.pause();
+    _alphaAudio.currentTime = 0;
+    _alphaAudio = null;
+  }
 }
 
 /* 수준3: 이미지 개수 (01.png~20.png) */
@@ -1556,12 +1584,12 @@ function vBlink(cb) {
   let done=0, st=true;
 
   if(vLv===3 && vLvAlt) {
-    /* 수준3 이미지 턴: 랜덤 png */
-    const n = Math.floor(Math.random()*VLV3_IMG_COUNT)+1;
-    const pad = n<10?'0'+n:''+n;
-    SH.style.cssText = SH.style.cssText; /* 위치 유지 */
-    SH.style.width = shSz()+'px'; SH.style.height = shSz()+'px';
+    /* 수준3 이미지 턴: 단계별 고정 이미지 */
+    const pad = _vPhaseImg<10?'0'+_vPhaseImg:''+_vPhaseImg;
+    const imgSz = shSzImg();
+    SH.style.width = imgSz+'px'; SH.style.height = imgSz+'px';
     SH.style.background='url('+VLV3_BASE+pad+'.png) center/contain no-repeat';
+    SH.style.backgroundColor='transparent';
     SH.style.boxShadow='none'; SH.style.border='none';
     SH.style.borderRadius='0'; SH.style.transform='translate(-50%,-50%)';
     SH.style.opacity='1';
@@ -1780,7 +1808,7 @@ function startPhase() {
   if (TM==='concentration') initRep();
   ding(); tState='running'; updPlayBtns('running');
   startCD();
-  if (TM==='vision') vStep(); else cStep();
+  if (TM==='vision') { pickVColors(); vLvAlt=false; curColor=vColors[0]; _vPhaseImg=Math.floor(Math.random()*VLV3_IMG_COUNT)+1; startAlpha(); vStep(); } else { stopAlpha(); cStep(); }
 }
 function startMRound() {
   upDims(); mCycle=0; mWIdx=0; usedW.clear(); setupMRound(); drawGrid();
@@ -1803,6 +1831,7 @@ function startSRound() {
 /* ═══ Phase / Round end ═══════════════════════════ */
 function stopAll() {
   clearTimeout(tId); clearTimeout(bId); clearInterval(cdId); clearInterval(riId);
+  stopAlpha();
 }
 function endPhase() {
   tState='thinking'; stopAll(); SH.style.opacity='0'; WE.style.opacity='0'; ding();
@@ -1850,7 +1879,7 @@ function showRestOv(isLast) {
       clearInterval(riId); OV.style.display='none';
       addScore(1); /* 시력강화: 단계 완료마다 1점 (1,2,3단계 각 1점) */
       if (isLast) { submitScore(); showAd(fullReset); }
-      else { phase++; startPhase(); }
+      else { phase++; _vPhaseImg=Math.floor(Math.random()*VLV3_IMG_COUNT)+1; startPhase(); }
     }
   }, 1000);
 }
@@ -2137,7 +2166,11 @@ function setSP(v) { spd=parseInt(v); syncSpd(v); }
 
 function switchDS(ds) {
   closeNav(); activeDS=ds; usedW.clear(); usedSents.clear(); updDsBadge();
-  try { localStorage.setItem('jstr_lastDS', ds); } catch(e) {}
+  try {
+    localStorage.setItem('jstr_lastDS', ds);
+    /* IDB에도 즉시 동기화 확인 */
+    if(ds !== 'default' && sheetsData[ds]) idbSave(ds, sheetsData[ds]).catch(function(){});
+  } catch(e) {}
   const def=document.getElementById('ndDef');
   const dot=document.getElementById('ndDefDot');
   const isD=ds==='default';
@@ -2147,6 +2180,7 @@ function switchDS(ds) {
 }
 function switchTM(nm) {
   closeNav();
+  stopAlpha();
   TM=nm; fullReset();
   showTmPop(nm);
   document.getElementById('cv').style.display=nm==='vision'?'flex':'none';
@@ -2274,22 +2308,32 @@ document.addEventListener('keydown', e => {
 
 /* ═══ Init ════════════════════════════════════════ */
 function init() {
+  initDOM(); /* DOM 요소 초기화 */
   setShape('circle'); setBC(1); setWL(2); setLV('하'); setSP(3);
   activeDS = 'default'; updDsBadge();
   switchTM('vision');
   /* initDB 완료 후 마지막 팩 복원 */
   initRanking();
+  /* initDB 완료 후 마지막 팩 복원 */
   initDB().then(() => {
     try {
       const saved = localStorage.getItem('jstr_lastDS');
-      if (saved === 'default') {
-        activeDS = 'default';
-        updDsBadge(); renderNavDS();
-      } else if (saved && sheetsData[saved]) {
-        /* IndexedDB 로드 완료 후 팩 복원 */
-        switchDS(saved);
+      if (!saved || saved === 'default') {
+        activeDS = 'default'; updDsBadge(); renderNavDS();
+      } else if (sheetsData[saved]) {
+        /* IndexedDB에 데이터 있으면 복원 - switchDS 대신 직접 설정 */
+        activeDS = saved;
+        try { usedW.clear(); usedSents.clear(); } catch(e) {}
+        updDsBadge();
+        renderNavDS();
+      } else {
+        /* IDB에 없으면 default로 */
+        activeDS = 'default'; updDsBadge(); renderNavDS();
+        localStorage.removeItem('jstr_lastDS');
       }
-    } catch(e) {}
+    } catch(e) {
+      activeDS = 'default'; updDsBadge();
+    }
   });
 }
 window.addEventListener('resize', () => {
@@ -2307,7 +2351,7 @@ window.addEventListener('resize', () => {
     }
   }
 });
-setTimeout(init, 100);
+setTimeout(init, 800);
 
 /* ══════════════════════════════════════════════════════
    Firebase 설정 — 아래 값을 본인 Firebase 프로젝트로 교체
