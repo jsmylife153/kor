@@ -2321,12 +2321,14 @@ function init() {
       const saved = localStorage.getItem('jstr_lastDS');
       const uname = localStorage.getItem('jstr_username');
       const idbKeys = Object.keys(sheetsData);
-      /* 화면에 디버그 정보 표시 */
-      const dbg = document.createElement('div');
-      dbg.style.cssText = 'position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.85);color:#0f0;font-size:11px;padding:4px 8px;z-index:99999;font-family:monospace;';
-      dbg.textContent = 'LS_user=' + (uname||'없음') + ' | LS_ds=' + (saved||'없음') + ' | IDB=' + (idbKeys.join(',')||'없음') + ' | match=' + (saved && sheetsData[saved] ? 'YES' : 'NO');
-      document.body.appendChild(dbg);
-      setTimeout(()=>dbg.remove(), 8000);
+      /* 상단 배지에 디버그 정보 표시 (8초) */
+      const bcEl = document.getElementById('bc');
+      if (bcEl) {
+        const orig = bcEl.textContent;
+        bcEl.style.background = '#ff0';
+        bcEl.textContent = 'u=' + (uname||'X') + ' ds=' + (saved||'X') + ' idb=' + (idbKeys[0]||'X');
+        setTimeout(() => { bcEl.textContent = orig; bcEl.style.background = ''; }, 8000);
+      }
       if (saved && (saved === 'default' || sheetsData[saved])) {
         activeDS = saved;
         updDsBadge();
