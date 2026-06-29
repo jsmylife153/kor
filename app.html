@@ -1505,15 +1505,12 @@ function pClr() {
 }
 function shSz() {
   const H = TR.offsetHeight || 300;
-  return Math.max(22, Math.floor(H * 0.10)); /* 큰원 크기 반환 */
-}
-function shSzSmall() {
-  const H = TR.offsetHeight || 300;
-  return Math.max(6, Math.floor(H * 0.025)); /* 작은원 */
-}
-function shSzImg() {
-  const H = TR.offsetHeight || 300;
-  return Math.max(60, Math.floor(H * 0.16)); /* 이미지: 큰원보다 크게 */
+  const big   = Math.max(22, Math.floor(H * 0.10));
+  const small = Math.max(6,  Math.floor(H * 0.025));
+  const imgSz = Math.max(60, Math.floor(H * 0.16));
+  if (vLv===3 && vLvAlt) return imgSz; /* 수준3 이미지 턴 */
+  if (vLv===2 && vLvAlt) return small; /* 수준2 작은원 */
+  return big;
 }
 
 /* 시력 수준 설정 */
@@ -1559,7 +1556,8 @@ const VLV3_IMG_COUNT = 20;
 const VLV3_BASE = 'https://jsmylife153.github.io/kor/img/';
 function apSh() {
   const sz=shSz();
-  SH.style.width=sz+'px'; SH.style.height=sz+'px';
+  SH.style.width=sz+'px';
+  SH.style.height=sz+'px';
   if(shape==='cross'){
     SH.style.borderRadius='12%';
     SH.style.transform='translate(-50%,-50%) rotate(45deg)';
@@ -1582,27 +1580,27 @@ function plSh(pi) { const {x,y}=gXY(pi); SH.style.left=x+'px'; SH.style.top=y+'p
 function vBlink(cb) {
   const half=Math.max(18,SPD[spd].ms/(bc*2));
   let done=0, st=true;
+  const sz=shSz();
+  SH.style.width=sz+'px'; SH.style.height=sz+'px';
 
   if(vLv===3 && vLvAlt) {
     /* 수준3 이미지 턴: 단계별 고정 이미지 */
     const pad = _vPhaseImg<10?'0'+_vPhaseImg:''+_vPhaseImg;
-    const imgSz = shSzImg();
-    SH.style.width = imgSz+'px'; SH.style.height = imgSz+'px';
     SH.style.background='url('+VLV3_BASE+pad+'.png) center/contain no-repeat';
     SH.style.backgroundColor='transparent';
     SH.style.boxShadow='none'; SH.style.border='none';
     SH.style.borderRadius='0'; SH.style.transform='translate(-50%,-50%)';
-    SH.style.opacity='1';
   } else if(vLv===2 && vLvAlt) {
-    /* 수준2 작은원 턴: 색2 */
-    apSh(); apCl(vColors[1]); SH.style.opacity='1';
+    /* 수준2 작은원: 색2 */
+    apSh(); apCl(vColors[1]);
   } else if(vLv===1 && vLvAlt) {
-    /* 수준1 두번째 색: 큰원(색2) */
-    apSh(); apCl(vColors[1]); SH.style.opacity='1';
+    /* 수준1 큰원2: 색2 */
+    apSh(); apCl(vColors[1]);
   } else {
-    /* 공통: 큰원(색1) */
-    apSh(); apCl(vColors[0]); SH.style.opacity='1';
+    /* 공통 큰원: 색1 */
+    apSh(); apCl(vColors[0]);
   }
+  SH.style.opacity='1';
 
   function tk() { st=!st; SH.style.opacity=st?'1':'0'; if(!st)done++; if(done>=bc){bId=null;cb();}else bId=setTimeout(tk,half); }
   bId=setTimeout(tk,half);
@@ -1808,7 +1806,11 @@ function startPhase() {
   if (TM==='concentration') initRep();
   ding(); tState='running'; updPlayBtns('running');
   startCD();
-  if (TM==='vision') { pickVColors(); vLvAlt=false; curColor=vColors[0]; _vPhaseImg=Math.floor(Math.random()*VLV3_IMG_COUNT)+1; startAlpha(); vStep(); } else { stopAlpha(); cStep(); }
+  if (TM==='vision') {
+    pickVColors(); vLvAlt=false; curColor=vColors[0];
+    _vPhaseImg=Math.floor(Math.random()*VLV3_IMG_COUNT)+1;
+    startAlpha(); vStep();
+  } else { stopAlpha(); cStep(); }
 }
 function startMRound() {
   upDims(); mCycle=0; mWIdx=0; usedW.clear(); setupMRound(); drawGrid();
@@ -2312,28 +2314,16 @@ function init() {
   setShape('circle'); setBC(1); setWL(2); setLV('하'); setSP(3);
   activeDS = 'default'; updDsBadge();
   switchTM('vision');
-  /* initDB 완료 후 마지막 팩 복원 */
   initRanking();
-  /* initDB 완료 후 마지막 팩 복원 */
   initDB().then(() => {
     try {
       const saved = localStorage.getItem('jstr_lastDS');
-      if (!saved || saved === 'default') {
-        activeDS = 'default'; updDsBadge(); renderNavDS();
-      } else if (sheetsData[saved]) {
-        /* IndexedDB에 데이터 있으면 복원 - switchDS 대신 직접 설정 */
+      if (saved && (saved === 'default' || sheetsData[saved])) {
         activeDS = saved;
-        try { usedW.clear(); usedSents.clear(); } catch(e) {}
         updDsBadge();
         renderNavDS();
-      } else {
-        /* IDB에 없으면 default로 */
-        activeDS = 'default'; updDsBadge(); renderNavDS();
-        localStorage.removeItem('jstr_lastDS');
       }
-    } catch(e) {
-      activeDS = 'default'; updDsBadge();
-    }
+    } catch(e) {}
   });
 }
 window.addEventListener('resize', () => {
@@ -2351,7 +2341,7 @@ window.addEventListener('resize', () => {
     }
   }
 });
-setTimeout(init, 800);
+setTimeout(init, 100);
 
 /* ══════════════════════════════════════════════════════
    Firebase 설정 — 아래 값을 본인 Firebase 프로젝트로 교체
@@ -2590,7 +2580,7 @@ function initRanking() {
   initFirebase();
   /* 첫 실행 시 이름 등록 안내 */
   if (!userName) {
-    setTimeout(openNameModal, 600);
+    setTimeout(openNameModal, 800);
   }
   updateNameDisplay();
   updateScoreBadge();
