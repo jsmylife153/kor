@@ -14,17 +14,27 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{width:100%;height:100%;background:#1a1a1a;}body{width:100%;height:100%;background:#1a1a1a;margin:0;padding:0;overflow:hidden;font-family:-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;font-weight:500;position:relative;}
+html,body{width:100%;height:100%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-family:-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;overflow:hidden;font-weight:500;}
 #app{
-  position:absolute;
+  position:relative;
   display:flex;
   flex-direction:column;
-  border-radius:6px;
-  overflow:visible;
+  border-radius:10px;
+  overflow:hidden;
   box-shadow:0 8px 40px rgba(0,0,0,.6);
-  width:1280px;
-  height:720px;
-  transform-origin:top left;
+}
+@media (orientation:landscape){
+  #app{
+    width:min(100vw, calc(100dvh * 16/9));
+    height:min(100dvh, calc(100vw * 9/16));
+  }
+}
+@media (orientation:portrait){
+  #app{
+    width:100vw;
+    height:100dvh;
+    border-radius:0;
+  }
 }
 #TR{flex:1 1 auto;min-height:0;position:relative;background:#f0efe8;}
 canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
@@ -109,7 +119,7 @@ input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 .fmOptBtn{width:100%;text-align:left;font-size:clamp(12px,1.8vw,15px);padding:10px 16px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;cursor:pointer;transition:background .15s;}
 .fmOptBtn:hover{background:rgba(255,255,255,.22);}
 /* Settings modal */
-#settBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;}
+#settBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;}
 #settBg.open{display:flex;}
 #settBox{background:#fff;border-radius:16px;width:94%;max-width:660px;max-height:70%;overflow:hidden;display:flex;flex-direction:column;}
 #settTabs{display:flex;border-bottom:.5px solid #eee;}
@@ -124,7 +134,7 @@ input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 .settFoot{padding:12px 20px;border-top:.5px solid #eee;display:flex;gap:8px;}
 .settFoot button{flex:1;font-size:16px;padding:13px 0;border-radius:10px;}
 /* Data modal */
-#dataBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;}
+#dataBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;}
 #dataBg.open{display:flex;}
 #dataBox{background:#fff;border-radius:12px;padding:20px 22px;width:min(92vw,460px);max-height:90vh;overflow-y:auto;}
 #dataBox h3{font-size:14px;font-weight:500;margin-bottom:14px;color:#111;}
@@ -137,12 +147,7 @@ input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 #loadSt.err{color:#D32F2F;}
 .lsItem{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#f5f5f5;border-radius:6px;margin-bottom:6px;}
 /* Fullscreen */
-body:fullscreen #app,body:-webkit-full-screen #app{
-  border-radius:0;
-  transform:none !important;
-  width:100vw !important; height:100vh !important;
-  left:0 !important; top:0 !important;
-}
+body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;border-radius:0;}
 /* ── New Control Bar ── */
 /* cbar 추가 스타일 - 위 기본 CSS와 통합됨 */
 #cbar-top{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap;}
@@ -217,7 +222,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{
 
 #fsFab{display:none;}
 /* 사용자 등록 모달 */
-#nameBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:400;align-items:center;justify-content:center;}
+#nameBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;}
 #nameBg.open{display:flex;}
 #nameBox{background:#fff;border-radius:14px;padding:26px 28px;width:min(88vw,380px);text-align:center;}
 #nameBox h3{font-size:16px;font-weight:500;color:#111;margin-bottom:8px;}
@@ -603,20 +608,20 @@ body:fullscreen #app,body:-webkit-full-screen #app{
           <div style="border:1px solid #d8c8f0;border-radius:10px;padding:12px;background:#fdfaff;">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
               <div>
-                <div style="font-weight:700;font-size:13px;color:#4a2080;">✝️ 성경 모세오경팩</div>
+                <div style="font-weight:700;font-size:13px;color:#4a2080;">✝️ 성경 모세5경팩</div>
                 <div style="font-size:11px;color:#777;margin-top:2px;">창세기·출애굽기·레위기·민수기·신명기</div>
               </div>
-              <button onclick="quickLoadPack('성경_창세기.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#5c35a0;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+              <button onclick="quickLoadPack('성경_모세5경.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#5c35a0;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
             </div>
           </div>
 
           <div style="border:1px solid #d8c8f0;border-radius:10px;padding:12px;background:#fdfaff;">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
               <div>
-                <div style="font-weight:700;font-size:13px;color:#4a2080;">✝️ 성경 사복음서팩</div>
+                <div style="font-weight:700;font-size:13px;color:#4a2080;">✝️ 성경 4복음서팩</div>
                 <div style="font-size:11px;color:#777;margin-top:2px;">마태·마가·누가·요한복음</div>
               </div>
-              <button onclick="quickLoadPack('성경_마태복음.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#5c35a0;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+              <button onclick="quickLoadPack('성경_4복음서.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#5c35a0;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
             </div>
           </div>
 
@@ -823,8 +828,7 @@ let sheetsData = {};
 let activeDS = 'default';
 
 async function initDB() {
-  console.log("[INITDB] 시작");
-  try { sheetsData = await idbLoadAll(); console.log("[INITDB] 로드완료:", Object.keys(sheetsData)); renderNavDS(); }
+  try { sheetsData = await idbLoadAll(); renderNavDS(); }
   catch(e) { console.warn('DB load failed', e); }
 }
 
@@ -1066,8 +1070,8 @@ async function loadSheet() {
 function restorePackBtns() {
   [
     {file:'한글_일반.csv',  label:'한글_일반'},
-    {file:'성경_창세기.csv', label:'성경_창세기'},
-    {file:'성경_마태복음.csv',label:'성경_마태복음'}
+    {file:'성경_모세5경.csv', label:'성경_창세기'},
+    {file:'성경_4복음서.csv',label:'성경_마태복음'}
   ].forEach(({file, label}) => {
     if (!sheetsData[label]) return;
     /* 버튼 찾기: onclick에 해당 파일명 포함 */
@@ -1253,10 +1257,18 @@ async function loadCustomPack(btn) {
 }
 
 /* 훈련 적용 */
-function applyPack(label, btn) {
+async function applyPack(label, btn) {
+  /* IDB에 최종 저장 확인 */
+  if (sheetsData[label]) {
+    try { await idbSave(label, sheetsData[label]); } catch(e) {
+      alert('⚠️ IDB 저장 실패: ' + e.message);
+    }
+  }
   switchDS(label);
-  /* 즉시 localStorage에도 저장 */
   try { localStorage.setItem('jstr_lastDS', label); } catch(e) {}
+  /* 저장 확인 */
+  const check = localStorage.getItem('jstr_lastDS');
+  if (check !== label) alert('⚠️ 데이터팩 localStorage 저장 실패!');
   const st = document.getElementById('quickPackSt');
   if (st) st.textContent = '✅ "' + label + '" 팩이 훈련에 적용되었습니다!';
   if (btn) {
@@ -1264,13 +1276,12 @@ function applyPack(label, btn) {
     btn.style.background = '#2d8c4e';
     btn.disabled = true;
   }
-  /* 설정창 닫고 훈련으로 */
   setTimeout(() => { closeSett(); }, 800);
 }
 
-async function removeDS(k) {
+function removeDS(k) {
   delete sheetsData[k];
-  await idbRemove(k);
+  idbRemove(k).catch(function(){});
   if (activeDS === k) switchDS('default');
   renderLsList(); renderNavDS();
 }
@@ -1306,7 +1317,8 @@ function showStab(n) {
     document.getElementById('sc'+i).style.display = i===n ? 'block' : 'none';
     document.getElementById('stab'+i).className = 'stab' + (i===n ? ' on' : '');
   });
-  if (n===3) loadRanking('all');
+  /* 랭킹 탭(stab0=sc0) 열릴 때 자동 로드 */
+  if (n===0) loadRanking('all');
 }
 function exitApp() {
   if (confirm('앱을 종료하시겠습니까?')) { window.close(); setTimeout(()=>{ location.href='about:blank'; },200); }
@@ -1417,15 +1429,12 @@ let repAll=[[],[],[]], usedW=new Set();
 let mRound=0, mCycle=0, mWIdx=0, roundWords=[], allRoundWords=[];
 let curSentIdx=0, currentSents=[], allRoundData=[], usedSents=new Set(), slotWordSpans=[];
 
-let TR=null, CNV=null, SH=null, WE=null, OV=null, slotsEl=null;
-function initDOM() {
-  TR=document.getElementById('TR');
-  CNV=document.getElementById('gc');
-  SH=document.getElementById('SH');
-  WE=document.getElementById('WE');
-  OV=document.getElementById('OV');
-  slotsEl=document.getElementById('slots');
-}
+const TR=document.getElementById('TR');
+const CNV=document.getElementById('gc');
+const SH=document.getElementById('SH');
+const WE=document.getElementById('WE');
+const OV=document.getElementById('OV');
+const slotsEl=document.getElementById('slots');
 
 /* ═══ Audio ═══════════════════════════════════════ */
 function gAC() {
@@ -2169,11 +2178,7 @@ function setSP(v) { spd=parseInt(v); syncSpd(v); }
 
 function switchDS(ds) {
   closeNav(); activeDS=ds; usedW.clear(); usedSents.clear(); updDsBadge();
-  try {
-    localStorage.setItem('jstr_lastDS', ds);
-    /* IDB에도 즉시 동기화 확인 */
-    if(ds !== 'default' && sheetsData[ds]) idbSave(ds, sheetsData[ds]).catch(function(){});
-  } catch(e) {}
+  try { localStorage.setItem('jstr_lastDS', ds); } catch(e) {}
   const def=document.getElementById('ndDef');
   const dot=document.getElementById('ndDefDot');
   const isD=ds==='default';
@@ -2311,17 +2316,20 @@ document.addEventListener('keydown', e => {
 
 /* ═══ Init ════════════════════════════════════════ */
 function init() {
-  console.log("[INIT] 시작");
-  initDOM(); /* DOM 요소 초기화 */
   setShape('circle'); setBC(1); setWL(2); setLV('하'); setSP(3);
   activeDS = 'default'; updDsBadge();
   switchTM('vision');
+  /* initDB 완료 후 마지막 팩 복원 */
   initRanking();
   initDB().then(() => {
     try {
       const saved = localStorage.getItem('jstr_lastDS');
-      if (saved && (saved === 'default' || sheetsData[saved])) {
+      if (saved && saved !== 'default' && sheetsData[saved]) {
         activeDS = saved;
+        updDsBadge();
+        renderNavDS();
+      } else if (!saved || saved === 'default') {
+        activeDS = 'default';
         updDsBadge();
         renderNavDS();
       }
@@ -2375,20 +2383,22 @@ let totalScore = 0;    /* 누적 점수 (localStorage) */
 
 function loadUserData() {
   try {
-    userName = localStorage.getItem('jstr_username') || '';
+    const saved = localStorage.getItem('jstr_username');
+    userName = (saved && saved.trim()) ? saved.trim() : '';
     totalScore = parseInt(localStorage.getItem('jstr_totalscore') || '0');
-  } catch(e) {}
+  } catch(e) {
+    alert('⚠️ localStorage 읽기 오류: ' + e.message);
+  }
 }
 function saveUserData() {
   try {
-    localStorage.setItem('jstr_username', userName);
+    if (userName) localStorage.setItem('jstr_username', userName);
     localStorage.setItem('jstr_totalscore', String(totalScore));
   } catch(e) {}
 }
 
 /* ══ 이름 등록 모달 ════════════════════════════════════ */
 function openNameModal() {
-  console.log("[NAMEPOP] 호출됨, bg=", document.getElementById('nameBg'));
   closeSett();
   const bg = document.getElementById('nameBg');
   bg.classList.add('open');
@@ -2405,6 +2415,11 @@ function confirmName() {
   if (!name) { inp.style.borderColor='#D32F2F'; return; }
   userName = name;
   saveUserData();
+  /* 저장 확인 */
+  const check = localStorage.getItem('jstr_username');
+  if (check !== userName) {
+    alert('⚠️ 이름 저장 실패! localStorage를 사용할 수 없습니다.');
+  }
   closeNameModal();
   updateNameDisplay();
 }
@@ -2477,7 +2492,6 @@ async function submitScore() {
       date: today,
       week: getWeekStr(now)
     });
-    console.log('점수 전송 완료:', sessionScore);
   } catch(e) { console.warn('점수 전송 실패', e); }
 }
 /* ── KST(한국 시간, UTC+9) 기준 날짜/주 계산 ── */
@@ -2579,13 +2593,10 @@ async function loadRanking(period) {
 
 /* ══ 초기화 ════════════════════════════════════════════ */
 function initRanking() {
-  console.log("[INITRANKING] userName=", userName);
   loadUserData();
-  console.log("[INITRANKING] 로드 후 userName=", userName);
   initFirebase();
   /* 첫 실행 시 이름 등록 안내 */
   if (!userName) {
-    console.log("[INITRANKING] 팝업 예약");
     setTimeout(openNameModal, 800);
   }
   updateNameDisplay();
@@ -2659,7 +2670,7 @@ function startFocusTraining_orig(){
       }
       const label='한글_일반(확장)';
       sheetsData[label]=d;
-      idbSave(label,d);
+      idbSave(label,d).catch(function(){});
       renderNavDS();
       OV.style.display='none';
       tState='idle';
@@ -2915,18 +2926,9 @@ function fmShowResults(){
     list.appendChild(div);
   });
 }
-</script>
-
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
-  });
-}
-</script>
 
 
-<script>
+/* ══════ 팝업+오디오 (통합) ══════ */
 /* ═══ 훈련 안내 팝업 + 오디오 ════════════════════════ */
 const AUDIO_BASE = 'https://jsmylife153.github.io/kor/audio/';
 const POP_AUDIO = {
@@ -3064,43 +3066,9 @@ function toggleTTS(){}
 document.addEventListener('DOMContentLoaded', function() {
   updateAudioToggleUI();
 });
-</script>
 
-<script>
-/* ═══ 앱 비율 스케일링 ══════════════════════════════
-   transform-origin: top left 기준
-   left/top 으로 중앙 배치 → 검은 여백 없이 꽉 채움
-══════════════════════════════════════════════════ */
-(function scaleApp() {
-  const BASE_W = 1280, BASE_H = 720;
-
-  function fit() {
-    const app = document.getElementById('app');
-    if (!app) return;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    /* 가로/세로 모두 동일: 화면에 꽉 맞게 scale 계산 */
-    const scale = Math.min(vw / BASE_W, vh / BASE_H);
-
-    /* 스케일 후 실제 크기 */
-    const scaledW = BASE_W * scale;
-    const scaledH = BASE_H * scale;
-
-    /* top-left 기준 → 중앙에 오도록 offset 계산 */
-    const left = (vw - scaledW) / 2;
-    const top  = (vh - scaledH) / 2;
-
-    app.style.transform = 'scale(' + scale + ')';
-    app.style.left = left + 'px';
-    app.style.top  = top  + 'px';
-  }
-
-  window.addEventListener('load',   fit);
-  window.addEventListener('resize', fit);
-  window.addEventListener('orientationchange', function(){ setTimeout(fit, 200); });
-  document.addEventListener('DOMContentLoaded', fit);
-})();
+/* ══════ 스케일링 (통합) ══════ */
+/* 스케일링 제거 - CSS 미디어쿼리 방식 사용 */
 
 /* ═══ 훈련 선택 드롭업 ════════════════════════════ */
 
@@ -3138,8 +3106,8 @@ function updateDropLabel(nm) {
   const el = document.getElementById('tmDropLabel');
   if(el) el.textContent = labels[nm] || nm;
 }
-</script>
-<script>
+
+/* ══════ 포커스훈련 래퍼 (통합) ══════ */
 /* startFocusTraining 래퍼: 원본 호출 후 nav 갱신 */
 function startFocusTraining() {
   startFocusTraining_orig();
@@ -3216,6 +3184,19 @@ document.addEventListener('click', function(e) {
 });
 
 /* ═══ 앱 시작: setTimeout(init,100) 으로 통합됨 */
+
+/* serviceWorker 등록 */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      reg.update(); /* 항상 최신 버전 확인 */
+    }).catch(()=>{});
+  });
+}
 </script>
+
+
+
+
 </body>
 </html>
