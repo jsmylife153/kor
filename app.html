@@ -1069,12 +1069,11 @@ async function loadSheet() {
 /* 저장된 팩 버튼 상태 복원 */
 function restorePackBtns() {
   [
-    {file:'한글_일반.csv',  label:'한글_일반'},
-    {file:'성경_모세5경.csv', label:'성경_창세기'},
-    {file:'성경_4복음서.csv',label:'성경_마태복음'}
+    {file:'한글_일반.csv',   label:'한글_일반'},
+    {file:'성경_모세5경.csv', label:'성경_모세5경'},
+    {file:'성경_4복음서.csv', label:'성경_4복음서'}
   ].forEach(({file, label}) => {
     if (!sheetsData[label]) return;
-    /* 버튼 찾기: onclick에 해당 파일명 포함 */
     document.querySelectorAll('button').forEach(btn => {
       if (btn.onclick && btn.onclick.toString().includes(file) ||
           (btn.getAttribute('onclick')||'').includes(file)) {
@@ -1266,11 +1265,8 @@ async function applyPack(label, btn) {
   try { localStorage.setItem('jstr_lastDS', label); } catch(e) {}
   const st = document.getElementById('quickPackSt');
   if (st) st.textContent = '✅ "' + label + '" 팩이 훈련에 적용되었습니다!';
-  if (btn) {
-    btn.textContent = '✅ 적용됨';
-    btn.style.background = '#2d8c4e';
-    btn.disabled = true;
-  }
+  /* 모든 팩 버튼 상태 갱신 */
+  setTimeout(restorePackBtns, 50);
   setTimeout(() => { closeSett(); }, 800);
 }
 
