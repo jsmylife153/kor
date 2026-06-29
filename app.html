@@ -119,7 +119,7 @@ input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 .fmOptBtn{width:100%;text-align:left;font-size:clamp(12px,1.8vw,15px);padding:10px 16px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;cursor:pointer;transition:background .15s;}
 .fmOptBtn:hover{background:rgba(255,255,255,.22);}
 /* Settings modal */
-#settBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;}
+#settBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;}
 #settBg.open{display:flex;}
 #settBox{background:#fff;border-radius:16px;width:94%;max-width:660px;max-height:70%;overflow:hidden;display:flex;flex-direction:column;}
 #settTabs{display:flex;border-bottom:.5px solid #eee;}
@@ -2133,13 +2133,13 @@ function updDotArea() {
 /* ═══ Controls ════════════════════════════════════ */
 function setShape(s) {
   shape=s; if(s==='alt') alt=false; apSh(); apCl(curColor);
-  ['circle','dot','alt'].forEach(n => { document.getElementById('bsh-'+n[0]).className=n===s?'active':''; });
+  ['circle','dot','alt'].forEach(n => { const el=document.getElementById('bsh-'+n[0]); if(el) el.className=n===s?'active':''; });
 }
-function setBC(n) { bc=n; [1,2,3].forEach(v => { document.getElementById('bbc'+v).className=v===n?'lv-btn active':'lv-btn'; }); }
+function setBC(n) { bc=n; [1,2,3].forEach(v => { const el=document.getElementById('bbc'+v); if(el) el.className=v===n?'lv-btn active':'lv-btn'; }); }
 function setWL(n) {
   wl=n; upDims();
   if (TM==='sentence') { if(tState==='idle') buildSlots(); } else drawGrid();
-  [2,3,4,5,6].forEach(v => { document.getElementById('bwl'+v).className=v===n?'lv-btn active':'lv-btn'; });
+  [2,3,4,5,6].forEach(v => { const el=document.getElementById('bwl'+v); if(el) el.className=v===n?'lv-btn active':'lv-btn'; });
 }
 function setLV(l) {
   lv=l; usedSents.clear();
@@ -2311,37 +2311,20 @@ document.addEventListener('keydown', e => {
 
 /* ═══ Init ════════════════════════════════════════ */
 function init() {
-  /* 즉시 배지에 표시 - init 실행 확인 */
-  const bcEl = document.getElementById('bc');
-  if (bcEl) { bcEl.style.background='#f00'; bcEl.textContent='INIT OK'; }
-
   setShape('circle'); setBC(1); setWL(2); setLV('하'); setSP(3);
   activeDS = 'default'; updDsBadge();
   switchTM('vision');
+  /* initDB 완료 후 마지막 팩 복원 */
   initRanking();
-
-  /* localStorage 즉시 읽기 */
-  const lsUser = localStorage.getItem('jstr_username');
-  const lsDs = localStorage.getItem('jstr_lastDS');
-  if (bcEl) bcEl.textContent = 'LS:u=' + (lsUser||'X') + ' ds=' + (lsDs||'X');
-
   initDB().then(() => {
-    const idbKeys = Object.keys(sheetsData);
-    if (bcEl) {
-      bcEl.style.background = '#ff0';
-      bcEl.textContent = 'IDB:' + (idbKeys[0]||'X') + ' ds=' + (lsDs||'X');
-      setTimeout(() => { bcEl.style.background=''; updDsBadge(); }, 10000);
-    }
     try {
-      const saved = lsDs;
+      const saved = localStorage.getItem('jstr_lastDS');
       if (saved && (saved === 'default' || sheetsData[saved])) {
         activeDS = saved;
         updDsBadge();
         renderNavDS();
       }
     } catch(e) {}
-  }).catch(e => {
-    if (bcEl) { bcEl.style.background='#f00'; bcEl.textContent='IDB ERR:'+e.message; }
   });
 }
 window.addEventListener('resize', () => {
