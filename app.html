@@ -14,7 +14,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{width:100%;height:100%;background:#1a1a1a;margin:0;padding:0;overflow:hidden;font-family:-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;font-weight:500;}
+html{width:100%;height:100%;background:#1a1a1a;}body{width:100%;height:100%;background:#1a1a1a;margin:0;padding:0;overflow:hidden;font-family:-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;font-weight:500;position:relative;}
 #app{
   position:absolute;
   display:flex;
@@ -109,7 +109,7 @@ input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 .fmOptBtn{width:100%;text-align:left;font-size:clamp(12px,1.8vw,15px);padding:10px 16px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;cursor:pointer;transition:background .15s;}
 .fmOptBtn:hover{background:rgba(255,255,255,.22);}
 /* Settings modal */
-#settBg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9000;align-items:center;justify-content:center;}
+#settBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;}
 #settBg.open{display:flex;}
 #settBox{background:#fff;border-radius:16px;width:94%;max-width:660px;max-height:70%;overflow:hidden;display:flex;flex-direction:column;}
 #settTabs{display:flex;border-bottom:.5px solid #eee;}
@@ -124,7 +124,7 @@ input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 .settFoot{padding:12px 20px;border-top:.5px solid #eee;display:flex;gap:8px;}
 .settFoot button{flex:1;font-size:16px;padding:13px 0;border-radius:10px;}
 /* Data modal */
-#dataBg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9000;align-items:center;justify-content:center;}
+#dataBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;}
 #dataBg.open{display:flex;}
 #dataBox{background:#fff;border-radius:12px;padding:20px 22px;width:min(92vw,460px);max-height:90vh;overflow-y:auto;}
 #dataBox h3{font-size:14px;font-weight:500;margin-bottom:14px;color:#111;}
@@ -217,7 +217,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{
 
 #fsFab{display:none;}
 /* 사용자 등록 모달 */
-#nameBg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center;}
+#nameBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:400;align-items:center;justify-content:center;}
 #nameBg.open{display:flex;}
 #nameBox{background:#fff;border-radius:14px;padding:26px 28px;width:min(88vw,380px);text-align:center;}
 #nameBox h3{font-size:16px;font-weight:500;color:#111;margin-bottom:8px;}
@@ -823,7 +823,8 @@ let sheetsData = {};
 let activeDS = 'default';
 
 async function initDB() {
-  try { sheetsData = await idbLoadAll(); renderNavDS(); }
+  console.log("[INITDB] 시작");
+  try { sheetsData = await idbLoadAll(); console.log("[INITDB] 로드완료:", Object.keys(sheetsData)); renderNavDS(); }
   catch(e) { console.warn('DB load failed', e); }
 }
 
@@ -2310,6 +2311,7 @@ document.addEventListener('keydown', e => {
 
 /* ═══ Init ════════════════════════════════════════ */
 function init() {
+  console.log("[INIT] 시작");
   initDOM(); /* DOM 요소 초기화 */
   setShape('circle'); setBC(1); setWL(2); setLV('하'); setSP(3);
   activeDS = 'default'; updDsBadge();
@@ -2386,6 +2388,7 @@ function saveUserData() {
 
 /* ══ 이름 등록 모달 ════════════════════════════════════ */
 function openNameModal() {
+  console.log("[NAMEPOP] 호출됨, bg=", document.getElementById('nameBg'));
   closeSett();
   const bg = document.getElementById('nameBg');
   bg.classList.add('open');
@@ -2576,10 +2579,13 @@ async function loadRanking(period) {
 
 /* ══ 초기화 ════════════════════════════════════════════ */
 function initRanking() {
+  console.log("[INITRANKING] userName=", userName);
   loadUserData();
+  console.log("[INITRANKING] 로드 후 userName=", userName);
   initFirebase();
   /* 첫 실행 시 이름 등록 안내 */
   if (!userName) {
+    console.log("[INITRANKING] 팝업 예약");
     setTimeout(openNameModal, 800);
   }
   updateNameDisplay();
