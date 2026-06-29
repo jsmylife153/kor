@@ -16,7 +16,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{width:100%;height:100%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-family:-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;overflow:hidden;font-weight:500;}
 #app{
-  /* 가로: 16:9 비율 유지, 세로: 전체 뷰포트 사용 */
   position:relative;
   display:flex;
   flex-direction:column;
@@ -47,38 +46,39 @@ canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
   opacity:0;
   transition:opacity .04s;
   pointer-events:none;
+  background-color:transparent;
   z-index:3;
 }
 #WE{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-family:'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-weight:700;color:#111;letter-spacing:.04em;pointer-events:none;opacity:0;}
 #slots{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;display:none;}
-.badge{font-size:clamp(9px,1.1vw,11px);background:#fff;border:1px solid #2a9e00;border-radius:4px;padding:2px 8px;color:#1a1a1a;font-weight:500;}
+.badge{font-size:16px !important;background:rgba(255,255,255,.85);border:1.5px solid #4dc922;border-radius:8px;padding:0 12px;color:#1a1a1a;font-weight:900 !important;display:inline-flex;align-items:center;height:44px;letter-spacing:-.01em;}
 #bc{font-weight:500;color:#111;min-width:58px;text-align:center;}
 /* Controls bar */
 /* ── 컨트롤바: 가로=1줄, 세로=2줄 ───────────── */
 #cbar{
   flex:none;
   display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:3px 4px;
-  padding:4px 8px;
+  flex-direction:column;
+  justify-content:center;
+  gap:4px;
+  padding:5px 170px 5px 10px;
   background:#99FF66;
-  border-top:1.5px solid #4dc922;
+  border-top:2px solid #4dc922;
   overflow:visible;
+  min-height:64px;
+  position:relative;
 }
-/* 가로 모드: 1줄 고정 */
+/* 가로 모드 */
 @media (orientation:landscape){
-  #cbar{ flex-wrap:nowrap; min-height:36px; padding:0 8px; }
+  #cbar{ flex-direction:column; justify-content:center; gap:4px; min-height:64px; padding:5px 170px 5px 10px; }
   #app{ flex-direction:column; }
 }
-/* 세로 모드: 2줄 허용, 훈련 영역 축소 */
+/* 세로 모드 */
 @media (orientation:portrait){
-  #cbar{ flex-wrap:wrap; padding:5px 8px; }
+  #cbar{ flex-wrap:wrap; padding:5px 6px; gap:3px; }
   #TR{ flex:1 1 auto; }
-  /* 세로 모드에서 앱 높이 조정 */
   #app{ flex-direction:column; }
 }
-/* 세로 구분선 숨기기 (세로모드 2줄에서 불필요) */
 @media (orientation:portrait){
   #cbar .sep{ display:none; }
   #cbar .row2-sep{ display:block; width:100%; height:0; flex-basis:100%; }
@@ -86,11 +86,12 @@ canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
 @media (orientation:landscape){
   #cbar .row2-sep{ display:none; }
 }
+/* 모바일: transform:scale로 비율 유지 - 별도 미디어쿼리 불필요 */
 button{font-size:clamp(9px,1vw,10px);padding:2px 6px;border:1px solid #2a9e00;border-radius:5px;background:transparent;cursor:pointer;white-space:nowrap;transition:background .1s;}
 button:hover{background:#f0f0f0;}
 button.active{background:#cce0ff;color:#0047cc;border-color:#0047cc;font-weight:600;}
 .sep{width:.5px;height:14px;background:#ddd;flex-shrink:0;}
-input[type=range]{flex:1;min-width:36px;max-width:90px;}
+input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 /* Training overlay */
 #OV{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.87);z-index:30;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
 #ov-msg{display:flex;flex-direction:column;align-items:center;gap:10px;width:92%;max-width:560px;text-align:center;}
@@ -109,8 +110,8 @@ input[type=range]{flex:1;min-width:36px;max-width:90px;}
 /* DS badge */
 #dsBadge{position:absolute;bottom:8px;left:8px;z-index:10;font-size:10px;background:rgba(255,255,255,.92);border:.5px solid #ddd;border-radius:4px;padding:2px 8px;color:#666;display:flex;align-items:center;gap:4px;}
 /* 집중기억 훈련 */
-#fmArea{display:none;position:absolute;top:32px;left:0;width:100%;height:calc(100% - 32px);padding:4px 4% 44px;box-sizing:border-box;overflow:hidden;background:#f0efe8;}
-#fmContent{line-height:1.50;word-break:keep-all;white-space:pre-wrap;overflow:hidden;max-height:calc(100% - 8px);font-weight:600;letter-spacing:.01em;}
+#fmArea{display:none;position:absolute;top:60px;left:0;width:100%;height:calc(100% - 60px);padding:4px 4% 70px;box-sizing:border-box;overflow:hidden;background:#f0efe8;}
+#fmContent{line-height:1.42;word-break:keep-all;white-space:pre-wrap;overflow:hidden;max-height:calc(100% - 8px);font-weight:600;letter-spacing:.01em;}
 .fm-w{color:#d5d5d5;transition:color .06s;font-weight:600;}
 .fm-w.on{color:#111 !important;}
 #fmCompleteOV,#fmQuizOV,#fmResultOV{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:36;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;box-sizing:border-box;}
@@ -120,18 +121,18 @@ input[type=range]{flex:1;min-width:36px;max-width:90px;}
 /* Settings modal */
 #settBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;}
 #settBg.open{display:flex;}
-#settBox{background:#fff;border-radius:14px;width:min(94vw,540px);max-height:90vh;overflow:hidden;display:flex;flex-direction:column;}
+#settBox{background:#fff;border-radius:16px;width:94%;max-width:660px;max-height:70%;overflow:hidden;display:flex;flex-direction:column;}
 #settTabs{display:flex;border-bottom:.5px solid #eee;}
 .stab{flex:1;padding:11px 0;font-size:12px;font-weight:500;text-align:center;cursor:pointer;color:#888;border:none;border-radius:0;background:transparent;}
 .stab.on{color:#185fa5;border-bottom:2px solid #185fa5;}
-#settBody{padding:18px 20px;overflow-y:auto;flex:1;font-size:12px;line-height:1.8;color:#444;}
-#settBody h4{font-size:13px;font-weight:500;color:#111;margin:14px 0 5px;}
+#settBody{padding:22px 26px;overflow-y:auto;flex:1;font-size:16px;line-height:1.9;color:#444;}
+#settBody h4{font-size:18px;font-weight:700;color:#111;margin:18px 0 8px;}
 #settBody h4:first-child{margin-top:0;}
 #settBody ul{padding-left:16px;}
 #settBody .step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
-#settBody .snum{min-width:22px;height:22px;border-radius:50%;background:#378ADD;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;}
+#settBody .snum{min-width:30px;height:30px;border-radius:50%;background:#378ADD;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;}
 .settFoot{padding:12px 20px;border-top:.5px solid #eee;display:flex;gap:8px;}
-.settFoot button{flex:1;font-size:12px;padding:9px 0;border-radius:8px;}
+.settFoot button{flex:1;font-size:16px;padding:13px 0;border-radius:10px;}
 /* Data modal */
 #dataBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;}
 #dataBg.open{display:flex;}
@@ -147,9 +148,81 @@ input[type=range]{flex:1;min-width:36px;max-width:90px;}
 .lsItem{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#f5f5f5;border-radius:6px;margin-bottom:6px;}
 /* Fullscreen */
 body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;border-radius:0;}
-#fsFab{position:fixed;bottom:16px;right:16px;z-index:9999;background:rgba(0,0,0,.5);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:6px 14px;font-size:11px;cursor:pointer;}
+/* ── New Control Bar ── */
+/* cbar 추가 스타일 - 위 기본 CSS와 통합됨 */
+#cbar-top{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap;}
+#cbar-mid{display:flex;align-items:center;gap:6px;width:100%;justify-content:center;padding:2px 0;}
+.cbtn-play{height:48px;padding:0 24px;border-radius:10px;border:1.5px solid;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:19px;font-weight:700;flex-shrink:0;transition:all .18s;white-space:nowrap;}
+.cbtn-play:active{opacity:.8;}
+.cbtn-play.play{background:#fff;color:#2d8c4e;border-color:#2d8c4e;}
+.cbtn-play.stop{background:#fff;color:#c62828;border-color:#e53935;}
+.cbtn-play.pause{background:#fff8e1;color:#f57f17;}
+.cbtn-play.pause-state{background:#fff;color:#1a5e33;border-color:#2d8c4e;}
+.cbtn-play:disabled{opacity:.35;cursor:default;}
+.tm-tabs{display:flex;gap:3px;flex-wrap:wrap;}
+.tm-tab{font-size:11px;padding:4px 8px;border-radius:16px;border:1.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-weight:500;transition:all .15s;white-space:nowrap;}
+.tm-tab.active{background:#fff;color:#2d8c4e;border-color:#fff;font-weight:700;}
+.tm-sel-btn{height:34px;padding:0 10px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.8);color:#1a5e33;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s;display:inline-flex;align-items:center;gap:3px;}
+#tmDropWrap{position:relative;flex-shrink:0;}
+#tmDropToggle{display:none;}
+#tmDropBtn2{height:42px;padding:0 14px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:17px;font-weight:700;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;user-select:none;}
+#tmDropBtn2:hover{background:#fff;}
+#tmArrow{font-size:9px;transition:transform .2s;display:inline-block;}
+#tmDropPanel{display:none;position:absolute;bottom:calc(100% + 6px);left:0;background:#fff;border-radius:10px;box-shadow:0 -4px 24px rgba(0,0,0,.22);overflow:hidden;min-width:160px;z-index:9999;border:1px solid #e0e0e0;}
+#tmDropToggle:checked ~ #tmDropPanel{display:block;}
+#tmDropToggle:checked ~ label#tmDropBtn2 #tmArrow{transform:rotate(180deg);}
+.tm-sel-btn:hover{background:#fff;}
+.tm-sel-btn.active{background:#2d8c4e;color:#fff;}
+.tm-drop-btn{height:34px;padding:0 12px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;transition:all .15s;user-select:none;}
+.tm-drop-btn:hover{background:rgba(255,255,255,.7);}
+.fmDItem{padding:9px 16px;font-size:12px;cursor:pointer;color:#1a1a1a;font-weight:500;transition:background .12s;border-bottom:.5px solid #f0f0f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fmDItem:last-child{border-bottom:none;}
+.fmDItem:hover{background:#e8f5ec;}
+.fmDItem.active{background:#2d8c4e;color:#fff;font-weight:700;}
+.tmDItem{padding:10px 16px;font-size:13px;cursor:pointer;color:#1a1a1a;font-weight:500;transition:background .12s;border-bottom:.5px solid #f0f0f0;user-select:none;}
+.tmDItem:last-child{border-bottom:none;}
+.tmDItem:hover,.tmDItem:active{background:#e8f5ec;}
+.tmDItem.active{background:#2d8c4e;color:#fff;font-weight:700;}
+.tmDItem.active:hover{background:#1a5e33;}
+.lv-grp{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.7);border-radius:8px;padding:0 8px;border:1.5px solid #2d8c4e;height:42px;}
+.lv-grp span{font-size:16px;color:#1a5e33;font-weight:800;margin-right:3px;}
+.lv-btn{font-size:17px;padding:4px 12px;border-radius:7px;border:1.5px solid #2d8c4e;background:transparent;color:#1a5e33;cursor:pointer;font-weight:800;}
+.lv-btn.active{background:#2d8c4e;color:#fff;font-weight:700;}
+.spd-grp{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.7);border-radius:8px;padding:0 10px;border:1.5px solid #2d8c4e;height:42px;}
+.spd-grp span{font-size:16px;color:#1a5e33 !important;font-weight:800;}
+#spsl,#spsl2,#spsl3{accent-color:#0044FF;}
+/* #splb 개별 스타일 제거 - spd-grp span으로 통일 */
+.cfg-btn{font-size:20px;height:48px;padding:0 14px;border-radius:10px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;cursor:pointer;font-weight:700;display:inline-flex;align-items:center;}
+/* 훈련 팝업 */
+/* ── 훈련 안내 팝업 ── */
+#tmPopBg{position:absolute;inset:0;background:transparent;z-index:300;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+#tmPopBox{background:#fff;border-radius:22px;max-width:660px;width:94%;overflow:visible;box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative;cursor:default;pointer-events:auto;}
+/* 헤더 */
+#tmPopHead{background:linear-gradient(135deg,#1a5e33,#2d8c4e 60%,#4aab6d);padding:26px 28px 20px;display:flex;align-items:center;gap:16px;}
+#tmPopIcon{font-size:52px;line-height:1;flex-shrink:0;}
+#tmPopTitle{font-size:28px;font-weight:900;color:#fff;margin:0;letter-spacing:-.01em;}
+#tmPopTag{font-size:10px;background:rgba(255,255,255,.2);color:#fff;padding:2px 8px;border-radius:8px;display:inline-block;margin-top:3px;}
+/* tmPopClose 제거됨 */
+/* 오디오 바 */
+#tmPopAudioWrap{display:flex;align-items:center;gap:10px;padding:14px 24px;background:#f5faf6;border-bottom:1px solid #e5ede7;}
+#tmPopAudioBtn{width:46px;height:46px;border-radius:50%;background:#2d8c4e;color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#tmPopAudioBtn:hover{background:#1a5e33;}
+#tmPopAudioBar{flex:1;height:4px;background:#cde8d3;border-radius:4px;overflow:hidden;cursor:pointer;}
+#tmPopAudioProg{height:100%;background:#2d8c4e;width:0%;transition:width .3s linear;}
+#tmPopAudioTime{font-size:15px;color:#888;min-width:44px;text-align:right;}
+/* 본문 */
+#tmPopBody{padding:20px 28px 14px;font-size:18px;line-height:1.9;color:#333;max-height:60vh;overflow-y:visible;}
+#tmPopBody b{color:#1a5e33;font-weight:700;}
+/* 하단 */
+#tmPopFoot{padding:14px 28px 22px;text-align:center;}
+#tmPopHint{font-size:16px;color:#888;display:flex;align-items:center;justify-content:center;gap:8px;}
+#tmPopHintBtn{background:#e8f5ec;color:#1a5e33;border-radius:8px;padding:5px 14px;font-size:16px;font-weight:700;}
+/* 오디오설정 숨김 */
+#tmPopMuteNote{font-size:10px;color:#aaa;margin-left:2px;}
+
+#fsFab{display:none;}
 /* 사용자 등록 모달 */
-#nameBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:300;align-items:center;justify-content:center;}
+#nameBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;}
 #nameBg.open{display:flex;}
 #nameBox{background:#fff;border-radius:14px;padding:26px 28px;width:min(88vw,380px);text-align:center;}
 #nameBox h3{font-size:16px;font-weight:500;color:#111;margin-bottom:8px;}
@@ -183,19 +256,49 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 </head>
 <body>
 <div id="app">
+
+<!-- 훈련 안내 팝업 -->
+<div id="tmPopBg" style="display:none;">
+  <div id="tmPopBox" onclick="event.stopPropagation()">
+    <!-- 헤더 -->
+    <div id="tmPopHead">
+      <span id="tmPopIcon">👁</span>
+      <div>
+        <div id="tmPopTitle">시력강화 훈련</div>
+      </div>
+    </div>
+    <!-- 오디오 플레이어 -->
+    <div id="tmPopAudioWrap">
+      <button id="tmPopAudioBtn" onclick="togglePopAudio()">▶</button>
+      <div id="tmPopAudioBar" onclick="seekPopAudio(event)">
+        <div id="tmPopAudioProg"></div>
+      </div>
+      <span id="tmPopAudioTime">0:00</span>
+      <span id="tmPopMuteNote"></span>
+    </div>
+    <!-- 본문 -->
+    <div id="tmPopBody"></div>
+    <!-- 하단 안내 -->
+    <div id="tmPopFoot">
+      <div id="tmPopHint">
+        단계를 설정한 후 <span id="tmPopHintBtn">▶ 시작</span> 버튼을 눌러 훈련을 시작하세요
+      </div>
+    </div>
+  </div>
+</div>
   <div id="TR">
     <canvas id="gc"></canvas>
 
     <!-- Top badges -->
-    <div style="position:absolute;top:0;left:0;width:100%;height:32px;background:#99FF66;border-bottom:1.5px solid #4dc922;display:flex;align-items:center;justify-content:space-between;padding:0 8px;box-sizing:border-box;z-index:10;">
+    <div style="position:absolute;top:0;left:0;width:100%;height:60px;background:#99FF66;border-bottom:2px solid #4dc922;display:flex;align-items:center;justify-content:space-between;padding:0 14px;box-sizing:border-box;z-index:10;">
       <div style="display:flex;gap:5px;align-items:center;">
         <span class="badge" id="ba">왕복 0회</span>
         <span class="badge" id="bb">1 / 72</span>
-        <span class="badge" id="bc">⏱ 60s</span>
+        <span class="badge" id="bc">60s</span>
       </div>
       <div style="display:flex;align-items:center;gap:7px;">
         <div id="dotArea" style="display:flex;gap:3px;align-items:center;"></div>
-        <span id="tlabel" style="font-size:clamp(10px,1.2vw,12px);font-weight:700;color:#111;">시력강화 훈련 · 1단계 가로</span>
+        <span id="tlabel" style="font-size:24px;font-weight:900;color:#1a1a1a;">시력강화 훈련 · 1단계 가로</span>
       </div>
     </div>
 
@@ -271,79 +374,142 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
       </div>
     </div>
   </div>
+  <!-- fsFab: cbar 우측으로 이동 -->
+  <button id="fsFab" style="display:none;"></button>
 
   <!-- Controls bar -->
   <div id="cbar">
-    <!-- 1줄: 훈련별 컨트롤 + 속도 -->
-    <div id="cv" style="display:flex;align-items:center;gap:3px;flex-shrink:0;">
-      <span style="font-size:10px;color:#111;font-weight:700;">도형</span>
-      <button id="bsh-c" class="active" onclick="setShape('circle')">원</button>
-      <button id="bsh-d" onclick="setShape('dot')">점</button>
-      <button id="bsh-a" onclick="setShape('alt')">교차</button>
-      <span style="font-size:10px;color:#111;font-weight:700;margin-left:4px;">점멸</span>
-      <button id="bbc1" class="active" onclick="setBC(1)">1</button>
-      <button id="bbc2" onclick="setBC(2)">2</button>
-      <button id="bbc3" onclick="setBC(3)">3</button>
-    </div>
-    <div id="cv3" style="display:none;align-items:center;gap:3px;flex-shrink:0;">
-      <span style="font-size:10px;color:#111;font-weight:700;">수준</span>
-      <button id="blvf하" class="active" onclick="setLV('하')">하</button>
-      <button id="blvf중" onclick="setLV('중')">중</button>
-      <button id="blvf상" onclick="setLV('상')">상</button>
-    </div>
-    <div id="cw" style="display:none;align-items:center;gap:3px;flex-shrink:0;">
-      <span id="wlLabel" style="font-size:10px;color:#111;font-weight:700;">글자</span>
-      <button id="bwl2" class="active" onclick="setWL(2)">2</button>
-      <button id="bwl3" onclick="setWL(3)">3</button>
-      <button id="bwl4" onclick="setWL(4)">4</button>
-      <button id="bwl5" onclick="setWL(5)">5</button>
-      <button id="bwl6" onclick="setWL(6)">6</button>
-      <span style="font-size:10px;color:#111;font-weight:700;margin-left:4px;">수준</span>
-      <button id="blv하" class="active" onclick="setLV('하')">하</button>
-      <button id="blv중" onclick="setLV('중')">중</button>
-      <button id="blv상" onclick="setLV('상')">상</button>
-    </div>
-    <div class="sep"></div>
-    <span style="font-size:10px;color:#111;font-weight:700;flex-shrink:0;">속도</span>
-    <input id="spsl" type="range" min="1" max="5" step="1" value="3" oninput="setSP(this.value)">
-    <span id="splb" style="font-size:10px;font-weight:500;flex-shrink:0;min-width:36px;">보통</span>
-    <!-- 세로 모드 줄바꿈 포인트 -->
-    <div class="row2-sep"></div>
-    <!-- 2줄(또는 연속): 실행 + 네비 버튼 -->
-    <button id="btnSt" onclick="toggleStart()" style="padding:2px 10px;flex-shrink:0;">시작</button>
-    <button onclick="handleEnd()" style="flex-shrink:0;">마침</button>
-    <div class="sep"></div>
-    <!-- 훈련 선택 (dropup 포함) -->
-    <div style="position:relative;flex-shrink:0;">
-      <button onclick="toggleNav('tm',event)" style="display:flex;align-items:center;gap:2px;background:#cce0ff;color:#0047cc;border-color:#0047cc;font-weight:600;"><span id="tnLbl">시력강화</span><span style="font-size:8px;">▲</span></button>
-      <div id="navTM" class="dropup" style="right:0;left:auto;">
-        <div class="ditem active" id="nt0" onclick="switchTM('vision')"><span id="ni0">●</span><span>시력강화 훈련</span></div>
-        <div class="ddiv"></div>
-        <div class="ditem" id="nt1" onclick="switchTM('concentration')"><span id="ni1" style="opacity:.4;">○</span><span>집중력 훈련</span></div>
-        <div class="ddiv"></div>
-        <div class="ditem" id="nt2" onclick="switchTM('memory')"><span id="ni2" style="opacity:.4;">○</span><span>기억력 훈련</span></div>
-        <div class="ddiv"></div>
-        <div class="ditem" id="nt3" onclick="switchTM('sentence')"><span id="ni3" style="opacity:.4;">○</span><span>문장기억 훈련</span></div>
-        <div class="ddiv"></div>
-        <div class="ditem" id="nt4" onclick="switchTM('focus')"><span id="ni4" style="opacity:.4;">○</span><span>독서능력 향상</span></div>
+    <div style="display:flex;align-items:center;width:100%;gap:5px;flex-wrap:nowrap;overflow:visible;">
+
+      <!-- 훈련 선택 드롭업 -->
+      <div id="tmDropWrap" style="flex-shrink:0;position:relative;">
+        <input type="checkbox" id="tmDropToggle">
+        <label for="tmDropToggle" id="tmDropBtn2">
+          <span id="tmDropLabel">👁 시력강화</span>
+          <span id="tmArrow">▲</span>
+        </label>
+        <div id="tmDropPanel">
+          <div class="tmDItem active" id="nt0" onclick="doSwitchTM('vision')">👁 시력강화 훈련</div>
+          <div class="tmDItem" id="nt1" onclick="doSwitchTM('concentration')">🎯 집중력 훈련</div>
+          <div class="tmDItem" id="nt2" onclick="doSwitchTM('memory')">🧠 기억력 훈련</div>
+          <div class="tmDItem" id="nt3" onclick="doSwitchTM('sentence')">📝 문장기억 훈련</div>
+          <div class="tmDItem" id="nt4" onclick="doSwitchTM('focus')">📖 독서능력 향상</div>
+        </div>
+        <span id="tmDropArrow" style="display:none;"></span>
+        <div id="tmDropMenu" style="display:none;"></div>
+        <span id="tmDropBtn" style="display:none;"></span>
       </div>
-    </div>
-    <div class="sep"></div>
-    <!-- 데이터 선택 (dropup 포함) -->
-    <div style="position:relative;flex-shrink:0;">
-      <button onclick="toggleNav('ds',event)" style="display:flex;align-items:center;gap:2px;"><span id="dsLbl">데이터▲</span></button>
-      <div id="navDS" class="dropup" style="right:0;left:auto;">
-        <div class="ditem" style="color:#888;font-size:10px;" onclick="openDataModal()"><span>⚙</span><span>데이터 팩 연동</span></div>
-        <div class="ddiv"></div>
-        <div class="ditem active" id="ndDef" onclick="switchDS('default')"><span id="ndDefDot">●</span><span>기본 (내장)</span></div>
-        <div class="ddiv" id="ndExtDiv" style="display:none;"></div>
-        <div id="ndExt"></div>
+
+      <!-- ① 시력강화 전용 설정 -->
+      <div id="cv" style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+        <div class="lv-grp">
+          <span>수준</span>
+          <button id="bvlv1" class="lv-btn active" onclick="setVLv(1)">1</button>
+          <button id="bvlv2" class="lv-btn" onclick="setVLv(2)">2</button>
+          <button id="bvlv3" class="lv-btn" onclick="setVLv(3)">3</button>
+        </div>
+        <div class="spd-grp">
+          <span>속도</span>
+          <input id="spsl" type="range" min="1" max="5" step="1" value="3" oninput="setSP(this.value)">
+          <span id="splb">보통</span>
+        </div>
+        <!-- 시작/종료: 속도 바로 오른쪽 고정 -->
+        <button id="btnSt" class="cbtn-play play" onclick="toggleStart()" title="시작">
+          <svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><polygon points="10,6 30,18 10,30"/></svg> 시작
+        </button>
+        <button id="btnSt2" class="cbtn-play stop" onclick="handleEnd()" title="마침/결과확인">
+          <svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><rect x="8" y="8" width="20" height="20" rx="3"/></svg> 종료
+        </button>
+        <div style="display:none;">
+          <button id="bsh-c" onclick="setShape('circle')"></button>
+          <button id="bsh-d" onclick="setShape('dot')"></button>
+          <button id="bsh-a" onclick="setShape('alt')"></button>
+        </div>
       </div>
+
+      <!-- ② 집중력/기억력/문장기억 설정 -->
+      <div id="cw" style="display:none;align-items:center;gap:6px;flex-shrink:0;">
+        <div class="lv-grp">
+          <span id="wlLabel">글자</span>
+          <button id="bwl2" class="lv-btn active" onclick="setWL(2)">2</button>
+          <button id="bwl3" class="lv-btn" onclick="setWL(3)">3</button>
+          <button id="bwl4" class="lv-btn" onclick="setWL(4)">4</button>
+          <button id="bwl5" class="lv-btn" onclick="setWL(5)">5</button>
+          <button id="bwl6" class="lv-btn" onclick="setWL(6)">6</button>
+        </div>
+        <div class="lv-grp">
+          <span>수준</span>
+          <button id="blv하" class="lv-btn active" onclick="setLV('하')">하</button>
+          <button id="blv중" class="lv-btn" onclick="setLV('중')">중</button>
+          <button id="blv상" class="lv-btn" onclick="setLV('상')">상</button>
+        </div>
+        <div class="spd-grp">
+          <span>속도</span>
+          <input id="spsl2" type="range" min="1" max="5" step="1" value="3" oninput="setSP(this.value)">
+          <span id="splb2">보통</span>
+        </div>
+        <!-- 시작/종료: 속도 바로 오른쪽 고정 (집중력/기억력/문장기억 공유) -->
+        <button class="cbtn-play play" onclick="toggleStart()" title="시작"
+          style="display:none;" id="btnSt_cw">
+        </button>
+      </div>
+
+      <!-- ③ 독서능력 설정 -->
+      <div id="cv3" style="display:none;align-items:center;gap:6px;flex-shrink:0;">
+        <!-- 문장선택 드롭업 -->
+        <div id="fmDropWrap" style="position:relative;flex-shrink:0;">
+          <button id="fmDropBtn" onclick="toggleFmDrop(event)" style="height:34px;padding:0 12px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;">
+            <span id="fmDropLabel">📖 문장선택</span>
+            <span id="fmDropArrow" style="font-size:9px;transition:transform .2s;">▲</span>
+          </button>
+          <div id="fmDropMenu" onclick="event.stopPropagation()" style="display:none;position:absolute;bottom:calc(100% + 6px);left:0;background:#fff;border-radius:10px;box-shadow:0 -4px 24px rgba(0,0,0,.22);overflow-y:auto;max-height:280px;min-width:200px;z-index:9999;border:1px solid #e0e0e0;">
+            <div id="fmDropItems"></div>
+          </div>
+        </div>
+        <div id="fmNavGrp" style="display:none;"><div id="fmNavBtns"></div></div>
+        <div class="lv-grp">
+          <span>수준</span>
+          <button id="blvf하" class="lv-btn active" onclick="setLV('하')">하</button>
+          <button id="blvf중" class="lv-btn" onclick="setLV('중')">중</button>
+          <button id="blvf상" class="lv-btn" onclick="setLV('상')">상</button>
+        </div>
+        <div class="spd-grp">
+          <span>속도</span>
+          <input id="spsl3" type="range" min="1" max="5" step="1" value="3" oninput="setSP(this.value)">
+          <span id="splb3">보통</span>
+        </div>
+      </div>
+
+      <!-- 공용 시작/종료 버튼 (cv① 안에 포함됐지만 cv2/cv3에서도 보이도록) -->
+      <!-- switchTM 시 btnSt/btnSt2를 해당 컨테이너로 이동하는 방식 대신
+           단순하게: cv가 none이면 cw/cv3 바로 뒤에 버튼 출력 -->
+      <div id="btnGroup_cw" style="display:none;align-items:center;gap:6px;flex-shrink:0;">
+        <button id="btnSt_cw2" class="cbtn-play play" onclick="toggleStart()" title="시작">
+          <svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><polygon points="10,6 30,18 10,30"/></svg> 시작
+        </button>
+        <button id="btnSt2_cw2" class="cbtn-play stop" onclick="handleEnd()" title="마침/결과확인">
+          <svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><rect x="8" y="8" width="20" height="20" rx="3"/></svg> 종료
+        </button>
+      </div>
+
+      <!-- 우측: 설정 + 전체화면 (절대 우측 고정) -->
+      <div style="position:absolute;right:12px;bottom:8px;display:flex;align-items:center;gap:4px;z-index:10;">
+        <button class="cfg-btn" onclick="openSett()" style="font-size:22px;">⚙</button>
+        <button onclick="toggleFS()" style="height:48px;padding:0 16px;border-radius:10px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">⛶ 전체화면</button>
+      </div>
+
+    </div><!-- /outer flex -->
+
+    <!-- 호환용 숨김 요소 -->
+    <span id="tnLbl" style="display:none;">시력강화</span>
+    <span id="btnSt3" style="display:none;"></span>
+    <div id="navTM" style="display:none;">
+      <div id="ni0"></div><div id="ni1"></div><div id="ni2"></div><div id="ni3"></div><div id="ni4"></div>
     </div>
-    <div class="sep"></div>
-    <button onclick="openSett()" title="설정" style="font-size:13px;padding:2px 5px;flex-shrink:0;">⚙</button>
-    <div class="sep"></div>
-    <button onclick="toggleFS()" id="fsbtn" title="전체화면" style="flex-shrink:0;">⛶</button>
+    <div id="navDS" style="display:none;">
+      <div id="ndDef"></div><div id="ndDefDot"></div><div id="ndExt"></div><div id="ndExtDiv"></div>
+      <div id="dsLbl"></div>
+    </div>
   </div>
 
 <!-- 사용자 이름 등록 모달 -->
@@ -360,15 +526,16 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 <div id="settBg">
   <div id="settBox">
     <div id="settTabs">
-      <button class="stab on" id="stab0" onclick="showStab(0)">사용 방법</button>
+      <button class="stab on" id="stab0" onclick="showStab(0)">🏆 랭킹</button>
       <button class="stab" id="stab1" onclick="showStab(1)">데이터 팩</button>
-      <button class="stab" id="stab2" onclick="showStab(2)">앱 정보</button>
-      <button class="stab" id="stab3" onclick="showStab(3)">🏆 랭킹</button>
+      <button class="stab" id="stab2" onclick="showStab(2)">사용 방법</button>
+      <button class="stab" id="stab3" onclick="showStab(3)">앱 정보</button>
+      <button class="stab" id="stab4" onclick="showStab(4)">환경설정</button>
     </div>
     <div id="settBody">
 
       <!-- 사용 방법 탭 -->
-      <div id="sc0">
+      <div id="sc2" style="display:none;">
         <p style="background:#FFF8E1;border-left:3px solid #FFB300;padding:8px 10px;border-radius:0 4px 4px 0;margin-bottom:12px;color:#5D4037;">
           <b>훈련 전 준비사항</b><br>
           WORKSHEET(무료 다운로드 후 인쇄)와 필기구를 준비하세요.<br>
@@ -379,7 +546,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
         </p>
         <h4>1. 시력강화 훈련 (준비 운동)</h4>
         <p>모든 훈련의 기초가 되는 예비 단계입니다. 격자 위를 이동하는 도형을 눈으로 추적하며 안구 근육을 단련합니다.<br>
-        구성: 가로 → 세로 → 랜덤 3단계 | 각 단계 종료 후 10초 휴식 후 자동 진행.</p>
+        구성: 가로 → 세로 → 랜덤 3단계 | 각 단계 종료 후 5초 휴식 후 자동 진행.</p>
         <h4>2. 집중력 훈련</h4>
         <p>격자 위에 순식간에 나타났다 사라지는 낱말의 의미를 파악하는 훈련입니다.<br>
         속으로 읽지 않고 한눈에 의미를 파악하세요.<br>
@@ -404,28 +571,116 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 
       <!-- 데이터 팩 탭 -->
       <div id="sc1" style="display:none;">
-        <p>기본 데이터 외에 추가 낱말·문장 데이터를 다운로드하여 훈련에 활용할 수 있습니다. 최초 1회 저장 후 인터넷 없이도 영구 사용 가능합니다.</p>
-        <h4>설정 방법</h4>
-        <div class="step"><div class="snum">1</div><p>하단 <b>데이터 ▲</b> 메뉴 → [데이터 팩 연동] 클릭</p></div>
-        <div class="step"><div class="snum">2</div><p>아래 URL을 복사하여 입력란에 붙여넣기</p></div>
-        <div class="step"><div class="snum">3</div><p>[불러오기 &amp; 저장] 클릭 → 완료 메시지 확인</p></div>
-        <div class="step"><div class="snum">4</div><p>데이터 목록에서 새 팩을 선택하여 훈련 시작</p></div>
-        <h4>공통 URL (앞 주소 + 아래 파일명)</h4>
-        <p style="background:#F3F3F3;padding:7px 10px;border-radius:5px;font-family:monospace;font-size:11px;word-break:break-all;margin-bottom:10px;">https://jsmylife153.github.io/kor/</p>
-        <h4>사용 가능한 데이터 팩</h4>
-        <ul style="margin-bottom:10px;">
-          <li><b>한글_일반.csv</b> — 일반 한국어 낱말(5만 개)+문장(3만 개)+독서자료(퀴즈포함)</li>
-          <li><b>성경_창세기.csv &amp; 성경_마태복음.csv</b> — 성경 모세5경+4복음서 (낱말, 문장, 읽기훈련과 퀴즈가 포함된 개별팩)</li>
-        </ul>
-        <p style="font-size:11px;color:#888;">예) 한글 일반팩 URL:<br>
-        <span style="font-family:monospace;word-break:break-all;">https://jsmylife153.github.io/kor/한글_일반.csv</span></p>
-        <h4>WORKSHEET 다운로드</h4>
-        <p style="font-size:11px;color:#555;">웹 브라우저 주소창에 아래 URL을 직접 입력하여 다운로드하세요.<br>
-        <span style="font-family:monospace;word-break:break-all;">https://jsmylife153.github.io/kor/WORKSHEET.jpg</span></p>
+
+        <!-- 사용 방법 안내 -->
+        <div style="background:#f0f9f3;border-radius:10px;padding:14px 16px;margin-bottom:16px;border-left:4px solid #2d8c4e;">
+          <div style="font-size:13px;font-weight:700;color:#1a5e33;margin-bottom:10px;">📖 데이터 팩 사용 방법</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:flex-start;gap:10px;">
+              <span style="min-width:24px;height:24px;background:#2d8c4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</span>
+              <div style="font-size:12px;color:#333;line-height:1.6;">원하는 데이터 팩의 <b>▼ 다운로드</b> 버튼을 누르세요.<br><span style="color:#888;font-size:11px;">인터넷 연결이 필요하며, 최초 1회만 받으면 됩니다.</span></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;">
+              <span style="min-width:24px;height:24px;background:#2d8c4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">2</span>
+              <div style="font-size:12px;color:#333;line-height:1.6;">다운로드가 끝나면 버튼이 <b>▶ 훈련 적용</b>으로 바뀝니다. 그 버튼을 누르세요.</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;">
+              <span style="min-width:24px;height:24px;background:#2d8c4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">3</span>
+              <div style="font-size:12px;color:#333;line-height:1.6;">설정창이 닫히고 선택한 데이터 팩으로 훈련이 바로 시작됩니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 데이터 팩 목록 -->
+        <div style="font-size:12px;font-weight:700;color:#444;margin-bottom:8px;">📦 데이터 팩 선택</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+
+          <div style="border:1px solid #c8e6c9;border-radius:10px;padding:12px;background:#fafffe;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+              <div>
+                <div style="font-weight:700;font-size:13px;color:#1a5e33;">🇰🇷 한글 일반팩</div>
+                <div style="font-size:11px;color:#777;margin-top:2px;">낱말 5만 개 · 문장 3만 개 · 독서자료(퀴즈 포함)</div>
+              </div>
+              <button onclick="quickLoadPack('한글_일반.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#2d8c4e;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+            </div>
+          </div>
+
+          <div style="border:1px solid #d8c8f0;border-radius:10px;padding:12px;background:#fdfaff;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+              <div>
+                <div style="font-weight:700;font-size:13px;color:#4a2080;">✝️ 성경 모세5경팩</div>
+                <div style="font-size:11px;color:#777;margin-top:2px;">창세기·출애굽기·레위기·민수기·신명기</div>
+              </div>
+              <button onclick="quickLoadPack('성경_모세5경.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#5c35a0;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+            </div>
+          </div>
+
+          <div style="border:1px solid #d8c8f0;border-radius:10px;padding:12px;background:#fdfaff;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+              <div>
+                <div style="font-weight:700;font-size:13px;color:#4a2080;">✝️ 성경 4복음서팩</div>
+                <div style="font-size:11px;color:#777;margin-top:2px;">마태·마가·누가·요한복음</div>
+              </div>
+              <button onclick="quickLoadPack('성경_4복음서.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#5c35a0;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+            </div>
+          </div>
+
+          <!-- 개별 데이터팩 -->
+          <div style="border:1.5px dashed #2d8c4e;border-radius:10px;padding:12px;background:#f5fdf7;">
+            <div style="font-weight:700;font-size:13px;color:#1a5e33;margin-bottom:6px;">🔑 개별 데이터팩</div>
+            <div style="font-size:11px;color:#777;margin-bottom:10px;">담당자에게 받은 팩 이름을 입력하고 다운로드하세요.</div>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <input id="customPackName" type="text" placeholder="예: 개별" maxlength="40"
+                style="flex:1;height:34px;border:1.5px solid #c8e6c9;border-radius:8px;padding:0 10px;font-size:13px;color:#1a1a1a;outline:none;">
+              <button id="customPackBtn" onclick="loadCustomPack(this)" style="flex-shrink:0;height:34px;padding:0 14px;background:#2d8c4e;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 상태 메시지 -->
+        <div id="quickPackSt" style="font-size:12px;min-height:18px;color:#2d8c4e;font-weight:600;margin-bottom:12px;text-align:center;"></div>
+
+        <!-- 개별팩 추가 버튼 -->
+        <div style="text-align:center;margin-bottom:12px;">
+          <button onclick="addCustomPackSlot()" style="padding:7px 18px;background:#fff;border:1.5px dashed #2d8c4e;border-radius:8px;color:#2d8c4e;font-size:12px;font-weight:700;cursor:pointer;">＋ 개별 데이터팩 추가</button>
+        </div>
+
+        <!-- 추가된 개별팩 슬롯 컨테이너 -->
+        <div id="customPackSlots"></div>
+
+        <!-- WORKSHEET -->
+        <div style="border-top:.5px solid #eee;padding-top:12px;margin-top:4px;">
+          <div style="font-size:11px;font-weight:600;color:#888;margin-bottom:6px;">📋 훈련용 워크시트</div>
+          <div style="font-size:11px;color:#666;margin-bottom:8px;">정답을 적는 종이입니다. 출력하여 훈련 중 사용하세요.</div>
+          <a href="https://jsmylife153.github.io/kor/csv/WORKSHEET.jpg" download target="_blank"
+             style="display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;background:#f0a500;color:#fff;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;">
+            🖨 워크시트 다운로드
+          </a>
+        </div>
+
       </div>
 
       <!-- 앱 정보 탭 -->
-      <div id="sc2" style="display:none;">
+      <!-- 오디오 설정 탭 -->
+      <div id="sc4" style="display:none;">
+        <h4 style="margin-bottom:14px;font-size:13px;color:#111;">⚙ 환경설정</h4>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;">
+          <div>
+            <div style="font-size:13px;font-weight:600;">훈련 시작 시 자동 재생</div>
+            <div style="font-size:11px;color:#888;margin-top:2px;">훈련 선택 시 안내 음성 자동 재생</div>
+          </div>
+          <label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer;">
+            <input type="checkbox" id="audioAutoPlay" onchange="saveAudioPref()" style="opacity:0;width:0;height:0;">
+            <span id="audioTrack" style="position:absolute;inset:0;background:#ccc;border-radius:24px;transition:.3s;">
+              <span id="audioKnob" style="position:absolute;left:2px;top:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.3s;"></span>
+            </span>
+          </label>
+        </div>
+        
+      </div>
+      <!-- 앱 정보 탭 -->
+      <div id="sc3" style="display:none;">
         <h4>이런 분들께 꼭 필요합니다!</h4>
         <ul style="margin-bottom:12px;">
           <li>집중력이 부족해 고민인 학생</li>
@@ -448,7 +703,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
       </div>
 
       <!-- 랭킹 탭 -->
-      <div id="sc3" style="display:none;">
+      <div id="sc0">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
           <div>
             <p style="font-size:12px;color:#555;">내 이름: <b id="myNameDisplay" style="color:#185fa5;">-</b></p>
@@ -468,7 +723,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 
     </div>
     <div class="settFoot">
-      <button onclick="closeSett()" style="background:#f0f0f0;border-color:#ddd;">닫기</button>
+      <button onclick="closeSett()" style="background:#f0f0f0;border-color:#ddd;">설정 닫기</button>
       <button onclick="exitApp()" style="background:#D32F2F;color:#fff;border-color:#D32F2F;">앱 종료</button>
     </div>
   </div>
@@ -495,7 +750,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 <!-- Ad overlay is inside #TR above -->
 
 
-<button id="fsFab" onclick="toggleFS()">⛶ 전체화면</button>
+
 
 <script>
 /* ═══════════════════════════════════════════════════
@@ -811,23 +1066,217 @@ async function loadSheet() {
   }
 }
 
-function renderLsList() {
-  const el = document.getElementById('lsList');
-  const keys = Object.keys(sheetsData);
-  if (!keys.length) { el.innerHTML = '<p style="font-size:11px;color:#aaa;">저장된 팩 없음</p>'; return; }
-  el.innerHTML = keys.map(k => `
-    <div class="lsItem">
-      <div>
-        <span style="font-size:12px;font-weight:500;">${k}</span><br>
-        <span style="font-size:11px;color:#888;">낱말 ${(sheetsData[k].wordPool||[]).length.toLocaleString()}개 · 문장 ${(sheetsData[k].sentPool||[]).length.toLocaleString()}개</span>
-      </div>
-      <button onclick="removeDS('${k}')">삭제</button>
-    </div>`).join('');
+/* 저장된 팩 버튼 상태 복원 */
+function restorePackBtns() {
+  [
+    {file:'한글_일반.csv',  label:'한글_일반'},
+    {file:'성경_모세5경.csv', label:'성경_창세기'},
+    {file:'성경_4복음서.csv',label:'성경_마태복음'}
+  ].forEach(({file, label}) => {
+    if (!sheetsData[label]) return;
+    /* 버튼 찾기: onclick에 해당 파일명 포함 */
+    document.querySelectorAll('button').forEach(btn => {
+      if (btn.onclick && btn.onclick.toString().includes(file) ||
+          (btn.getAttribute('onclick')||'').includes(file)) {
+        const isActive = activeDS === label;
+        btn.disabled = isActive;
+        btn.textContent = isActive ? '✅ 적용됨' : '▶ 훈련 적용';
+        btn.style.background = isActive ? '#2d8c4e' : '#1565c0';
+        if (!isActive) btn.onclick = function(){ applyPack(label, btn); };
+      }
+    });
+  });
 }
 
-async function removeDS(k) {
+function renderLsList() {
+  /* lsList (설정창 기존 탭) */
+  const el = document.getElementById('lsList');
+  const keys = Object.keys(sheetsData);
+  if (el) {
+    if (!keys.length) { el.innerHTML = '<p style="font-size:11px;color:#aaa;">저장된 팩 없음</p>'; }
+    else { el.innerHTML = keys.map(k => `
+      <div class="lsItem">
+        <div>
+          <span style="font-size:12px;font-weight:500;">${k}</span><br>
+          <span style="font-size:11px;color:#888;">낱말 ${(sheetsData[k].wordPool||[]).length.toLocaleString()}개 · 문장 ${(sheetsData[k].sentPool||[]).length.toLocaleString()}개</span>
+        </div>
+        <button onclick="removeDS('${k}')">삭제</button>
+      </div>`).join(''); }
+  }
+  /* lsList2 (데이터팩 탭) */
+  const el2 = document.getElementById('lsList2');
+  if (el2) {
+    if (!keys.length) { el2.innerHTML = '<p style="font-size:11px;color:#aaa;">저장된 팩 없음</p>'; }
+    else { el2.innerHTML = keys.map(k => `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:.5px solid #f0f0f0;">
+        <span style="font-size:12px;font-weight:500;color:#333;">${k}</span>
+        <button onclick="removeDS('${k}')" style="font-size:11px;padding:3px 8px;border-radius:6px;background:#fdecea;color:#c62828;border:1px solid #f5c6c6;cursor:pointer;">삭제</button>
+      </div>`).join(''); }
+  }
+}
+
+/* 데이터팩 1클릭 다운로드 */
+const PACK_BASE = 'https://jsmylife153.github.io/kor/csv/';
+async function quickLoadPack(filename, btn) {
+  const st = document.getElementById('quickPackSt');
+  const url = PACK_BASE + filename;
+  const label = filename.replace('.csv','');
+
+  /* 1단계: 진행 중 */
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ 진행 중...';
+    btn.style.background = '#888';
+  }
+  if (st) st.textContent = '';
+
+  try {
+    const res = await tryFetch(url, null);
+    if (!res) throw new Error('데이터를 받지 못했습니다');
+    const data = parseCSV(res);
+    sheetsData[label] = data;
+    await idbSave(label, data);
+    renderNavDS();
+
+    /* 2단계: 훈련 적용 버튼으로 전환 */
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '▶ 훈련 적용';
+      btn.style.background = '#1565c0';
+      btn.onclick = function() { applyPack(label, btn); };
+    }
+    if (st) st.textContent = '✅ 다운로드 완료! ▶ 훈련 적용을 눌러 적용하세요.';
+  } catch(e) {
+    if (st) st.textContent = '❌ 실패: ' + e.message;
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '▼ 다운로드';
+      btn.style.background = '';
+    }
+  }
+}
+
+/* 개별 데이터팩 슬롯 추가 */
+let _customSlotIdx = 1; /* 첫 번째는 HTML에 고정, 추가분은 여기서 관리 */
+function addCustomPackSlot() {
+  const container = document.getElementById('customPackSlots');
+  if (!container) return;
+  const idx = ++_customSlotIdx;
+  const div = document.createElement('div');
+  div.id = 'customSlot' + idx;
+  div.style.cssText = 'border:1.5px dashed #2d8c4e;border-radius:10px;padding:12px;background:#f5fdf7;margin-bottom:8px;';
+  div.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <div style="font-weight:700;font-size:13px;color:#1a5e33;">🔑 개별 데이터팩 ${idx}</div>
+      <button onclick="document.getElementById('customSlot${idx}').remove()" style="background:none;border:none;color:#aaa;font-size:16px;cursor:pointer;line-height:1;">✕</button>
+    </div>
+    <div style="font-size:11px;color:#777;margin-bottom:8px;">팩 이름을 입력하고 다운로드하세요.</div>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <input id="customPackName${idx}" type="text" placeholder="예: 개별" maxlength="40"
+        style="flex:1;height:34px;border:1.5px solid #c8e6c9;border-radius:8px;padding:0 10px;font-size:13px;color:#1a1a1a;outline:none;">
+      <button id="customPackBtn${idx}" onclick="loadCustomPackById(${idx},this)"
+        style="flex-shrink:0;height:34px;padding:0 14px;background:#2d8c4e;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+    </div>`;
+  container.appendChild(div);
+}
+
+/* 추가된 슬롯용 다운로드 함수 */
+async function loadCustomPackById(idx, btn) {
+  const input = document.getElementById('customPackName' + idx);
+  const st = document.getElementById('quickPackSt');
+  const name = (input ? input.value.trim() : '');
+  if (!name) {
+    if (st) st.textContent = '❌ 팩 이름을 입력해 주세요.';
+    if (input) input.focus();
+    return;
+  }
+  const label = name;
+  const url = PACK_BASE + name + '.csv';
+  if (btn) { btn.disabled=true; btn.textContent='⏳ 진행 중...'; btn.style.background='#888'; }
+  if (input) input.disabled = true;
+  if (st) st.textContent = '';
+  try {
+    const res = await tryFetch(url, null);
+    if (!res) throw new Error('파일을 찾을 수 없습니다');
+    const data = parseCSV(res);
+    sheetsData[label] = data;
+    await idbSave(label, data);
+    renderNavDS();
+    if (btn) {
+      btn.disabled=false; btn.textContent='▶ 훈련 적용'; btn.style.background='#1565c0';
+      btn.onclick = function(){ applyPack(label, btn); if(input) input.disabled=false; };
+    }
+    if (st) st.textContent = '✅ "' + label + '" 완료! ▶ 훈련 적용을 눌러주세요.';
+  } catch(e) {
+    if (st) st.textContent = '❌ 실패: 팩 이름을 다시 확인해 주세요.';
+    if (btn) { btn.disabled=false; btn.textContent='▼ 다운로드'; btn.style.background='#2d8c4e'; }
+    if (input) input.disabled=false;
+  }
+}
+
+/* 개별 데이터팩 다운로드 */
+async function loadCustomPack(btn) {
+  const input = document.getElementById('customPackName');
+  const st = document.getElementById('quickPackSt');
+  const name = (input ? input.value.trim() : '');
+  if (!name) {
+    if (st) st.textContent = '❌ 팩 이름을 입력해 주세요.';
+    if (input) input.focus();
+    return;
+  }
+  const filename = name + '.csv';
+  const label = name;
+  const url = PACK_BASE + filename;
+
+  /* 진행 중 */
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ 진행 중...'; btn.style.background = '#888'; }
+  if (st) st.textContent = '';
+  if (input) input.disabled = true;
+
+  try {
+    const res = await tryFetch(url, null);
+    if (!res) throw new Error('파일을 찾을 수 없습니다');
+    const data = parseCSV(res);
+    sheetsData[label] = data;
+    await idbSave(label, data);
+    renderNavDS();
+
+    /* 훈련 적용 버튼으로 전환 */
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '▶ 훈련 적용';
+      btn.style.background = '#1565c0';
+      btn.onclick = function() { applyPack(label, btn); if(input) input.disabled=false; };
+    }
+    if (st) st.textContent = '✅ "' + label + '" 다운로드 완료! ▶ 훈련 적용을 눌러주세요.';
+  } catch(e) {
+    if (st) st.textContent = '❌ 실패: 팩 이름을 다시 확인해 주세요.';
+    if (btn) { btn.disabled=false; btn.textContent='▼ 다운로드'; btn.style.background='#2d8c4e'; }
+    if (input) input.disabled = false;
+  }
+}
+
+/* 훈련 적용 */
+async function applyPack(label, btn) {
+  /* IDB에 최종 저장 확인 */
+  if (sheetsData[label]) {
+    try { await idbSave(label, sheetsData[label]); } catch(e) {}
+  }
+  switchDS(label);
+  try { localStorage.setItem('jstr_lastDS', label); } catch(e) {}
+  const st = document.getElementById('quickPackSt');
+  if (st) st.textContent = '✅ "' + label + '" 팩이 훈련에 적용되었습니다!';
+  if (btn) {
+    btn.textContent = '✅ 적용됨';
+    btn.style.background = '#2d8c4e';
+    btn.disabled = true;
+  }
+  setTimeout(() => { closeSett(); }, 800);
+}
+
+function removeDS(k) {
   delete sheetsData[k];
-  await idbRemove(k);
+  idbRemove(k).catch(function(){});
   if (activeDS === k) switchDS('default');
   renderLsList(); renderNavDS();
 }
@@ -856,14 +1305,15 @@ function closeAd() {
 }
 
 /* ═══ Settings modal ══════════════════════════════ */
-function openSett() { closeNav(); document.getElementById('settBg').classList.add('open'); }
+function openSett() { closeNav(); stopPopAudio(); document.getElementById('settBg').classList.add('open'); showStab(0); setTimeout(restorePackBtns, 100); }
 function closeSett() { document.getElementById('settBg').classList.remove('open'); }
 function showStab(n) {
-  [0,1,2,3].forEach(i => {
+  [0,1,2,3,4].forEach(i => {
     document.getElementById('sc'+i).style.display = i===n ? 'block' : 'none';
     document.getElementById('stab'+i).className = 'stab' + (i===n ? ' on' : '');
   });
-  if (n===3) loadRanking('all');
+  /* 랭킹 탭(stab0=sc0) 열릴 때 자동 로드 */
+  if (n===0) loadRanking('all');
 }
 function exitApp() {
   if (confirm('앱을 종료하시겠습니까?')) { window.close(); setTimeout(()=>{ location.href='about:blank'; },200); }
@@ -944,29 +1394,30 @@ document.addEventListener('fullscreenchange', onFSChange);
 document.addEventListener('webkitfullscreenchange', onFSChange);
 
 /* ═══ Constants ═══════════════════════════════════ */
-const ROWS=6, CF=1.12, TOP=0.16, BOT=0.16;
+const ROWS=5, CF=1.12, TOP=0.17, BOT=0.10;
 const COLORS=[
   {fill:'#FF0000',dark:'#990000',light:'#FF9999'},  /* 빨강 */
   {fill:'#FFDD00',dark:'#AA7700',light:'#FFEE77'},  /* 노랑 */
-  {fill:'#00EE00',dark:'#006600',light:'#88FF88'},  /* 초록 */
   {fill:'#0044FF',dark:'#0022AA',light:'#88AAFF'},  /* 파랑 */
-  {fill:'#EE00EE',dark:'#770077',light:'#FF88FF'},  /* 보라 */
+  {fill:'#00BB44',dark:'#006622',light:'#88EEaa'},  /* 초록 */
+  {fill:'#AA00FF',dark:'#660099',light:'#DD88FF'},  /* 보라 */
 ];
 const SPD={1:{ms:950,l:'매우 느림'},2:{ms:700,l:'느림'},3:{ms:450,l:'보통'},4:{ms:250,l:'빠름'},5:{ms:100,l:'매우 빠름'}};
 const PH=[{label:'1단계 가로',mode:'h'},{label:'2단계 세로',mode:'v'},{label:'3단계 랜덤',mode:'r'}];
 const V_DUR=[60,60,90], C_DUR=[60,60,60];
-const LV_CONC={하:[1,3],중:[3,5],상:[5,7]};
-const LV_MEM={하:[2,3],중:[3,4],상:[4,5]};
+const LV_CONC={하:[1,2],중:[2,3],상:[3,4]};
+const LV_MEM={하:[1,2],중:[2,3],상:[3,4]};
 const LV_WG={하:1,중:2,상:3};
-const REST=10, TOTAL_RDS=10, MEM_CYCLES=3, DELAY2S=2000, SENT_GAP=2000;
+const REST=5, TOTAL_RDS=10, MEM_CYCLES=3, DELAY2S=2000, SENT_GAP=2000;
 const TM_NAMES={vision:'시력강화 훈련',concentration:'집중력 훈련',memory:'기억력 훈련',sentence:'문장기억 훈련',focus:'독서능력 향상'};
 
 /* ═══ State ═══════════════════════════════════════ */
-let TM='vision', COLS=12, TOTAL=72;
+let TM='vision', COLS=10, TOTAL=50;
 let spd=3, tState='idle', phase=0;
 let tId=null, bId=null, cdId=null, riId=null;
 let navOpen=null, aC=null, lay={mx:30,fs:14};
-let shape='circle', alt=false, bc=1, curColor=COLORS[0];
+let shape='circle', alt=false, bc=1, curColor=COLORS[0], vLv=1, vLvAlt=false, imgIdx=0, vColors=[COLORS[0],COLORS[1]];
+let _vPhaseImg = 0; /* 현재 단계의 고정 이미지 번호 */
 let posIdx=0, moveDir=1, counter=0, remSec=60;
 let wl=2, lv='하', stepN=0, repSteps=new Set(), inRep=false, lastW=null;
 let repAll=[[],[],[]], usedW=new Set();
@@ -1002,19 +1453,22 @@ function ding() {
 function upLay() {
   const W=TR.offsetWidth, H=TR.offsetHeight||300;
   if (!W) return;
-  const fsByW = (W*.82-12)/(wl*CF*(COLS-.14));
-  const fsByH = H*0.10;
-  const fs = Math.max(9, Math.floor(Math.min(fsByW, fsByH)));
-  lay = {mx: Math.ceil(wl*CF*fs/2)+8, fs};
+  /* 글자 수별 CF: 적은 글자일수록 CF 작게 → 글자 더 크게 출력 */
+  const cfMap = {2:0.63, 3:0.63, 4:0.63, 5:0.71, 6:0.68};
+  const cf = cfMap[wl] || CF;
+  const fsByW = (W*0.96-4) / (wl * cf * (COLS - 0.14));
+  const fsByH = H * 0.22;
+  const fs = Math.max(22, Math.floor(Math.min(fsByW, fsByH)));
+  lay = {mx: Math.ceil(wl*cf*fs/2)+6, fs};
 }
 function upDims() {
-  if (TM==='vision') COLS=12;
-  else if (TM==='sentence') COLS=12;
-  else COLS = wl<=2?12:wl<=3?10:wl<=4?8:wl<=5?7:6;
+  if (TM==='vision') COLS=10;
+  else if (TM==='sentence') COLS=10;
+  else COLS=10;
   TOTAL = ROWS*COLS;
   if (TM!=='vision') upLay();
 }
-function getMX() { return TM==='vision' ? TR.offsetWidth*0.05 : lay.mx; }
+function getMX() { return TR.offsetWidth*0.08; }  /* 모든 훈련 동일 마진 */
 function rcOf(pi) {
   const m = TM==='memory' ? 'r' : PH[phase].mode;
   if (m==='h') { const r=Math.floor(pi/COLS), c=pi%COLS; return {row:r,col:(r%2===0)?c:(COLS-1-c)}; }
@@ -1040,19 +1494,7 @@ function drawGrid() {
   if (TM==='sentence') { slotsEl.style.display='block'; return; }
   slotsEl.style.display='none';
   const m = TM==='memory' ? 'r' : PH[phase].mode;
-  if (m==='h') {
-    for (let r=0;r<ROWS;r++) {
-      const {x:x1,y}=gXYrc(r,0), {x:x2}=gXYrc(r,COLS-1);
-      ctx.beginPath(); ctx.moveTo(x1,y); ctx.lineTo(x2,y);
-      ctx.strokeStyle='rgba(140,140,140,.15)'; ctx.lineWidth=.5; ctx.stroke();
-    }
-  } else if (m==='v') {
-    for (let c=0;c<COLS;c++) {
-      const {x,y:y1}=gXYrc(0,c), {y:y2}=gXYrc(ROWS-1,c);
-      ctx.beginPath(); ctx.moveTo(x,y1); ctx.lineTo(x,y2);
-      ctx.strokeStyle='rgba(140,140,140,.15)'; ctx.lineWidth=.5; ctx.stroke();
-    }
-  }
+  /* 연결선 제거 - 점만 표시 */
   for (let pi=0;pi<TOTAL;pi++) {
     const {x,y}=gXY(pi);
     ctx.beginPath(); ctx.arc(x,y,1.5,0,Math.PI*2);
@@ -1061,16 +1503,66 @@ function drawGrid() {
 }
 
 /* ═══ Vision ══════════════════════════════════════ */
-function pClr() { return COLORS[Math.floor(Math.random()*COLORS.length)]; }
-function shSz() {
-  const H=TR.offsetHeight||300;
-  const big=Math.max(18,Math.floor(H*0.075));   /* 더 크게 */
-  const small=Math.max(10,Math.floor(H*0.038)); /* 점도 조금 크게 */
-  return (shape==='dot'||(shape==='alt'&&alt)) ? small : big;
+function pClr() {
+  /* 수준1: 두 색상 교대 / 수준2,3: 큰원은 항상 색1 */
+  if(vLv===1) return vLvAlt ? vColors[1] : vColors[0];
+  return vColors[0];
 }
+function shSz() {
+  const H = TR.offsetHeight || 300;
+  const big   = Math.max(22, Math.floor(H * 0.10));
+  const small = Math.max(6,  Math.floor(H * 0.025));
+  const imgSz = Math.max(60, Math.floor(H * 0.16));
+  if (vLv===3 && vLvAlt) return imgSz; /* 수준3 이미지 턴 */
+  if (vLv===2 && vLvAlt) return small; /* 수준2 작은원 */
+  return big;
+}
+
+/* 시력 수준 설정 */
+function pickVColors() {
+  /* COLORS 5개 중 랜덤으로 2개 선정 (중복 없이) */
+  const idx1 = Math.floor(Math.random() * COLORS.length);
+  let idx2;
+  do { idx2 = Math.floor(Math.random() * COLORS.length); } while(idx2 === idx1);
+  vColors = [COLORS[idx1], COLORS[idx2]];
+}
+
+function setVLv(n) {
+  vLv=n; vLvAlt=false; imgIdx=0;
+  pickVColors(); /* 수준 변경 시 색상 쌍 새로 선정 */
+  curColor = vColors[0];
+  [1,2,3].forEach(v => {
+    const el=document.getElementById('bvlv'+v);
+    if(el) el.className=v===n?'lv-btn active':'lv-btn';
+  });
+  shape='circle'; bc=1;
+}
+
+
+/* ═══ 알파파 배경음 (시력강화 전용) ══════════════════ */
+let _alphaAudio = null;
+function startAlpha() {
+  if (_alphaAudio) return;
+  _alphaAudio = new Audio('https://jsmylife153.github.io/kor/audio/alpha.mp3');
+  _alphaAudio.loop = true;
+  _alphaAudio.volume = 0.35;
+  _alphaAudio.play().catch(function(){});
+}
+function stopAlpha() {
+  if (_alphaAudio) {
+    _alphaAudio.pause();
+    _alphaAudio.currentTime = 0;
+    _alphaAudio = null;
+  }
+}
+
+/* 수준3: 이미지 개수 (01.png~20.png) */
+const VLV3_IMG_COUNT = 20;
+const VLV3_BASE = 'https://jsmylife153.github.io/kor/img/';
 function apSh() {
   const sz=shSz();
-  SH.style.width=sz+'px'; SH.style.height=sz+'px';
+  SH.style.width=sz+'px';
+  SH.style.height=sz+'px';
   if(shape==='cross'){
     SH.style.borderRadius='12%';
     SH.style.transform='translate(-50%,-50%) rotate(45deg)';
@@ -1093,9 +1585,28 @@ function plSh(pi) { const {x,y}=gXY(pi); SH.style.left=x+'px'; SH.style.top=y+'p
 function vBlink(cb) {
   const half=Math.max(18,SPD[spd].ms/(bc*2));
   let done=0, st=true;
+  const sz=shSz();
+  SH.style.width=sz+'px'; SH.style.height=sz+'px';
+
+  if(vLv===3 && vLvAlt) {
+    /* 수준3 이미지 턴: 단계별 고정 이미지 */
+    const pad = _vPhaseImg<10?'0'+_vPhaseImg:''+_vPhaseImg;
+    SH.style.background='url('+VLV3_BASE+pad+'.png) center/contain no-repeat';
+    SH.style.backgroundColor='transparent';
+    SH.style.boxShadow='none'; SH.style.border='none';
+    SH.style.borderRadius='0'; SH.style.transform='translate(-50%,-50%)';
+  } else if(vLv===2 && vLvAlt) {
+    /* 수준2 작은원: 색2 */
+    apSh(); apCl(vColors[1]);
+  } else if(vLv===1 && vLvAlt) {
+    /* 수준1 큰원2: 색2 */
+    apSh(); apCl(vColors[1]);
+  } else {
+    /* 공통 큰원: 색1 */
+    apSh(); apCl(vColors[0]);
+  }
   SH.style.opacity='1';
-  if (shape==='alt') { alt=!alt; apSh(); }
-  apCl(curColor);
+
   function tk() { st=!st; SH.style.opacity=st?'1':'0'; if(!st)done++; if(done>=bc){bId=null;cb();}else bId=setTimeout(tk,half); }
   bId=setTimeout(tk,half);
 }
@@ -1105,8 +1616,13 @@ function vAdvPos() {
   else { posIdx+=moveDir; if(posIdx>=TOTAL){moveDir=-1;posIdx=TOTAL-2;counter++;}else if(posIdx<0){moveDir=1;posIdx=1;counter++;} }
 }
 function vStep() {
-  curColor=pClr(); plSh(posIdx); apCl(curColor); updB();
-  vBlink(() => { if(tState!=='running')return; vAdvPos(); tId=setTimeout(vStep,25); });
+  plSh(posIdx);
+  updB();
+  vBlink(() => {
+    if(tState!=='running')return;
+    vLvAlt=!vLvAlt; /* 모든 수준에서 교대 토글 */
+    vAdvPos(); tId=setTimeout(vStep,25);
+  });
 }
 
 /* ═══ Concentration ═══════════════════════════════ */
@@ -1293,13 +1809,17 @@ function startPhase() {
   remSec=(TM==='vision'?V_DUR:C_DUR)[phase];
   updPhUI(); drawGrid(); updTimerB(); updB();
   if (TM==='concentration') initRep();
-  ding(); tState='running'; document.getElementById('btnSt').textContent='일시정지';
+  ding(); tState='running'; updPlayBtns('running');
   startCD();
-  if (TM==='vision') vStep(); else cStep();
+  if (TM==='vision') {
+    pickVColors(); vLvAlt=false; curColor=vColors[0];
+    _vPhaseImg=Math.floor(Math.random()*VLV3_IMG_COUNT)+1;
+    startAlpha(); vStep();
+  } else { stopAlpha(); cStep(); }
 }
 function startMRound() {
   upDims(); mCycle=0; mWIdx=0; usedW.clear(); setupMRound(); drawGrid();
-  ding(); tState='running'; document.getElementById('btnSt').textContent='일시정지';
+  ding(); tState='running'; updPlayBtns('running');
   tId=setTimeout(mStep, DELAY2S);
 }
 function startSRound() {
@@ -1311,13 +1831,14 @@ function startSRound() {
   buildSlots();
   for (let i=0;i<wl;i++) loadSlot(i,currentSents[i]);
   updSB(); updDotArea();
-  ding(); tState='running'; document.getElementById('btnSt').textContent='일시정지';
+  ding(); tState='running'; updPlayBtns('running');
   tId=setTimeout(()=>displaySent(0,endSDisplay), DELAY2S);
 }
 
 /* ═══ Phase / Round end ═══════════════════════════ */
 function stopAll() {
   clearTimeout(tId); clearTimeout(bId); clearInterval(cdId); clearInterval(riId);
+  stopAlpha();
 }
 function endPhase() {
   tState='thinking'; stopAll(); SH.style.opacity='0'; WE.style.opacity='0'; ding();
@@ -1354,7 +1875,7 @@ function showRestOv(isLast) {
   setOv(
     isLast?'모든 훈련이 완료되었습니다':'잠시 눈을 감고 쉬어주세요',
     REST, null,
-    isLast?'10초 후 종료됩니다':'10초 후 '+PH[phase+1].label+'이(가) 시작됩니다',
+    isLast?'5초 후 종료됩니다':'5초 후 '+PH[phase+1].label+'이(가) 시작됩니다',
     null
   );
   OV.style.display='flex';
@@ -1365,7 +1886,7 @@ function showRestOv(isLast) {
       clearInterval(riId); OV.style.display='none';
       addScore(1); /* 시력강화: 단계 완료마다 1점 (1,2,3단계 각 1점) */
       if (isLast) { submitScore(); showAd(fullReset); }
-      else { phase++; startPhase(); }
+      else { phase++; _vPhaseImg=Math.floor(Math.random()*VLV3_IMG_COUNT)+1; startPhase(); }
     }
   }, 1000);
 }
@@ -1399,7 +1920,7 @@ function showWrite() {
       isLast?'정답 확인':'다음 시작 →'
     );
   }
-  document.getElementById('btnSt').textContent=isLast?'정답 확인':'다음 시작';
+  document.getElementById('btnSt').innerHTML=isLast?'정답 확인':'<svg viewBox="0 0 36 36" width="16" height="16" fill="currentColor"><polygon points="10,6 30,18 10,30"/></svg>'; document.getElementById('btnSt').className='cbtn-play play';
 }
 function handleOvBtn() {
   if (tState!=='writing') return;
@@ -1553,7 +2074,7 @@ function updSB() {
 }
 function updTimerB() {
   const el=document.getElementById('bc');
-  el.textContent='⏱ '+remSec+'s';
+  el.textContent=remSec+'s';
   el.style.color=remSec<=10?'#D32F2F':'#111';
   el.style.borderColor=remSec<=10?'#D32F2F':'#2a9e00';
 }
@@ -1614,20 +2135,41 @@ function setShape(s) {
   shape=s; if(s==='alt') alt=false; apSh(); apCl(curColor);
   ['circle','dot','alt'].forEach(n => { document.getElementById('bsh-'+n[0]).className=n===s?'active':''; });
 }
-function setBC(n) { bc=n; [1,2,3].forEach(v => { document.getElementById('bbc'+v).className=v===n?'active':''; }); }
+function setBC(n) { bc=n; [1,2,3].forEach(v => { document.getElementById('bbc'+v).className=v===n?'lv-btn active':'lv-btn'; }); }
 function setWL(n) {
   wl=n; upDims();
   if (TM==='sentence') { if(tState==='idle') buildSlots(); } else drawGrid();
-  [2,3,4,5,6].forEach(v => { document.getElementById('bwl'+v).className=v===n?'active':''; });
+  [2,3,4,5,6].forEach(v => { document.getElementById('bwl'+v).className=v===n?'lv-btn active':'lv-btn'; });
 }
 function setLV(l) {
   lv=l; usedSents.clear();
   ['하','중','상'].forEach(v => {
-    const b=document.getElementById('blv'+v); if(b) b.className=v===l?'active':'';
-    const bf=document.getElementById('blvf'+v); if(bf) bf.className=v===l?'active':'';
+    const b=document.getElementById('blv'+v); if(b) b.className=v===l?'lv-btn active':'lv-btn';
+    const bf=document.getElementById('blvf'+v); if(bf) bf.className=v===l?'lv-btn active':'lv-btn';
   });
 }
-function setSP(v) { spd=parseInt(v); document.getElementById('splb').textContent=SPD[spd].l; }
+
+/* 모든 재생 버튼(btnSt, btnSt2, btnSt3) 동기 업데이트 */
+function updPlayBtns(state) {
+  const PLAY_SVG='<svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><polygon points="10,6 30,18 10,30"/></svg> 시작';
+  const PAUSE_SVG='<svg viewBox="0 0 36 36" width="20" height="20" fill="currentColor"><rect x="8" y="6" width="7" height="24" rx="2"/><rect x="21" y="6" width="7" height="24" rx="2"/></svg> 일시정지';
+  ['btnSt','btnSt_cw2'].forEach(id => {
+    const b=document.getElementById(id); if(!b) return;
+    if(state==='running') {
+      b.innerHTML=PAUSE_SVG; b.title='일시정지'; b.className='cbtn-play pause-state';
+    } else if(state==='idle') {
+      b.innerHTML=PLAY_SVG; b.title='시작'; b.className='cbtn-play play';
+    } else {
+      b.innerHTML=PLAY_SVG; b.title=state==='paused'?'계속':'시작'; b.className='cbtn-play play';
+    }
+  });
+}
+/* 속도 슬라이더 동기화 */
+function syncSpd(v) {
+  ['spsl','spsl2','spsl3'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=v;});
+  ['splb','splb2','splb3'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=SPD[v]?.l||'보통';});
+}
+function setSP(v) { spd=parseInt(v); syncSpd(v); }
 
 function switchDS(ds) {
   closeNav(); activeDS=ds; usedW.clear(); usedSents.clear(); updDsBadge();
@@ -1640,27 +2182,38 @@ function switchDS(ds) {
   renderNavDS();
 }
 function switchTM(nm) {
-  closeNav(); if(TM===nm&&tState==='idle') return;
+  closeNav();
+  stopAlpha();
   TM=nm; fullReset();
+  showTmPop(nm);
   document.getElementById('cv').style.display=nm==='vision'?'flex':'none';
   document.getElementById('cv3').style.display=nm==='focus'?'flex':'none';
   document.getElementById('cw').style.display=(nm!=='vision'&&nm!=='focus')?'flex':'none';
+  /* 비전 외 훈련은 별도 버튼 그룹 표시 */
+  const bg=document.getElementById('btnGroup_cw');
+  if(bg) bg.style.display=(nm!=='vision')?'flex':'none';
   document.getElementById('wlLabel').textContent=nm==='sentence'?'문장':'글자';
+  updateDropLabel(nm);
   document.getElementById('tnLbl').textContent=TM_NAMES[nm]||nm;
   ['vision','concentration','memory','sentence','focus'].forEach((m,i) => {
-    const el=document.getElementById('nt'+i), sp=document.getElementById('ni'+i);
-    if(!el||!sp) return;
+    const el=document.getElementById('nt'+i);
+    if(!el) return;
     const ac=m===nm;
-    el.className='ditem'+(ac?' active':'');
-    sp.textContent=ac?'●':'○'; sp.style.opacity=ac?'1':'.4';
+    if(el.classList.contains('tmDItem')||el.classList.contains('tm-sel-btn')||el.classList.contains('tm-tab')) {
+      const base = el.classList.contains('tmDItem')?'tmDItem':el.classList.contains('tm-sel-btn')?'tm-sel-btn':'tm-tab';
+      el.className=base+(ac?' active':'');
+    } else { el.className='ditem'+(ac?' active':''); }
   });
   /* 독서능력 향상: 즉시 본문 표시 */
   if(nm==='focus') startFocusTraining();
+
 }
 
 /* ═══ Main toggle ═════════════════════════════════ */
 function toggleStart() {
   const btn=document.getElementById('btnSt');
+  /* 훈련 시작 시 팝업 자동 닫기 */
+  closeTmPop();
   if (tState==='writing') { handleOvBtn(); return; }
   if (tState==='thinking'||tState==='answers') return;
   if (tState==='running') {
@@ -1668,9 +2221,9 @@ function toggleStart() {
     SH.style.opacity='0'; WE.style.opacity='0';
     for(let i=0;i<(TM==='sentence'?wl:0);i++) hideSlot(i);
     if(TM==='focus') fmSpans.forEach(function(sp){sp.className='fm-w';});
-    btn.textContent='계속';
+    updPlayBtns('paused');
   } else if (tState==='paused') {
-    tState='running'; btn.textContent='일시정지';
+    tState='running'; updPlayBtns('running');
     if (TM==='vision') { startCD(); vStep(); }
     else if (TM==='concentration') { startCD(); cStep(); }
     else if (TM==='memory') { tId=setTimeout(mStep,0); }
@@ -1681,7 +2234,7 @@ function toggleStart() {
     if (TM==='focus') {
       if(fmChapter&&fmSpans.length) {
         /* 텍스트 이미 표시됨 → 점멸 시작 */
-        tState='running'; btn.textContent='일시정지';
+        tState='running'; updPlayBtns('running');
         fmWordIdx=0; ding();
         fmSpans.forEach(function(sp){sp.className='fm-w';});
         fmTimer=setTimeout(fmStep,0);
@@ -1707,8 +2260,8 @@ function fullReset() {
   phase=0; posIdx=0; moveDir=1; counter=0; stepN=0; inRep=false; lastW=null;
   repAll=[[],[],[]]; mRound=0; mCycle=0; mWIdx=0; roundWords=[]; allRoundWords=[];
   currentSents=[]; allRoundData=[]; usedW.clear(); usedSents.clear(); curSentIdx=0;
-  curColor=COLORS[0]; SH.style.opacity='0'; WE.style.opacity='0'; WE.textContent='';
-  document.getElementById('btnSt').textContent='시작';
+  pickVColors(); curColor=vColors[0]; SH.style.opacity='0'; WE.style.opacity='0'; WE.textContent='';
+  updPlayBtns('idle');
   /* CNV 복원 */
   CNV.style.display='block';
   /* FM 오버레이 모두 닫기 */
@@ -1737,7 +2290,7 @@ function closeNav() {
 }
 
 /* ═══ Event listeners ═════════════════════════════ */
-document.addEventListener('click', () => closeNav());
+/* click 리스너: doSwitchTM 블록으로 통합 */
 document.getElementById('settBg').addEventListener('click', e => {
   if (e.target===document.getElementById('settBg')) closeSett();
 });
@@ -1821,13 +2374,14 @@ let totalScore = 0;    /* 누적 점수 (localStorage) */
 
 function loadUserData() {
   try {
-    userName = localStorage.getItem('jstr_username') || '';
+    const saved = localStorage.getItem('jstr_username');
+    userName = (saved && saved.trim()) ? saved.trim() : '';
     totalScore = parseInt(localStorage.getItem('jstr_totalscore') || '0');
   } catch(e) {}
 }
 function saveUserData() {
   try {
-    localStorage.setItem('jstr_username', userName);
+    if (userName) localStorage.setItem('jstr_username', userName);
     localStorage.setItem('jstr_totalscore', String(totalScore));
   } catch(e) {}
 }
@@ -1922,7 +2476,6 @@ async function submitScore() {
       date: today,
       week: getWeekStr(now)
     });
-    console.log('점수 전송 완료:', sessionScore);
   } catch(e) { console.warn('점수 전송 실패', e); }
 }
 /* ── KST(한국 시간, UTC+9) 기준 날짜/주 계산 ── */
@@ -1962,9 +2515,9 @@ async function loadRanking(period) {
     const kstNow = getKST();                 /* 한국 시간 기준 */
     const todayStr = getKSTDateStr();
     const weekStr = getWeekStr(kstNow);
-    /* 클라이언트 필터링으로 변경 (복합 인덱스 불필요) */
+    /* 상위 200개만 가져와 클라이언트 필터 */
     const snap = await _fdb.collection('scores')
-      .orderBy('score','desc').limit(500).get();
+      .orderBy('score','desc').limit(200).get();
     const map = {};
     snap.forEach(doc => {
       const d = doc.data();
@@ -1981,23 +2534,41 @@ async function loadRanking(period) {
         map[d.name] = (map[d.name]||0) + (d.session||0);
       }
     });
-    const sorted = Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,30);
+    const sorted = Object.entries(map).sort((a,b)=>b[1]-a[1]);
     if (!sorted.length) { statusEl.textContent='아직 등록된 기록이 없습니다.'; return; }
-    statusEl.textContent = '';
+
+    /* 본인 순위 찾기 */
     let myRank = -1;
-    sorted.forEach(([name,score],i) => {
-      const isMe = name===userName;
-      if (isMe) myRank = i+1;
+    sorted.forEach(([name], i) => { if(name === userName) myRank = i; });
+
+    /* 본인 위아래 포함 총 10명 추출 */
+    let startIdx, endIdx;
+    if (myRank === -1) {
+      /* 본인 기록 없으면 상위 10명 */
+      startIdx = 0; endIdx = Math.min(10, sorted.length);
+    } else {
+      /* 본인 중심 위아래 균등 배분 (총 10명) */
+      const half = 4;
+      startIdx = Math.max(0, myRank - half);
+      endIdx   = Math.min(sorted.length, startIdx + 10);
+      startIdx = Math.max(0, endIdx - 10);
+    }
+    const visible = sorted.slice(startIdx, endIdx);
+
+    statusEl.textContent = '';
+    visible.forEach(([name, score], idx) => {
+      const i = startIdx + idx;
+      const isMe = name === userName;
       const row = document.createElement('div');
       row.className = 'rank-row' + (isMe?' me':'');
       const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
       row.innerHTML = `
-        <span class="rank-num ${i<3?'top':''}">${medal||i+1}</span>
+        <span class="rank-num ${i<3?'top':''}">${medal||(i+1)}</span>
         <span class="rank-name">${name}${isMe?'<span class="rank-badge">나</span>':''}</span>
         <span class="rank-score">${score}점</span>`;
       listEl.appendChild(row);
     });
-    if (myRank>0) statusEl.textContent = `내 순위: ${myRank}위 / ${sorted.length}명`;
+    if (myRank >= 0) statusEl.textContent = `내 순위: ${myRank+1}위 / 전체 ${sorted.length}명`;
     else if (userName) statusEl.textContent = `${userName}님은 아직 기록이 없습니다`;
   } catch(e) {
     statusEl.textContent = '오류: ' + e.message;
@@ -2052,7 +2623,7 @@ function getFmChapters(){
 }
 
 /* 훈련 시작 */
-function startFocusTraining(){
+function startFocusTraining_orig(){
   const chapters=getFmChapters();
   if(!chapters.length){
     /* activeDS에 따라 다른 처리 */
@@ -2071,7 +2642,7 @@ function startFocusTraining(){
     document.getElementById('ovB').style.display='none';
     OV.style.display='flex';
     tState='thinking';
-    tryFetch('https://jsmylife153.github.io/kor/%ED%95%9C%EA%B8%80_%EC%9D%BC%EB%B0%98.csv',null)
+    tryFetch('https://jsmylife153.github.io/kor/csv/%ED%95%9C%EA%B8%80_%EC%9D%BC%EB%B0%98.csv',null)
     .then(function(csv){
       const d=parseCSV(csv);
       const rc=d.readingChapters||[];
@@ -2083,7 +2654,7 @@ function startFocusTraining(){
       }
       const label='한글_일반(확장)';
       sheetsData[label]=d;
-      idbSave(label,d);
+      idbSave(label,d).catch(function(){});
       renderNavDS();
       OV.style.display='none';
       tState='idle';
@@ -2096,8 +2667,9 @@ function startFocusTraining(){
     return;
   }
 
-  /* 챕터 선택 */
-  fmChapter=chapters[Math.floor(Math.random()*chapters.length)];
+  /* 챕터 선택: 문장선택 드롭업 기준 */
+  if(_fmChIdx >= chapters.length) _fmChIdx = 0;
+  fmChapter=chapters[_fmChIdx];
   /* 낱말 배열 초기화 */
   var rawText=fmChapter.pages.join(' ');
   /* \n을 토큰으로 보존해서 단락 구분 표시 */
@@ -2119,7 +2691,7 @@ function startFocusTraining(){
   fmLoadPageGray(0);
 
   tState='idle';
-  document.getElementById('btnSt').textContent='시작';
+  updPlayBtns('idle');
   updDotArea();
 }
 
@@ -2128,13 +2700,14 @@ function calcFmFontSize(){
   var trEl=document.getElementById('TR');
   var trH=trEl.offsetHeight||500;
   var trW=trEl.offsetWidth||375;
-  /* 높이 기준: 7줄 + 상단바(32) + 여백(50) */
-  var availH=Math.max(100, trH-32-50);
-  var fsH=Math.floor(availH/7/1.50);
-  /* 너비 기준: 한 줄 평균 9글자, 한국어 폭 ≈ fs*0.95, 좌우 패딩 8% */
+  var topBar=60, cbarEl=document.getElementById('cbar');
+  var cbarH=cbarEl?cbarEl.offsetHeight:64;
+  /* 8줄 표시: 실제 사용 가능 높이 기준 */
+  var availH=Math.max(100, trH - topBar - cbarH - 16);
+  var fsH=Math.floor(availH/8/1.42);
+  /* 너비 기준: 한 줄 평균 9글자 */
   var fsW=Math.floor(trW*0.88/(9*0.95));
-  /* 둘 중 작은 값 선택 → 가로/세로 모두 이탈 없음 */
-  return Math.max(10, Math.min(fsH, fsW));
+  return Math.max(14, Math.min(fsH, fsW));
 }
 function calcFmWPP(){
   var trEl=document.getElementById('TR');
@@ -2170,7 +2743,8 @@ function fmLoadPageGray(wordStart){
   var content = document.getElementById('fmContent');
   content.style.fontSize = fs+'px';
   var trEl = document.getElementById('TR');
-  var maxH = trEl.offsetHeight - 32 - 50; /* 사용 가능 높이 */
+  var topBar = 60, cbarH = document.getElementById('cbar').offsetHeight||64;
+  var maxH = trEl.offsetHeight - topBar - cbarH - 16; /* 상단바+하단바+여유 */
 
   /* 초기 WPP로 시도 */
   var wpp = calcFmWPP();
@@ -2239,7 +2813,7 @@ function fmPageDone(){
     fmTimer=setTimeout(fmStep,0);
   }else{
     tState='thinking';
-    document.getElementById('btnSt').textContent='시작';
+    updPlayBtns('idle');
     document.getElementById('fmCompleteOV').style.display='flex';
     var totalPages=document.getElementById('ba').textContent.split('/')[1]||'?';
     document.getElementById('fmCompInfo').textContent='총 '+totalPages+'페이지 완독 🎉';
@@ -2261,7 +2835,7 @@ function fmReplay(){
   fmWordStart=0;
   fmLoadPageGray(0);
   tState='idle';
-  document.getElementById('btnSt').textContent='시작';
+  updPlayBtns('idle');
 }
 
 /* 퀴즈 시작 */
@@ -2336,22 +2910,276 @@ function fmShowResults(){
     list.appendChild(div);
   });
 }
-</script>
 
-<script>
+
+/* ══════ 팝업+오디오 (통합) ══════ */
+/* ═══ 훈련 안내 팝업 + 오디오 ════════════════════════ */
+const AUDIO_BASE = 'https://jsmylife153.github.io/kor/audio/';
+const POP_AUDIO = {
+  vision:        AUDIO_BASE + '시력강화.mp3',
+  concentration: AUDIO_BASE + '집중력.mp3',
+  memory:        AUDIO_BASE + '기억력.mp3',
+  sentence:      AUDIO_BASE + '문장기억.mp3',
+  focus:         AUDIO_BASE + '독서능력.mp3'
+};
+const POP_ICONS = {vision:'👁',concentration:'🎯',memory:'🧠',sentence:'📝',focus:'📖'};
+const POP_TAGS  = {vision:'시력강화 훈련',concentration:'집중력 훈련',memory:'기억력 훈련',sentence:'문장기억 훈련',focus:'독서능력 향상'};
+const POP_DESC  = {
+  vision: '허리를 펴고 바른 자세로 앉아, 화면의 가로, 세로, 그리고 무작위하게 나타났다 사라지는 이미지를 응시합니다. 이때 목을 움직이지 않고 오직 눈동자만 움직여 이미지를 따라가는 것이 중요합니다. 이 훈련은 눈동자 근육의 탄력과 유연성을 높여주어, 눈의 피로를 덜고 시력을 보호하거나 개선하는 데 도움을 줍니다.',
+  concentration: '화면에 빠르게 나타났다 사라지는 여러 낱말을 한눈에 파악한 뒤, 연속으로 두 번 반복해서 등장하는 낱말을 찾아 기억하여 적는 훈련입니다. 시각을 통해 뇌로 유입되는 수많은 정보 중, 자신에게 필요한 부분만 선별하여 신속하게 판단하고 결정하는 능력을 키워주므로 집중력 향상에 큰 도움이 됩니다.',
+  memory: '화면에 순간적으로 나타났다 사라지는 낱말을 시야를 넓혀 한눈에 포착한 뒤, 머릿속에 남은 잔상을 활용해 회상하며 적는 훈련입니다. 찰나의 순간에 보고 기억한 정보를 잊지 않도록 반복 훈련함으로써, 기억을 장기적으로 유지할 수 있도록 돕는 두뇌 개발 과정입니다.',
+  sentence: '화면에 제시되는 문장 전체를 보고 통째로 기억하는 훈련입니다. 이후 질문으로 주어지는 특정 낱말이 몇 번째 문장에 있었는지 찾아 답변하는 방식으로 진행됩니다. 낱말로 얻은 정보를 서로 연결하고 이해하는 능력을 길러주어 문장을 정확하게 읽도록 도우며, 정독과 속독의 효과를 동시에 거둘 수 있게 합니다.',
+  focus: '설정한 속도에 맞춰 한 편의 긴 글을 읽고 기억하는 종합적인 훈련 과정입니다. 내용을 반복해서 학습할 수 있으며, 독서 후 제공되는 5가지 질문을 통해 스스로의 이해도를 측정합니다. 글의 흐름과 핵심 내용을 정확히 파악하게 함으로써 문장 추리력, 창의력, 그리고 전반적인 언어 능력을 향상시키는 데 매우 효과적입니다.'
+};
+
+let _popAudio = null;
+let _popAudioTm = null;
+let _popAudioTimer = null;
+
+/* 오디오 자동재생 설정 */
+function getAudioPref() {
+  return localStorage.getItem('audioAutoPlay') !== '0';
+}
+function saveAudioPref() {
+  const cb = document.getElementById('audioAutoPlay');
+  const on = cb ? cb.checked : true;
+  localStorage.setItem('audioAutoPlay', on ? '1' : '0');
+  updateAudioToggleUI();
+}
+function updateAudioToggleUI() {
+  const on = getAudioPref();
+  const cb = document.getElementById('audioAutoPlay');
+  const track = document.getElementById('audioTrack');
+  const knob = document.getElementById('audioKnob');
+  if(cb) cb.checked = on;
+  if(track) track.style.background = on ? '#2d8c4e' : '#ccc';
+  if(knob) knob.style.transform = on ? 'translateX(20px)' : 'translateX(0)';
+}
+
+/* 팝업 표시 */
+function showTmPop(tm) {
+  const bg = document.getElementById('tmPopBg');
+  if(!bg) return;
+  document.getElementById('tmPopIcon').textContent = POP_ICONS[tm] || '📖';
+  document.getElementById('tmPopTitle').textContent = POP_TAGS[tm] || tm;
+  document.getElementById('tmPopBody').innerHTML = POP_DESC[tm] || '';
+  bg.style.display = 'flex';
+  _popAudioTm = tm;
+  stopPopAudio();
+  if(getAudioPref()) setTimeout(() => playPopAudio(tm), 300);
+  else resetAudioUI();
+}
+
+/* 팝업 닫기 */
+function closeTmPop() {
+  stopPopAudio();
+  const bg = document.getElementById('tmPopBg');
+  if(bg) bg.style.display = 'none';
+}
+
+/* 오디오 재생 */
+function playPopAudio(tm) {
+  stopPopAudio();
+  const url = POP_AUDIO[tm];
+  if(!url) return;
+  _popAudio = new Audio(url);
+  _popAudio.onplay = () => {
+    const btn = document.getElementById('tmPopAudioBtn');
+    if(btn) btn.textContent = '⏸';
+    _popAudioTimer = setInterval(updateAudioUI, 400);
+  };
+  _popAudio.onpause = () => {
+    const btn = document.getElementById('tmPopAudioBtn');
+    if(btn) btn.textContent = '▶';
+    clearInterval(_popAudioTimer);
+  };
+  _popAudio.onended = () => {
+    const btn = document.getElementById('tmPopAudioBtn');
+    if(btn) btn.textContent = '▶';
+    clearInterval(_popAudioTimer);
+    resetAudioUI();
+  };
+  _popAudio.play().catch(() => {});
+}
+
+function stopPopAudio() {
+  clearInterval(_popAudioTimer);
+  if(_popAudio) { _popAudio.pause(); _popAudio = null; }
+  const btn = document.getElementById('tmPopAudioBtn');
+  if(btn) btn.textContent = '▶';
+}
+
+function togglePopAudio() {
+  if(!_popAudio || _popAudio.ended || _popAudio.paused === undefined) {
+    playPopAudio(_popAudioTm); return;
+  }
+  if(_popAudio.paused) _popAudio.play().catch(()=>{});
+  else _popAudio.pause();
+}
+
+function seekPopAudio(e) {
+  if(!_popAudio || !_popAudio.duration) return;
+  const bar = document.getElementById('tmPopAudioBar');
+  if(!bar) return;
+  _popAudio.currentTime = (e.offsetX / bar.offsetWidth) * _popAudio.duration;
+}
+
+function updateAudioUI() {
+  if(!_popAudio) return;
+  const pct = _popAudio.duration ? (_popAudio.currentTime / _popAudio.duration * 100) : 0;
+  const prog = document.getElementById('tmPopAudioProg');
+  if(prog) prog.style.width = pct.toFixed(1) + '%';
+  const t = Math.floor(_popAudio.currentTime || 0);
+  const time = document.getElementById('tmPopAudioTime');
+  if(time) time.textContent = Math.floor(t/60) + ':' + (t%60<10?'0':'') + (t%60);
+}
+
+function resetAudioUI() {
+  const prog = document.getElementById('tmPopAudioProg');
+  if(prog) prog.style.width = '0%';
+  const time = document.getElementById('tmPopAudioTime');
+  if(time) time.textContent = '0:00';
+}
+
+/* 기존 TTS 호환 유지 */
+function startTTS(){}
+function stopTTS(){}
+function toggleTTS(){}
+
+/* 초기화 */
+document.addEventListener('DOMContentLoaded', function() {
+  updateAudioToggleUI();
+});
+
+/* ══════ 스케일링 (통합) ══════ */
+/* 스케일링 제거 - CSS 미디어쿼리 방식 사용 */
+
+/* ═══ 훈련 선택 드롭업 ════════════════════════════ */
+
+/* tmDropPanel: CSS :checked로 표시, JS는 닫기만 담당 */
+function doSwitchTM(nm) {
+  const cb = document.getElementById('tmDropToggle');
+  if(cb) cb.checked = false;
+  switchTM(nm);
+}
+
+function closeTmDrop() {
+  const cb = document.getElementById('tmDropToggle');
+  if(cb) cb.checked = false;
+}
+
+function toggleTmDrop() {}
+function positionTmPanel() {}
+
+/* 외부 클릭 시 드롭업 닫기 */
+document.addEventListener('click', function(e) {
+  closeNav();
+  const wrap = document.getElementById('tmDropWrap');
+  const cb   = document.getElementById('tmDropToggle');
+  if(cb && wrap && !wrap.contains(e.target)) {
+    cb.checked = false;
+  }
+});
+
+/* switchTM 완료 후 드롭업 라벨 업데이트 */
+function updateDropLabel(nm) {
+  const labels = {
+    vision:'👁 시력강화', concentration:'🎯 집중력',
+    memory:'🧠 기억력', sentence:'📝 문장기억', focus:'📖 독서능력'
+  };
+  const el = document.getElementById('tmDropLabel');
+  if(el) el.textContent = labels[nm] || nm;
+}
+
+/* ══════ 포커스훈련 래퍼 (통합) ══════ */
+/* startFocusTraining 래퍼: 원본 호출 후 nav 갱신 */
+function startFocusTraining() {
+  startFocusTraining_orig();
+  setTimeout(renderFmNav, 200);
+}
+
+/* 문장선택 드롭업 토글 */
+var _fmDropOpen = false;
+function toggleFmDrop(e) {
+  if(e) e.stopPropagation();
+  _fmDropOpen = !_fmDropOpen;
+  const menu  = document.getElementById('fmDropMenu');
+  const arrow = document.getElementById('fmDropArrow');
+  if(menu)  menu.style.display  = _fmDropOpen ? 'block' : 'none';
+  if(arrow) arrow.style.transform = _fmDropOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+}
+function closeFmDrop() {
+  _fmDropOpen = false;
+  const menu  = document.getElementById('fmDropMenu');
+  const arrow = document.getElementById('fmDropArrow');
+  if(menu)  menu.style.display  = 'none';
+  if(arrow) arrow.style.transform = 'rotate(0deg)';
+}
+
+/* 문장선택 목록 렌더링 */
+var _fmChIdx = 0;
+function renderFmNav() {
+  const items = document.getElementById('fmDropItems');
+  const lbl   = document.getElementById('fmDropLabel');
+  if(!items) return;
+  const chapters = getFmChapters();
+  if(!chapters || !chapters.length) {
+    items.innerHTML = '<div style="padding:10px 16px;font-size:12px;color:#999;">문장 데이터 없음</div>';
+    return;
+  }
+  items.innerHTML = '';
+  chapters.forEach(function(ch, i) {
+    const div = document.createElement('div');
+    div.className = 'fmDItem' + (i === _fmChIdx ? ' active' : '');
+    div.textContent = (i+1) + '. ' + (ch.title || ('문장 '+(i+1)));
+    div.onclick = function(e) {
+      e.stopPropagation();
+      _fmChIdx = i;
+      /* 제목 업데이트 */
+      if(lbl) lbl.textContent = '📖 ' + (ch.title || ('문장 '+(i+1)));
+      /* 활성 표시 */
+      items.querySelectorAll('.fmDItem').forEach(function(d,j){
+        d.className = 'fmDItem' + (j===i?' active':'');
+      });
+      closeFmDrop();
+      /* 진행 중이면 중단 */
+      stopAll();
+      tState = 'idle';
+      updPlayBtns('idle');
+      /* 선택한 챕터로 훈련 완전 재초기화 */
+      startFocusTraining_orig();
+      /* 렌더링 후 드롭업 목록 재갱신 */
+      setTimeout(renderFmNav, 150);
+    };
+    items.appendChild(div);
+  });
+  /* 첫 챕터 제목 표시 */
+  if(chapters[_fmChIdx] && lbl) {
+    lbl.textContent = '📖 ' + (chapters[_fmChIdx].title || ('문장 '+(_fmChIdx+1)));
+  }
+}
+
+/* 외부 클릭 시 fmDrop 닫기 */
+document.addEventListener('click', function(e) {
+  if(_fmDropOpen) {
+    const wrap = document.getElementById('fmDropWrap');
+    if(!wrap || !wrap.contains(e.target)) closeFmDrop();
+  }
+});
+
+/* ═══ 앱 시작: setTimeout(init,100) 으로 통합됨 */
+
+/* serviceWorker 등록 */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      reg.update(); /* 항상 최신 버전 확인 */
+    }).catch(()=>{});
   });
 }
 </script>
-</body>
-</html>
-
-<!-- Ad overlay is inside #TR above -->
 
 
-<button id="fsFab" onclick="toggleFS()">⛶ 전체화면</button>
 
 
 </body>
