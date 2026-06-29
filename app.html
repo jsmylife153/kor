@@ -2311,30 +2311,37 @@ document.addEventListener('keydown', e => {
 
 /* ═══ Init ════════════════════════════════════════ */
 function init() {
+  /* 즉시 배지에 표시 - init 실행 확인 */
+  const bcEl = document.getElementById('bc');
+  if (bcEl) { bcEl.style.background='#f00'; bcEl.textContent='INIT OK'; }
+
   setShape('circle'); setBC(1); setWL(2); setLV('하'); setSP(3);
   activeDS = 'default'; updDsBadge();
   switchTM('vision');
-  /* initDB 완료 후 마지막 팩 복원 */
   initRanking();
+
+  /* localStorage 즉시 읽기 */
+  const lsUser = localStorage.getItem('jstr_username');
+  const lsDs = localStorage.getItem('jstr_lastDS');
+  if (bcEl) bcEl.textContent = 'LS:u=' + (lsUser||'X') + ' ds=' + (lsDs||'X');
+
   initDB().then(() => {
+    const idbKeys = Object.keys(sheetsData);
+    if (bcEl) {
+      bcEl.style.background = '#ff0';
+      bcEl.textContent = 'IDB:' + (idbKeys[0]||'X') + ' ds=' + (lsDs||'X');
+      setTimeout(() => { bcEl.style.background=''; updDsBadge(); }, 10000);
+    }
     try {
-      const saved = localStorage.getItem('jstr_lastDS');
-      const uname = localStorage.getItem('jstr_username');
-      const idbKeys = Object.keys(sheetsData);
-      /* 상단 배지에 디버그 정보 표시 (8초) */
-      const bcEl = document.getElementById('bc');
-      if (bcEl) {
-        const orig = bcEl.textContent;
-        bcEl.style.background = '#ff0';
-        bcEl.textContent = 'u=' + (uname||'X') + ' ds=' + (saved||'X') + ' idb=' + (idbKeys[0]||'X');
-        setTimeout(() => { bcEl.textContent = orig; bcEl.style.background = ''; }, 8000);
-      }
+      const saved = lsDs;
       if (saved && (saved === 'default' || sheetsData[saved])) {
         activeDS = saved;
         updDsBadge();
         renderNavDS();
       }
     } catch(e) {}
+  }).catch(e => {
+    if (bcEl) { bcEl.style.background='#f00'; bcEl.textContent='IDB ERR:'+e.message; }
   });
 }
 window.addEventListener('resize', () => {
