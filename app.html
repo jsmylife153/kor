@@ -41,7 +41,10 @@ canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
 }
 #WE{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-family:'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif;font-weight:700;color:#111;letter-spacing:.04em;pointer-events:none;opacity:0;}
 #slots{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;display:none;}
-.badge{font-size:16px !important;background:rgba(255,255,255,.85);border:1.5px solid #4dc922;border-radius:8px;padding:0 12px;color:#1a1a1a;font-weight:900 !important;display:inline-flex;align-items:center;height:44px;letter-spacing:-.01em;}
+.badge{font-size:17px !important;background:rgba(255,255,255,.85);border:1.5px solid #4dc922;border-radius:8px;padding:0 12px;color:#1a1a1a;font-weight:900 !important;display:inline-flex;align-items:center;justify-content:center;height:44px;letter-spacing:-.01em;font-variant-numeric:tabular-nums;box-sizing:border-box;}
+#ba{min-width:128px;}
+#bb{min-width:104px;}
+#bc{min-width:82px;}
 #bc{font-weight:500;color:#111;min-width:58px;text-align:center;}
 /* Controls bar */
 /* ── 컨트롤바: 가로=1줄, 세로=2줄 ───────────── */
@@ -84,7 +87,7 @@ button.active{background:#cce0ff;color:#0047cc;border-color:#0047cc;font-weight:
 input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 /* Training overlay */
 #OV{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.87);z-index:30;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
-#ov-msg{display:flex;flex-direction:column;align-items:center;gap:10px;width:92%;max-width:560px;text-align:center;}
+#ov-msg{display:flex;flex-direction:column;align-items:center;gap:14px;width:96%;max-width:1040px;text-align:center;}
 #ov-ans{display:none;width:94%;max-height:82%;overflow-y:auto;}
 #ov-ans::-webkit-scrollbar{width:4px;}
 #ov-ans::-webkit-scrollbar-thumb{background:rgba(255,255,255,.3);border-radius:2px;}
@@ -104,25 +107,27 @@ input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 #fmContent{line-height:1.42;word-break:keep-all;white-space:pre-wrap;overflow:hidden;max-height:calc(100% - 8px);font-weight:600;letter-spacing:.01em;}
 .fm-w{color:#d5d5d5;transition:color .06s;font-weight:600;}
 .fm-w.on{color:#111 !important;}
-#fmCompleteOV,#fmQuizOV,#fmResultOV{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:36;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;box-sizing:border-box;}
+#fmCompleteOV,#fmQuizOV,#fmResultOV{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:36;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;box-sizing:border-box;overflow-y:auto;}
+#fmResultOV{justify-content:flex-start;padding-top:26px;padding-bottom:18px;}
+#fmResultList{flex:1;min-height:0;}
 .fmBtn{font-size:14px;padding:10px 26px;border-radius:8px;cursor:pointer;}
-.fmOptBtn{width:100%;text-align:left;font-size:15px;padding:10px 16px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;cursor:pointer;transition:background .15s;}
+.fmOptBtn{width:100%;text-align:left;font-size:32px;padding:16px 22px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;cursor:pointer;transition:background .15s;}
 .fmOptBtn:hover{background:rgba(255,255,255,.22);}
 /* Settings modal */
 #settBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;padding:4% 0;box-sizing:border-box;}
 #settBg.open{display:flex;}
-#settBox{background:#fff;border-radius:16px;width:94%;max-width:660px;max-height:88%;overflow:hidden;display:flex;flex-direction:column;}
+#settBox{background:#fff;border-radius:16px;width:96%;max-width:860px;max-height:88%;overflow:hidden;display:flex;flex-direction:column;}
 #settTabs{display:flex;border-bottom:.5px solid #eee;}
-.stab{flex:1;padding:11px 0;font-size:12px;font-weight:500;text-align:center;cursor:pointer;color:#888;border:none;border-radius:0;background:transparent;}
+.stab{flex:1;padding:14px 0;font-size:26px;font-weight:800;text-align:center;cursor:pointer;color:#888;border:none;border-radius:0;background:transparent;}
 .stab.on{color:#185fa5;border-bottom:2px solid #185fa5;}
-#settBody{padding:22px 26px;overflow-y:auto;flex:1;font-size:16px;line-height:1.9;color:#444;}
-#settBody h4{font-size:18px;font-weight:700;color:#111;margin:18px 0 8px;}
+#settBody{padding:22px 26px;overflow-y:auto;flex:1;font-size:26px;line-height:1.9;color:#444;}
+#settBody h4{font-size:29px;font-weight:800;color:#111;margin:18px 0 8px;}
 #settBody h4:first-child{margin-top:0;}
 #settBody ul{padding-left:16px;}
 #settBody .step{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
-#settBody .snum{min-width:30px;height:30px;border-radius:50%;background:#378ADD;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;}
+#settBody .snum{min-width:46px;height:46px;border-radius:50%;background:#378ADD;color:#fff;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:700;flex-shrink:0;}
 .settFoot{padding:12px 20px;border-top:.5px solid #eee;display:flex;gap:8px;}
-.settFoot button{flex:1;font-size:16px;padding:13px 0;border-radius:10px;}
+.settFoot button{flex:1;font-size:26px;font-weight:800;padding:16px 0;border-radius:10px;}
 /* Data modal */
 #dataBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;padding:4% 0;box-sizing:border-box;}
 #dataBg.open{display:flex;}
@@ -186,48 +191,48 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
 /* 훈련 팝업 */
 /* ── 훈련 안내 팝업 ── */
 #tmPopBg{position:absolute;inset:0;background:transparent;z-index:300;display:flex;align-items:center;justify-content:center;pointer-events:none;padding:4% 0;box-sizing:border-box;}
-#tmPopBox{background:#fff;border-radius:22px;max-width:660px;width:94%;max-height:88%;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative;cursor:default;pointer-events:auto;display:flex;flex-direction:column;}
+#tmPopBox{background:#fff;border-radius:22px;max-width:860px;width:96%;max-height:88%;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative;cursor:default;pointer-events:auto;display:flex;flex-direction:column;}
 /* 헤더 */
 #tmPopHead{background:linear-gradient(135deg,#1a5e33,#2d8c4e 60%,#4aab6d);padding:26px 28px 20px;display:flex;align-items:center;gap:16px;}
-#tmPopIcon{font-size:52px;line-height:1;flex-shrink:0;}
-#tmPopTitle{font-size:28px;font-weight:900;color:#fff;margin:0;letter-spacing:-.01em;}
-#tmPopTag{font-size:10px;background:rgba(255,255,255,.2);color:#fff;padding:2px 8px;border-radius:8px;display:inline-block;margin-top:3px;}
+#tmPopIcon{font-size:68px;line-height:1;flex-shrink:0;}
+#tmPopTitle{font-size:36px;font-weight:900;color:#fff;margin:0;letter-spacing:-.01em;}
+#tmPopTag{font-size:13px;background:rgba(255,255,255,.2);color:#fff;padding:2px 8px;border-radius:8px;display:inline-block;margin-top:3px;}
 /* tmPopClose 제거됨 */
 /* 오디오 바 */
 #tmPopAudioWrap{display:flex;align-items:center;gap:10px;padding:14px 24px;background:#f5faf6;border-bottom:1px solid #e5ede7;}
-#tmPopAudioBtn{width:46px;height:46px;border-radius:50%;background:#2d8c4e;color:#fff;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#tmPopAudioBtn{width:46px;height:46px;border-radius:50%;background:#2d8c4e;color:#fff;border:none;cursor:pointer;font-size:23px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 #tmPopAudioBtn:hover{background:#1a5e33;}
 #tmPopAudioBar{flex:1;height:4px;background:#cde8d3;border-radius:4px;overflow:hidden;cursor:pointer;}
 #tmPopAudioProg{height:100%;background:#2d8c4e;width:0%;transition:width .3s linear;}
-#tmPopAudioTime{font-size:15px;color:#888;min-width:44px;text-align:right;}
+#tmPopAudioTime{font-size:20px;color:#888;min-width:44px;text-align:right;}
 /* 본문 */
-#tmPopBody{padding:20px 28px 14px;font-size:18px;line-height:1.9;color:#333;flex:0 0 auto;}
+#tmPopBody{padding:20px 28px 14px;font-size:26px;line-height:1.9;color:#333;flex:0 0 auto;}
 #tmPopBody b{color:#1a5e33;font-weight:700;}
 /* 하단 */
 #tmPopFoot{padding:14px 28px 22px;text-align:center;}
-#tmPopHint{font-size:16px;color:#888;display:flex;align-items:center;justify-content:center;gap:8px;}
-#tmPopHintBtn{background:#e8f5ec;color:#1a5e33;border-radius:8px;padding:5px 14px;font-size:16px;font-weight:700;}
+#tmPopHint{font-size:26px;color:#888;display:flex;align-items:center;justify-content:center;gap:8px;}
+#tmPopHintBtn{background:#e8f5ec;color:#1a5e33;border-radius:8px;padding:5px 14px;font-size:26px;font-weight:800;}
 /* 오디오설정 숨김 */
-#tmPopMuteNote{font-size:10px;color:#aaa;margin-left:2px;}
+#tmPopMuteNote{font-size:13px;color:#aaa;margin-left:2px;}
 
 #fsFab{display:none;}
 /* 사용자 등록 모달 */
 #nameBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;padding:4% 0;box-sizing:border-box;}
 #nameBg.open{display:flex;}
-#nameBox{background:#fff;border-radius:14px;padding:26px 28px;width:min(88vw,380px);max-height:85%;overflow-y:auto;text-align:center;box-sizing:border-box;}
-#nameBox h3{font-size:16px;font-weight:500;color:#111;margin-bottom:8px;}
-#nameBox p{font-size:12px;color:#888;margin-bottom:16px;line-height:1.6;}
-#nameInput{width:100%;font-size:14px;padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;outline:none;text-align:center;margin-bottom:12px;box-sizing:border-box;}
+#nameBox{background:#fff;border-radius:14px;padding:26px 28px;width:min(92vw,500px);max-height:85%;overflow-y:auto;text-align:center;box-sizing:border-box;}
+#nameBox h3{font-size:21px;font-weight:500;color:#111;margin-bottom:8px;}
+#nameBox p{font-size:16px;color:#888;margin-bottom:16px;line-height:1.6;}
+#nameInput{width:100%;font-size:18px;padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;outline:none;text-align:center;margin-bottom:12px;box-sizing:border-box;}
 #nameInput:focus{border-color:#378ADD;}
-#nameConfirm{width:100%;font-size:13px;padding:10px;background:#378ADD;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+#nameConfirm{width:100%;font-size:17px;padding:10px;background:#378ADD;color:#fff;border:none;border-radius:8px;cursor:pointer;}
 /* 랭킹 리스트 */
 .rank-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:6px;background:#f8f8f8;}
 .rank-row.me{background:#e6f1fb;border:.5px solid #378ADD;}
-.rank-num{font-size:13px;font-weight:500;color:#888;min-width:24px;text-align:center;}
+.rank-num{font-size:26px;font-weight:500;color:#888;min-width:40px;text-align:center;}
 .rank-num.top{color:#FF8C00;font-weight:700;}
-.rank-name{flex:1;font-size:13px;color:#111;}
-.rank-score{font-size:13px;font-weight:500;color:#185fa5;}
-.rank-badge{font-size:10px;background:#FFE082;color:#7B5800;padding:1px 6px;border-radius:4px;margin-left:4px;}
+.rank-name{flex:1;font-size:26px;color:#111;}
+.rank-score{font-size:26px;font-weight:500;color:#185fa5;}
+.rank-badge{font-size:26px;background:#FFE082;color:#7B5800;padding:1px 6px;border-radius:4px;margin-left:4px;}
 #rankStatus{font-size:11px;color:#888;text-align:center;padding:8px;min-height:20px;}
 /* iOS 전체화면 — position:fixed로 뷰포트 전체 덮기 */
 #app.ios-fs{
@@ -288,7 +293,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
       </div>
       <div style="display:flex;align-items:center;gap:7px;">
         <div id="dotArea" style="display:flex;gap:3px;align-items:center;"></div>
-        <span id="tlabel" style="font-size:24px;font-weight:900;color:#1a1a1a;">시력강화 훈련 · 1단계 가로</span>
+        <span id="tlabel" style="font-size:41px;font-weight:900;color:#1a1a1a;">시력강화 훈련 · 1단계 가로</span>
       </div>
     </div>
 
@@ -318,25 +323,25 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
     </div>
     <!-- FM 완독 오버레이 -->
     <div id="fmCompleteOV">
-      <p style="color:#fff;font-size:26px;font-weight:600;">모든 페이지를 읽었습니다! 📖</p>
-      <p id="fmCompInfo" style="color:rgba(255,255,255,.55);font-size:13px;"></p>
+      <p style="color:#fff;font-size:38px;font-weight:600;">모든 페이지를 읽었습니다! 📖</p>
+      <p id="fmCompInfo" style="color:rgba(255,255,255,.55);font-size:26px;"></p>
       <div style="display:flex;gap:14px;margin-top:6px;">
-        <button class="fmBtn" onclick="fmReplay()" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.4);">↺ 다시보기</button>
-        <button class="fmBtn" onclick="fmStartQuiz()" style="background:#378ADD;color:#fff;border:1px solid #378ADD;">문제풀기 →</button>
+        <button class="fmBtn" onclick="fmReplay()" style="font-size:26px;font-weight:700;padding:14px 30px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.4);">↺ 다시보기</button>
+        <button class="fmBtn" onclick="fmStartQuiz()" style="font-size:26px;font-weight:700;padding:14px 30px;background:#378ADD;color:#fff;border:1px solid #378ADD;">문제풀기 →</button>
       </div>
     </div>
     <!-- FM 퀴즈 오버레이 -->
     <div id="fmQuizOV">
-      <p id="fmQNum" style="color:rgba(255,255,255,.45);font-size:11px;"></p>
-      <p id="fmQText" style="color:#fff;font-size:20px;font-weight:500;text-align:center;line-height:1.65;max-width:600px;"></p>
-      <div id="fmQOpts" style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:520px;"></div>
+      <p id="fmQNum" style="color:rgba(255,255,255,.45);font-size:28px;"></p>
+      <p id="fmQText" style="color:#fff;font-size:40px;font-weight:500;text-align:center;line-height:1.65;max-width:1000px;"></p>
+      <div id="fmQOpts" style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:860px;"></div>
     </div>
     <!-- FM 결과 오버레이 -->
     <div id="fmResultOV">
-      <p style="color:#FFE082;font-size:26px;font-weight:700;">퀴즈 결과</p>
-      <p id="fmResultScore" style="color:#fff;font-size:52px;font-weight:700;"></p>
-      <div id="fmResultList" style="width:100%;max-width:540px;max-height:46vh;overflow-y:auto;"></div>
-      <button class="fmBtn" onclick="fullReset()" style="margin-top:6px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.4);">훈련 종료</button>
+      <p style="color:#FFE082;font-size:49px;font-weight:700;">퀴즈 결과</p>
+      <p id="fmResultScore" style="color:#fff;font-size:48px;font-weight:700;"></p>
+      <div id="fmResultList" style="width:100%;max-width:900px;overflow-y:auto;"></div>
+      <button class="fmBtn" onclick="fullReset()" style="margin-top:6px;font-size:36px;font-weight:700;padding:16px 44px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.4);">훈련 종료</button>
     </div>
     <!-- 언어팩·점수 뱃지 -->
     
@@ -347,19 +352,19 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
     <!-- Training overlay -->
     <div id="OV">
       <div id="ov-msg">
-        <p id="ovT" style="font-size:21px;font-weight:500;color:#fff;letter-spacing:.05em;"></p>
-        <p id="ovN" style="font-size:48px;font-weight:500;color:#fff;line-height:1;min-height:1.1em;"></p>
-        <p id="ovW" style="display:none;font-size:36px;font-weight:700;color:#FFE082;font-family:'Malgun Gothic',sans-serif;letter-spacing:.06em;"></p>
-        <p id="ovS" style="font-size:13px;color:rgba(255,255,255,.5);"></p>
-        <button id="ovB" onclick="handleOvBtn()" style="display:none;margin-top:8px;font-size:13px;padding:8px 26px;background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.4);border-radius:8px;"></button>
+        <p id="ovT" style="font-size:48px;font-weight:500;color:#fff;letter-spacing:.05em;line-height:1.4;white-space:nowrap;"></p>
+        <p id="ovN" style="font-size:108px;font-weight:500;color:#fff;line-height:1;min-height:1.1em;"></p>
+        <p id="ovW" style="display:none;font-size:81px;font-weight:700;color:#FFE082;font-family:'Malgun Gothic',sans-serif;letter-spacing:.06em;"></p>
+        <p id="ovS" style="font-size:30px;color:rgba(255,255,255,.5);"></p>
+        <button id="ovB" onclick="handleOvBtn()" style="display:none;margin-top:8px;font-size:30px;font-weight:700;padding:16px 48px;background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.4);border-radius:8px;"></button>
       </div>
       <div id="ov-ans">
-        <p style="font-size:18px;font-weight:500;color:#fff;text-align:center;margin-bottom:12px;">정답 확인</p>
+        <p style="font-size:49px;font-weight:500;color:#fff;text-align:center;margin-bottom:12px;">정답 확인</p>
         <div id="ovRows" style="text-align:left;"></div>
-        <div id="ovQlTitle" style="display:none;font-size:13px;color:rgba(255,200,0,.85);font-weight:500;border-top:.5px solid rgba(255,255,255,.2);padding-top:10px;margin:8px 0;"></div>
+        <div id="ovQlTitle" style="display:none;font-size:36px;color:rgba(255,200,0,.85);font-weight:500;border-top:.5px solid rgba(255,255,255,.2);padding-top:10px;margin:8px 0;"></div>
         <div id="ovQl" style="margin-bottom:10px;"></div>
         <div style="text-align:center;margin-top:12px;">
-          <button onclick="fullReset()" style="font-size:13px;padding:8px 24px;background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.4);border-radius:8px;">훈련 종료</button>
+          <button onclick="fullReset()" style="font-size:36px;font-weight:700;padding:20px 54px;background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.4);border-radius:8px;">훈련 종료</button>
         </div>
       </div>
     </div>
@@ -564,77 +569,77 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
 
         <!-- 사용 방법 안내 -->
         <div style="background:#f0f9f3;border-radius:10px;padding:14px 16px;margin-bottom:16px;border-left:4px solid #2d8c4e;">
-          <div style="font-size:13px;font-weight:700;color:#1a5e33;margin-bottom:10px;">📖 데이터 팩 사용 방법</div>
+          <div style="font-size:26px;font-weight:700;color:#1a5e33;margin-bottom:10px;">📖 데이터 팩 사용 방법</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             <div style="display:flex;align-items:flex-start;gap:10px;">
-              <span style="min-width:24px;height:24px;background:#2d8c4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</span>
-              <div style="font-size:12px;color:#333;line-height:1.6;">원하는 데이터 팩의 <b>▼ 다운로드</b> 버튼을 누르세요.<br><span style="color:#888;font-size:11px;">인터넷 연결이 필요하며, 최초 1회만 받으면 됩니다.</span></div>
+              <span style="min-width:36px;height:36px;background:#2d8c4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;flex-shrink:0;">1</span>
+              <div style="font-size:26px;color:#333;line-height:1.6;">원하는 데이터 팩의 <b>▼ 다운로드</b> 버튼을 누르세요.<br><span style="color:#888;font-size:26px;">인터넷 연결이 필요하며, 최초 1회만 받으면 됩니다.</span></div>
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;">
-              <span style="min-width:24px;height:24px;background:#2d8c4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">2</span>
-              <div style="font-size:12px;color:#333;line-height:1.6;">다운로드가 끝나면 버튼이 <b>▶ 훈련 적용</b>으로 바뀝니다. 그 버튼을 누르세요.</div>
+              <span style="min-width:36px;height:36px;background:#2d8c4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;flex-shrink:0;">2</span>
+              <div style="font-size:26px;color:#333;line-height:1.6;">다운로드가 끝나면 <b>▶ 훈련 적용</b>으로 바뀝니다. 그 버튼을 누르세요.</div>
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;">
-              <span style="min-width:24px;height:24px;background:#2d8c4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">3</span>
-              <div style="font-size:12px;color:#333;line-height:1.6;">설정창이 닫히고 선택한 데이터 팩으로 훈련이 바로 시작됩니다.</div>
+              <span style="min-width:36px;height:36px;background:#2d8c4e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;flex-shrink:0;">3</span>
+              <div style="font-size:26px;color:#333;line-height:1.6;">설정창이 닫히고 선택한 데이터 팩으로 훈련이 바로 시작됩니다.</div>
             </div>
           </div>
         </div>
 
         <!-- 데이터 팩 목록 -->
-        <div style="font-size:12px;font-weight:700;color:#444;margin-bottom:8px;">📦 데이터 팩 선택</div>
+        <div style="font-size:26px;font-weight:700;color:#444;margin-bottom:8px;">📦 데이터 팩 선택</div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
 
           <div style="border:1px solid #c8e6c9;border-radius:10px;padding:12px;background:#fafffe;">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
               <div>
-                <div style="font-weight:700;font-size:13px;color:#1a5e33;">🇰🇷 한글 일반팩</div>
-                <div style="font-size:11px;color:#777;margin-top:2px;">낱말 5만 개 · 문장 3만 개 · 독서자료(퀴즈 포함)</div>
+                <div style="font-weight:700;font-size:26px;color:#1a5e33;">🇰🇷 한글 일반팩</div>
+                <div style="font-size:26px;color:#777;margin-top:2px;">낱말 5만 개 · 문장 3만 개 · 독서자료(퀴즈 포함)</div>
               </div>
-              <button onclick="quickLoadPack('한글_일반.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#2d8c4e;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+              <button onclick="quickLoadPack('한글_일반.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#2d8c4e;color:#fff;border:none;border-radius:8px;font-size:26px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
             </div>
           </div>
 
           <div style="border:1px solid #d8c8f0;border-radius:10px;padding:12px;background:#fdfaff;">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
               <div>
-                <div style="font-weight:700;font-size:13px;color:#4a2080;">✝️ 성경 모세5경팩</div>
-                <div style="font-size:11px;color:#777;margin-top:2px;">창세기·출애굽기·레위기·민수기·신명기</div>
+                <div style="font-weight:700;font-size:26px;color:#4a2080;">✝️ 성경 모세5경팩</div>
+                <div style="font-size:26px;color:#777;margin-top:2px;">창세기·출애굽기·레위기·민수기·신명기</div>
               </div>
-              <button onclick="quickLoadPack('성경_모세5경.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#5c35a0;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+              <button onclick="quickLoadPack('성경_모세5경.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#5c35a0;color:#fff;border:none;border-radius:8px;font-size:26px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
             </div>
           </div>
 
           <div style="border:1px solid #d8c8f0;border-radius:10px;padding:12px;background:#fdfaff;">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
               <div>
-                <div style="font-weight:700;font-size:13px;color:#4a2080;">✝️ 성경 4복음서팩</div>
-                <div style="font-size:11px;color:#777;margin-top:2px;">마태·마가·누가·요한복음</div>
+                <div style="font-weight:700;font-size:26px;color:#4a2080;">✝️ 성경 4복음서팩</div>
+                <div style="font-size:26px;color:#777;margin-top:2px;">마태·마가·누가·요한복음</div>
               </div>
-              <button onclick="quickLoadPack('성경_4복음서.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#5c35a0;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+              <button onclick="quickLoadPack('성경_4복음서.csv',this)" style="flex-shrink:0;padding:7px 14px;background:#5c35a0;color:#fff;border:none;border-radius:8px;font-size:26px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
             </div>
           </div>
 
           <!-- 개별 데이터팩 -->
           <div id="defaultCustomSlot" style="position:relative;border:1.5px dashed #2d8c4e;border-radius:10px;padding:12px;background:#f5fdf7;">
-            <button onclick="removeCustomSlot('defaultCustomSlot')" style="position:absolute;top:6px;right:8px;background:none;border:none;color:#aaa;font-size:16px;cursor:pointer;line-height:1;">✕</button>
-            <div style="font-weight:700;font-size:13px;color:#1a5e33;margin-bottom:6px;">🔑 개별 데이터팩</div>
-            <div style="font-size:11px;color:#777;margin-bottom:10px;">담당자에게 받은 팩 이름을 입력하고 다운로드하세요.</div>
+            <button onclick="removeCustomSlot('defaultCustomSlot')" style="position:absolute;top:6px;right:8px;background:none;border:none;color:#aaa;font-size:26px;cursor:pointer;line-height:1;">✕</button>
+            <div style="font-weight:700;font-size:26px;color:#1a5e33;margin-bottom:6px;">🔑 개별 데이터팩</div>
+            <div style="font-size:26px;color:#777;margin-bottom:10px;">담당자에게 받은 팩 이름을 입력하고 다운로드하세요.</div>
             <div style="display:flex;gap:6px;align-items:center;">
               <input id="customPackName" type="text" placeholder="예: 개별" maxlength="40"
-                style="flex:1;height:34px;border:1.5px solid #c8e6c9;border-radius:8px;padding:0 10px;font-size:13px;color:#1a1a1a;outline:none;">
-              <button id="customPackBtn" onclick="loadCustomPack(this)" style="flex-shrink:0;height:34px;padding:0 14px;background:#2d8c4e;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+                style="flex:1;height:50px;border:1.5px solid #c8e6c9;border-radius:8px;padding:0 10px;font-size:26px;color:#1a1a1a;outline:none;">
+              <button id="customPackBtn" onclick="loadCustomPack(this)" style="flex-shrink:0;height:50px;padding:0 14px;background:#2d8c4e;color:#fff;border:none;border-radius:8px;font-size:26px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
             </div>
           </div>
 
         </div>
 
         <!-- 상태 메시지 -->
-        <div id="quickPackSt" style="font-size:12px;min-height:18px;color:#2d8c4e;font-weight:600;margin-bottom:12px;text-align:center;"></div>
+        <div id="quickPackSt" style="font-size:26px;min-height:18px;color:#2d8c4e;font-weight:600;margin-bottom:12px;text-align:center;"></div>
 
         <!-- 개별팩 추가 버튼 -->
         <div style="text-align:center;margin-bottom:12px;">
-          <button onclick="addCustomPackSlot()" style="padding:7px 18px;background:#fff;border:1.5px dashed #2d8c4e;border-radius:8px;color:#2d8c4e;font-size:12px;font-weight:700;cursor:pointer;">＋ 개별 데이터팩 추가</button>
+          <button onclick="addCustomPackSlot()" style="padding:7px 18px;background:#fff;border:1.5px dashed #2d8c4e;border-radius:8px;color:#2d8c4e;font-size:26px;font-weight:700;cursor:pointer;">＋ 개별 데이터팩 추가</button>
         </div>
 
         <!-- 추가된 개별팩 슬롯 컨테이너 -->
@@ -642,10 +647,10 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
 
         <!-- WORKSHEET -->
         <div style="border-top:.5px solid #eee;padding-top:12px;margin-top:4px;">
-          <div style="font-size:11px;font-weight:600;color:#888;margin-bottom:6px;">📋 훈련용 워크시트</div>
-          <div style="font-size:11px;color:#666;margin-bottom:8px;">정답을 적는 종이입니다. 출력하여 훈련 중 사용하세요.</div>
+          <div style="font-size:26px;font-weight:600;color:#888;margin-bottom:6px;">📋 훈련용 워크시트</div>
+          <div style="font-size:26px;color:#666;margin-bottom:8px;">정답을 적는 종이입니다. 출력하여 훈련 중 사용하세요.</div>
           <a href="https://jsmylife153.github.io/kor/csv/WORKSHEET.jpg" download target="_blank"
-             style="display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;background:#f0a500;color:#fff;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;">
+             style="display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;background:#f0a500;color:#fff;border-radius:8px;font-size:26px;font-weight:700;text-decoration:none;">
             🖨 워크시트 다운로드
           </a>
         </div>
@@ -655,16 +660,40 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
       <!-- 앱 정보 탭 -->
       <!-- 오디오 설정 탭 -->
       <div id="sc4" style="display:none;">
-        <h4 style="margin-bottom:14px;font-size:13px;color:#111;">⚙ 환경설정</h4>
+        <h4 style="margin-bottom:14px;font-size:26px;color:#111;">⚙ 환경설정</h4>
         <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;">
           <div>
-            <div style="font-size:13px;font-weight:600;">훈련 시작 시 자동 재생</div>
-            <div style="font-size:11px;color:#888;margin-top:2px;">훈련 선택 시 안내 음성 자동 재생</div>
+            <div style="font-size:26px;font-weight:600;">훈련 시작 시 자동 재생</div>
+            <div style="font-size:26px;color:#888;margin-top:2px;">훈련 선택 시 안내 음성 자동 재생</div>
           </div>
           <label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer;">
             <input type="checkbox" id="audioAutoPlay" onchange="saveAudioPref()" style="opacity:0;width:0;height:0;">
             <span id="audioTrack" style="position:absolute;inset:0;background:#ccc;border-radius:24px;transition:.3s;">
               <span id="audioKnob" style="position:absolute;left:2px;top:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.3s;"></span>
+            </span>
+          </label>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;">
+          <div>
+            <div style="font-size:26px;font-weight:600;">시력강화 훈련시 알파음 재생</div>
+            <div style="font-size:26px;color:#888;margin-top:2px;">시력강화 훈련 진행 중 배경 알파파 음원 재생</div>
+          </div>
+          <label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer;">
+            <input type="checkbox" id="alphaSoundPref" onchange="saveAlphaPref()" style="opacity:0;width:0;height:0;">
+            <span id="alphaTrack" style="position:absolute;inset:0;background:#ccc;border-radius:24px;transition:.3s;">
+              <span id="alphaKnob" style="position:absolute;left:2px;top:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.3s;"></span>
+            </span>
+          </label>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;">
+          <div>
+            <div style="font-size:26px;font-weight:600;">낱말/문장 훈련시 알파음 재생</div>
+            <div style="font-size:26px;color:#888;margin-top:2px;">집중력·기억력·문장기억·독서 훈련 진행 중 배경 알파파 음원 재생</div>
+          </div>
+          <label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer;">
+            <input type="checkbox" id="alphaSoundPref2" onchange="saveAlphaPref2()" style="opacity:0;width:0;height:0;">
+            <span id="alphaTrack2" style="position:absolute;inset:0;background:#ccc;border-radius:24px;transition:.3s;">
+              <span id="alphaKnob2" style="position:absolute;left:2px;top:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.3s;"></span>
             </span>
           </label>
         </div>
@@ -697,19 +726,19 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
       <div id="sc0">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
           <div>
-            <p style="font-size:12px;color:#555;">내 이름: <b id="myNameDisplay" style="color:#185fa5;">-</b></p>
-            <p style="font-size:12px;color:#555;">누적 점수: <b id="myScoreDisplay" style="color:#185fa5;">0점</b></p>
+            <p style="font-size:26px;color:#555;">내 이름: <b id="myNameDisplay" style="color:#185fa5;">-</b></p>
+            <p style="font-size:26px;color:#555;">누적 점수: <b id="myScoreDisplay" style="color:#185fa5;">0점</b></p>
           </div>
-          <button onclick="openNameModal()" style="font-size:11px;padding:4px 10px;">이름 변경</button>
+          <button onclick="openNameModal()" style="font-size:26px;padding:4px 10px;">이름 변경</button>
         </div>
         <div style="display:flex;gap:6px;margin-bottom:10px;">
-          <button onclick="loadRanking('all')" id="rbtn-all" class="active" style="flex:1;font-size:11px;padding:5px 0;">전체 랭킹</button>
-          <button onclick="loadRanking('week')" id="rbtn-week" style="flex:1;font-size:11px;padding:5px 0;">이번 주</button>
-          <button onclick="loadRanking('today')" id="rbtn-today" style="flex:1;font-size:11px;padding:5px 0;">오늘</button>
+          <button onclick="loadRanking('all')" id="rbtn-all" class="active" style="flex:1;font-size:26px;padding:5px 0;">전체 랭킹</button>
+          <button onclick="loadRanking('week')" id="rbtn-week" style="flex:1;font-size:26px;padding:5px 0;">이번 주</button>
+          <button onclick="loadRanking('today')" id="rbtn-today" style="flex:1;font-size:26px;padding:5px 0;">오늘</button>
         </div>
         <div id="rankStatus">랭킹을 불러오는 중...</div>
         <div id="rankList"></div>
-        <p style="font-size:10px;color:#aaa;text-align:center;margin-top:10px;">훈련 완료 시 자동으로 점수가 등록됩니다</p>
+        <p style="font-size:26px;color:#aaa;text-align:center;margin-top:10px;">훈련 완료 시 자동으로 점수가 등록됩니다</p>
       </div>
 
     </div>
@@ -1184,15 +1213,15 @@ function addCustomPackSlot() {
   div.style.cssText = 'border:1.5px dashed #2d8c4e;border-radius:10px;padding:12px;background:#f5fdf7;margin-bottom:8px;';
   div.innerHTML = `
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-      <div style="font-weight:700;font-size:13px;color:#1a5e33;">🔑 개별 데이터팩 ${idx}</div>
-      <button onclick="removeCustomSlot('customSlot${idx}')" style="background:none;border:none;color:#aaa;font-size:16px;cursor:pointer;line-height:1;">✕</button>
+      <div style="font-weight:700;font-size:26px;color:#1a5e33;">🔑 개별 데이터팩 ${idx}</div>
+      <button onclick="removeCustomSlot('customSlot${idx}')" style="background:none;border:none;color:#aaa;font-size:26px;cursor:pointer;line-height:1;">✕</button>
     </div>
-    <div style="font-size:11px;color:#777;margin-bottom:8px;">팩 이름을 입력하고 다운로드하세요.</div>
+    <div style="font-size:26px;color:#777;margin-bottom:8px;">팩 이름을 입력하고 다운로드하세요.</div>
     <div style="display:flex;gap:6px;align-items:center;">
       <input id="customPackName${idx}" type="text" placeholder="예: 개별" maxlength="40"
-        style="flex:1;height:34px;border:1.5px solid #c8e6c9;border-radius:8px;padding:0 10px;font-size:13px;color:#1a1a1a;outline:none;">
+        style="flex:1;height:50px;border:1.5px solid #c8e6c9;border-radius:8px;padding:0 10px;font-size:26px;color:#1a1a1a;outline:none;">
       <button id="customPackBtn${idx}" onclick="loadCustomPackById(${idx},this)"
-        style="flex-shrink:0;height:34px;padding:0 14px;background:#2d8c4e;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
+        style="flex-shrink:0;height:50px;padding:0 14px;background:#2d8c4e;color:#fff;border:none;border-radius:8px;font-size:26px;font-weight:700;cursor:pointer;white-space:nowrap;">▼ 다운로드</button>
     </div>`;
   container.appendChild(div);
 }
@@ -1311,6 +1340,7 @@ function renderNavDS() {
 let _adCb = null;
 function showAd(cb) {
   _adCb = cb || null;
+  stopAlpha(); stopAlpha2();
   document.getElementById('adOV').style.display = 'flex';
 }
 function closeAd() {
@@ -1418,7 +1448,7 @@ const COLORS=[
 ];
 const SPD={1:{ms:950,l:'매우 느림'},2:{ms:700,l:'느림'},3:{ms:450,l:'보통'},4:{ms:250,l:'빠름'},5:{ms:100,l:'매우 빠름'}};
 const PH=[{label:'1단계 가로',mode:'h'},{label:'2단계 세로',mode:'v'},{label:'3단계 랜덤',mode:'r'}];
-const V_DUR=[60,60,90], C_DUR=[60,60,60];
+const V_DUR=[60,60,60], C_DUR=[60,60,60];
 const LV_CONC={하:[1,2],중:[2,3],상:[3,4]};
 const LV_MEM={하:[1,2],중:[2,3],상:[3,4]};
 const LV_WG={하:1,중:2,상:3};
@@ -1464,16 +1494,41 @@ function ding() {
 }
 
 /* ═══ Grid layout ═════════════════════════════════ */
+let _mwCanvas = null;
+function measureWordHalfWidth(len, fs) {
+  /* 실제 폰트/굵기/자간을 반영해 단어 폭을 정확히 측정 (가장 넓은 한글 음절 기준) */
+  if (!_mwCanvas) _mwCanvas = document.createElement('canvas');
+  const ctx = _mwCanvas.getContext('2d');
+  ctx.font = "700 " + fs + "px 'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif";
+  const sample = '뽦'.repeat(len); /* 폭이 넓은 음절로 측정해 여유있게 계산 */
+  const textW = ctx.measureText(sample).width;
+  const letterSpacing = fs * 0.04 * Math.max(0, len - 1); /* CSS letter-spacing:.04em 반영 */
+  return (textW + letterSpacing) / 2;
+}
 function upLay() {
   const W=TR.offsetWidth, H=TR.offsetHeight||300;
   if (!W) return;
   /* 글자 수별 CF: 적은 글자일수록 CF 작게 → 글자 더 크게 출력 */
   const cfMap = {2:0.63, 3:0.63, 4:0.63, 5:0.71, 6:0.68};
-  const cf = cfMap[wl] || CF;
-  const fsByW = (W*0.96-4) / (wl * cf * (COLS - 0.14));
   const fsByH = H * 0.22;
-  const fs = Math.max(22, Math.floor(Math.min(fsByW, fsByH)));
-  lay = {mx: Math.ceil(wl*cf*fs/2)+6, fs};
+
+  /* 2글자 기준 사이즈는 기존 계산 방식 그대로 유지 */
+  const fsByW2 = (W*0.96-4) / (2 * cfMap[2] * (COLS - 0.14));
+  const fsBase = Math.max(22, Math.floor(Math.min(fsByW2, fsByH)));
+
+  /* 6글자 기준 사이즈 = 독서능력 향상(focus) 훈련과 동일한 글자 크기 */
+  const fsTarget = calcFmFontSize();
+
+  /* 3~5글자는 2글자→6글자 사이를 4단계로 선형 보간 */
+  let fs;
+  if (wl<=2) fs = fsBase;
+  else if (wl>=6) fs = fsTarget;
+  else fs = Math.round(fsBase + (fsTarget - fsBase) * (wl-2) / 4);
+
+  /* 좌우 여백: 실제 렌더링 폭(절반) + 최소 여유(8px). 글자수가 많아져도 화면 밖으로 벗어나지 않도록 함 */
+  const mx = Math.ceil(measureWordHalfWidth(wl, fs)) + 8;
+
+  lay = {mx, fs};
 }
 function upDims() {
   if (TM==='vision') COLS=10;
@@ -1482,7 +1537,12 @@ function upDims() {
   TOTAL = ROWS*COLS;
   if (TM!=='vision') upLay();
 }
-function getMX() { return TR.offsetWidth*0.08; }  /* 모든 훈련 동일 마진 */
+function getMX() {
+  const base = TR.offsetWidth*0.08;  /* 기본 마진 */
+  /* 집중력/기억력 훈련: 글자수에 따라 늘어난 단어 폭만큼 좌우 마진을 넓혀 화면 밖으로 벗어나지 않게 함 (기본값보다 좁아지지는 않음) */
+  if ((TM==='concentration'||TM==='memory') && lay && lay.mx) return Math.max(base, lay.mx);
+  return base;
+}
 function rcOf(pi) {
   const m = TM==='memory' ? 'r' : PH[phase].mode;
   if (m==='h') { const r=Math.floor(pi/COLS), c=pi%COLS; return {row:r,col:(r%2===0)?c:(COLS-1-c)}; }
@@ -1553,20 +1613,45 @@ function setVLv(n) {
 }
 
 
-/* ═══ 알파파 배경음 (시력강화 전용) ══════════════════ */
+/* ═══ 배경 알파파음 (5개 훈련 공용) ══════════════════ */
+/* alpha.mp3: 시력강화 전용 / alpha-1.mp3: 나머지 4개 훈련(집중력/기억력/문장기억/독서) 공용 */
 let _alphaAudio = null;
 function startAlpha() {
-  if (_alphaAudio) return;
+  if (!getAlphaPref()) return;
+  if (_alphaAudio) { if (_alphaAudio.paused) _alphaAudio.play().catch(function(){}); return; }
   _alphaAudio = new Audio('https://jsmylife153.github.io/kor/audio/alpha.mp3');
   _alphaAudio.loop = true;
   _alphaAudio.volume = 0.35;
   _alphaAudio.play().catch(function(){});
+}
+function pauseAlpha() {
+  if (_alphaAudio) _alphaAudio.pause(); /* 위치 유지, 다음 재생 시 이어서 재생 */
 }
 function stopAlpha() {
   if (_alphaAudio) {
     _alphaAudio.pause();
     _alphaAudio.currentTime = 0;
     _alphaAudio = null;
+  }
+}
+
+let _alphaAudio2 = null;
+function startAlpha2() {
+  if (!getAlphaPref2()) return;
+  if (_alphaAudio2) { if (_alphaAudio2.paused) _alphaAudio2.play().catch(function(){}); return; }
+  _alphaAudio2 = new Audio('https://jsmylife153.github.io/kor/audio/alpha-1.mp3');
+  _alphaAudio2.loop = true;
+  _alphaAudio2.volume = 0.35;
+  _alphaAudio2.play().catch(function(){});
+}
+function pauseAlpha2() {
+  if (_alphaAudio2) _alphaAudio2.pause(); /* 위치 유지, 다음 재생 시 이어서 재생 */
+}
+function stopAlpha2() {
+  if (_alphaAudio2) {
+    _alphaAudio2.pause();
+    _alphaAudio2.currentTime = 0;
+    _alphaAudio2 = null;
   }
 }
 
@@ -1736,17 +1821,18 @@ function getSMM() {
     baseN = 6;
   }
   /* baseN이 실제 슬롯 수보다 항상 크거나 같으므로 화면 이탈 없음 */
-  const tY=H*TOP, bY=H*(1-BOT), usableH=bY-tY;
-  const gap=Math.max(4,Math.floor(usableH*.025));
+  /* 상하 여백을 줄여 슬롯(글바탕) 자체의 크기를 더 키움 (시력강화/집중력 등 다른 훈련의 TOP/BOT에는 영향 없음) */
+  const tY=H*0.10, bY=H*0.95, usableH=bY-tY;
+  const gap=Math.max(4,Math.floor(usableH*.018));
   const slotH=Math.floor((usableH-(baseN-1)*gap)/baseN);
   const totalH=n*slotH+(n-1)*gap;
   /* 세로 가운데 정렬 */
   const startY=tY+Math.max(0,Math.floor((usableH-totalH)/2));
   const slotX=W*.05, slotW=W*.90;
-  const numW=Math.max(26,slotH*.8);
-  const fs=Math.max(10,Math.floor(slotH*.42));
-  const numFs=Math.max(10,Math.floor(slotH*.34));
-  const wordGap=Math.max(4,Math.floor(fs*.55));
+  const numW=Math.max(30,slotH*.8);
+  const fs=Math.max(12,Math.floor(slotH*.52));
+  const numFs=Math.max(11,Math.floor(slotH*.38));
+  const wordGap=Math.max(5,Math.floor(fs*.55));
   return {startY,gap,slotH,slotX,slotW,numW,fs,numFs,wordGap,n};
 }
 
@@ -1777,7 +1863,7 @@ function loadSlot(si, sent) {
   sent.split(' ').forEach(w => {
     const sp=document.createElement('span');
     sp.textContent=w;
-    sp.style.cssText='font-family:"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif;font-weight:600;font-size:'+m.fs+'px;color:#111;opacity:0;letter-spacing:.02em;white-space:nowrap;';
+    sp.style.cssText='font-family:"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif;font-weight:700;font-size:'+m.fs+'px;color:#111;opacity:0;letter-spacing:.02em;white-space:nowrap;';
     wc.appendChild(sp); slotWordSpans[si].push(sp);
   });
 }
@@ -1829,11 +1915,12 @@ function startPhase() {
     pickVColors(); vLvAlt=false; curColor=vColors[0];
     _vPhaseImg=Math.floor(Math.random()*VLV3_IMG_COUNT)+1;
     startAlpha(); vStep();
-  } else { stopAlpha(); cStep(); }
+  } else { stopAlpha(); startAlpha2(); cStep(); }
 }
 function startMRound() {
   upDims(); mCycle=0; mWIdx=0; usedW.clear(); setupMRound(); drawGrid();
   ding(); tState='running'; updPlayBtns('running');
+  startAlpha2();
   tId=setTimeout(mStep, DELAY2S);
 }
 function startSRound() {
@@ -1846,13 +1933,13 @@ function startSRound() {
   for (let i=0;i<wl;i++) loadSlot(i,currentSents[i]);
   updSB(); updDotArea();
   ding(); tState='running'; updPlayBtns('running');
+  startAlpha2();
   tId=setTimeout(()=>displaySent(0,endSDisplay), DELAY2S);
 }
 
 /* ═══ Phase / Round end ═══════════════════════════ */
 function stopAll() {
   clearTimeout(tId); clearTimeout(bId); clearInterval(cdId); clearInterval(riId);
-  stopAlpha();
 }
 function endPhase() {
   tState='thinking'; stopAll(); SH.style.opacity='0'; WE.style.opacity='0'; ding();
@@ -1964,6 +2051,7 @@ function highlightPhrase(sent, phrase) {
 
 function showAnswers() {
   tState='answers';
+  stopAlpha2();
   showOvMsg();
   document.getElementById('ov-msg').style.display='none';
   document.getElementById('ov-ans').style.display='block';
@@ -1983,14 +2071,14 @@ function showAnswers() {
     const div=document.createElement('div');
     div.style.cssText='margin-bottom:10px;padding:9px 13px;background:rgba(255,255,255,.07);border-radius:8px;border:.5px solid rgba(255,255,255,.14);';
     const lbl=document.createElement('p');
-    lbl.style.cssText='margin:0 0 6px;font-size:10px;color:rgba(255,255,255,.45);';
+    lbl.style.cssText='margin:0 0 6px;font-size:27px;color:rgba(255,255,255,.45);';
     lbl.textContent=labels[i]; div.appendChild(lbl);
     if (isS) {
       item.sents.forEach((s,si) => {
         const row=document.createElement('p');
-        row.style.cssText='margin:0 0 3px;font-size:13px;color:#fff;font-family:"Malgun Gothic",sans-serif;display:flex;align-items:baseline;gap:5px;';
+        row.style.cssText='margin:0 0 3px;font-size:36px;color:#fff;font-family:"Malgun Gothic",sans-serif;display:flex;align-items:baseline;gap:5px;';
         const ns=document.createElement('span');
-        ns.style.cssText='font-size:10px;color:rgba(255,200,0,.7);min-width:14px;flex-shrink:0;';
+        ns.style.cssText='font-size:27px;color:rgba(255,200,0,.7);min-width:14px;flex-shrink:0;';
         ns.textContent=(si+1)+'.';
         let ts;
         if (item.quiz && si===item.quiz.sentIdx) {
@@ -2006,12 +2094,12 @@ function showAnswers() {
       ww.style.cssText='display:flex;flex-wrap:wrap;gap:5px;';
       if (!words.length) {
         const e=document.createElement('span');
-        e.style.cssText='font-size:13px;color:rgba(255,255,255,.3);font-style:italic;';
+        e.style.cssText='font-size:36px;color:rgba(255,255,255,.3);font-style:italic;';
         e.textContent='—'; ww.appendChild(e);
       } else {
         words.forEach(w => {
           const c=document.createElement('span');
-          c.style.cssText='font-size:14px;font-weight:700;color:#fff;font-family:"Malgun Gothic",sans-serif;background:rgba(55,138,221,.38);border:.5px solid rgba(55,138,221,.55);border-radius:4px;padding:2px 9px;';
+          c.style.cssText='font-size:38px;font-weight:700;color:#fff;font-family:"Malgun Gothic",sans-serif;background:rgba(55,138,221,.38);border:.5px solid rgba(55,138,221,.55);border-radius:4px;padding:2px 9px;';
           c.textContent=w; ww.appendChild(c);
         });
       }
@@ -2027,13 +2115,13 @@ function showAnswers() {
       const row=document.createElement('div');
       row.style.cssText='margin-bottom:6px;display:flex;align-items:center;gap:8px;';
       const l=document.createElement('span');
-      l.style.cssText='font-size:10px;color:rgba(255,255,255,.4);min-width:50px;';
+      l.style.cssText='font-size:27px;color:rgba(255,255,255,.4);min-width:50px;';
       l.textContent='라운드 '+(i+1);
       const chip=document.createElement('span');
-      chip.style.cssText='font-size:15px;font-weight:700;color:#FFE082;font-family:"Malgun Gothic",sans-serif;';
+      chip.style.cssText='font-size:41px;font-weight:700;color:#FFE082;font-family:"Malgun Gothic",sans-serif;';
       chip.textContent='"'+(rd.quiz?.word||'')+'"';
       const ans=document.createElement('span');
-      ans.style.cssText='font-size:11px;color:rgba(255,255,255,.5);';
+      ans.style.cssText='font-size:31px;color:rgba(255,255,255,.5);';
       ans.textContent='→ '+((rd.quiz?.sentIdx||0)+1)+'번 문장';
       row.appendChild(l); row.appendChild(chip); row.appendChild(ans); qlEl.appendChild(row);
     });
@@ -2060,7 +2148,7 @@ function handleEnd() {
   }
   if (TM==='vision') { showAd(fullReset); return; }
 
-  const hasData = (TM==='concentration' && repAll.some(a=>a.length>0)) ||
+  const hasData = (TM==='concentration' && (repAll.some(a=>a.length>0) || stepN>0 || counter>0 || phase>0)) ||
                   (TM==='memory' && allRoundWords.some(a=>a&&a.length>0)) ||
                   (TM==='sentence' && allRoundData.some(a=>a));
 
@@ -2232,24 +2320,25 @@ function toggleStart() {
   if (tState==='thinking'||tState==='answers') return;
   if (tState==='running') {
     tState='paused'; stopAll(); clearTimeout(fmTimer);
+    pauseAlpha(); pauseAlpha2();
     SH.style.opacity='0'; WE.style.opacity='0';
     for(let i=0;i<(TM==='sentence'?wl:0);i++) hideSlot(i);
     if(TM==='focus') fmSpans.forEach(function(sp){sp.className='fm-w';});
     updPlayBtns('paused');
   } else if (tState==='paused') {
     tState='running'; updPlayBtns('running');
-    if (TM==='vision') { startCD(); vStep(); }
-    else if (TM==='concentration') { startCD(); cStep(); }
-    else if (TM==='memory') { tId=setTimeout(mStep,0); }
-    else if (TM==='sentence') { displaySent(curSentIdx,endSDisplay); }
-    else if (TM==='focus') { if(fmChapter) fmTimer=setTimeout(fmStep,SPD[spd].ms); }
+    if (TM==='vision') { startAlpha(); startCD(); vStep(); }
+    else if (TM==='concentration') { startAlpha2(); startCD(); cStep(); }
+    else if (TM==='memory') { startAlpha2(); tId=setTimeout(mStep,0); }
+    else if (TM==='sentence') { startAlpha2(); displaySent(curSentIdx,endSDisplay); }
+    else if (TM==='focus') { startAlpha2(); if(fmChapter) fmTimer=setTimeout(fmStep,SPD[spd].ms); }
   } else {
     /* idle 상태 */
     if (TM==='focus') {
       if(fmChapter&&fmSpans.length) {
         /* 텍스트 이미 표시됨 → 점멸 시작 */
         tState='running'; updPlayBtns('running');
-        fmWordIdx=0; ding();
+        fmWordIdx=0; ding(); startAlpha2();
         fmSpans.forEach(function(sp){sp.className='fm-w';});
         fmTimer=setTimeout(fmStep,0);
       } else {
@@ -2267,7 +2356,7 @@ function toggleStart() {
 
 function fullReset() {
   sessionScore=0;
-  tState='idle'; stopAll();
+  tState='idle'; stopAll(); stopAlpha(); stopAlpha2();
   OV.style.display='none';
   document.getElementById('ov-msg').style.display='flex';
   document.getElementById('ov-ans').style.display='none';
@@ -2638,6 +2727,29 @@ let fmChapter=null, fmPageIdx=0, fmWordIdx=0, fmWordStart=0, fmChWords=[], fmPag
 let fmSpans=[], fmTimer=null;
 let fmQuestions=[], fmQIdx=0, fmScore=0;
 
+/* 실제로 렌더링된 줄 수를 측정 (각 단어 span의 세로 위치가 다르면 다른 줄) */
+function fmCountLines(){
+  var tops = new Set();
+  fmSpans.forEach(function(sp){ tops.add(Math.round(sp.offsetTop)); });
+  return tops.size;
+}
+/* 이진탐색으로 startIdx부터 targetLines(8줄)를 정확히 채우는 단어 개수를 찾는다 */
+function fmFindWordsForLines(content, startIdx, targetLines){
+  var remaining = fmChWords.length - startIdx;
+  if (remaining<=0) return 0;
+  var lo=1, hi=remaining, best=1;
+  var guard=0;
+  while(lo<=hi && guard<25){
+    var mid=Math.floor((lo+hi)/2);
+    var words=fmChWords.slice(startIdx, startIdx+mid);
+    renderFmWords(content, words);
+    var lines=fmCountLines();
+    if(lines<=targetLines){ best=mid; lo=mid+1; } else { hi=mid-1; }
+    guard++;
+  }
+  return best;
+}
+
 
 /* 장문 CSV 파싱 → [{title,pages[],questions[]}] */
 
@@ -2758,8 +2870,8 @@ function calcFmWPP(){
   var fs=calcFmFontSize();
   /* 한국어 글자 폭 ≈ font-size * 0.92, 평균 낱말 3글자 + 공백 */
   var wordsPerLine=Math.max(2, Math.floor(trW*0.90/(fs*0.92*3.2)));
-  /* 7줄 × 줄당낱말수 = 페이지당 낱말수 */
-  return wordsPerLine*7;
+  /* 8줄 × 줄당낱말수 = 페이지당 평균 낱말수 (페이지 수 표시용 추정치) */
+  return wordsPerLine*8;
 }
 
 /* 페이지를 회색으로만 표시 — 렌더링 후 overflow 자동 감지 */
@@ -2785,28 +2897,20 @@ function fmLoadPageGray(wordStart){
   var fs = calcFmFontSize();
   var content = document.getElementById('fmContent');
   content.style.fontSize = fs+'px';
-  var trEl = document.getElementById('TR');
-  var topBar = 60, cbarH = document.getElementById('cbar').offsetHeight||64;
-  var maxH = trEl.offsetHeight - topBar - cbarH - 16; /* 상단바+하단바+여유 */
+  content.style.lineHeight = '1.42';
 
-  /* 초기 WPP로 시도 */
-  var wpp = calcFmWPP();
+  /* 실제 렌더링 줄 수를 측정하며 정확히 8줄을 채우는 단어 수를 이진탐색으로 결정 */
+  var wpp = fmFindWordsForLines(content, fmWordStart, 8);
   var pageWords = fmChWords.slice(fmWordStart, fmWordStart+wpp);
   renderFmWords(content, pageWords);
 
-  /* overflow 감지: 실제 높이 > 사용가능 높이면 낱말 줄여서 재시도 */
-  var attempts = 0;
-  while(content.scrollHeight > maxH && fmSpans.length > 2 && attempts < 20){
-    wpp = Math.max(2, Math.floor(wpp*0.92));
-    pageWords = fmChWords.slice(fmWordStart, fmWordStart+wpp);
-    renderFmWords(content, pageWords);
-    attempts++;
-  }
   /* 실제 소비한 fmChWords 개수 저장 (줄바꿈 토큰 포함) */
   fmPageWordCount = pageWords.length;
 
-  var totalPages = Math.ceil(fmChWords.length/wpp)||1;
-  fmPageIdx = Math.floor(fmWordStart/Math.max(1,calcFmWPP()));
+  var avgWpp = Math.max(1, calcFmWPP());
+  var totalPages = Math.max(1, Math.ceil(fmChWords.length/avgWpp));
+  fmPageIdx = Math.floor(fmWordStart/avgWpp);
+  totalPages = Math.max(totalPages, fmPageIdx+1);
 
   document.getElementById('ba').textContent='페이지 '+(fmPageIdx+1)+'/'+totalPages;
   /* 제목 표시 */
@@ -2937,18 +3041,19 @@ function fmDoneQuiz(){
 function fmShowResults(){
   submitScore();
   tState='answers';
+  stopAlpha2();
   const rOV=document.getElementById('fmResultOV');
   rOV.style.display='flex';
-  document.getElementById('fmResultScore').textContent=fmScore+' / '+fmQuestions.length;
+  document.getElementById('fmResultScore').textContent=fmScore+'점/'+fmQuestions.length+'문제';
   const list=document.getElementById('fmResultList');
   list.innerHTML='';
   fmQuestions.forEach((q,i)=>{
     const ok=q.userAns===q.ans;
     const div=document.createElement('div');
-    div.style.cssText='padding:9px 12px;margin-bottom:6px;background:rgba(255,255,255,.07);border-radius:7px;border-left:3px solid '+(ok?'#66FF33':'#ff6b6b')+';';
-    div.innerHTML='<p style="font-size:11px;color:'+(ok?'#99FF66':'#ff9999')+';font-weight:700;margin-bottom:3px;">'+(ok?'✓ 정답':'✗ 오답')+'  문제 '+(i+1)+'</p>'
-      +'<p style="font-size:13px;color:#fff;margin-bottom:3px;">'+q.q+'</p>'
-      +'<p style="font-size:11px;color:rgba(255,255,255,.6);">정답: '+(q.ans+1)+'. '+q.opts[q.ans]
+    div.style.cssText='padding:14px 18px;margin-bottom:10px;background:rgba(255,255,255,.07);border-radius:7px;border-left:4px solid '+(ok?'#66FF33':'#ff6b6b')+';';
+    div.innerHTML='<p style="font-size:27px;color:'+(ok?'#99FF66':'#ff9999')+';font-weight:700;margin-bottom:3px;">'+(ok?'✓ 정답':'✗ 오답')+'  문제 '+(i+1)+'</p>'
+      +'<p style="font-size:36px;color:#fff;margin-bottom:3px;">'+q.q+'</p>'
+      +'<p style="font-size:31px;color:rgba(255,255,255,.6);">정답: '+(q.ans+1)+'. '+q.opts[q.ans]
       +(q.userAns!==q.ans&&q.userAns>=0?' &nbsp;|&nbsp; 선택: '+(q.userAns+1)+'. '+q.opts[q.userAns]:'')+'</p>';
     list.appendChild(div);
   });
@@ -2994,6 +3099,50 @@ function updateAudioToggleUI() {
   const cb = document.getElementById('audioAutoPlay');
   const track = document.getElementById('audioTrack');
   const knob = document.getElementById('audioKnob');
+  if(cb) cb.checked = on;
+  if(track) track.style.background = on ? '#2d8c4e' : '#ccc';
+  if(knob) knob.style.transform = on ? 'translateX(20px)' : 'translateX(0)';
+}
+
+/* 시력강화 알파음 재생 설정 (기본값 ON) */
+function getAlphaPref() {
+  return localStorage.getItem('alphaSoundPref') !== '0';
+}
+function saveAlphaPref() {
+  const cb = document.getElementById('alphaSoundPref');
+  const on = cb ? cb.checked : true;
+  localStorage.setItem('alphaSoundPref', on ? '1' : '0');
+  updateAlphaToggleUI();
+  if (!on) stopAlpha();
+  else if (TM==='vision' && tState==='running') startAlpha();
+}
+function updateAlphaToggleUI() {
+  const on = getAlphaPref();
+  const cb = document.getElementById('alphaSoundPref');
+  const track = document.getElementById('alphaTrack');
+  const knob = document.getElementById('alphaKnob');
+  if(cb) cb.checked = on;
+  if(track) track.style.background = on ? '#2d8c4e' : '#ccc';
+  if(knob) knob.style.transform = on ? 'translateX(20px)' : 'translateX(0)';
+}
+
+/* 낱말/문장 훈련(집중력·기억력·문장기억·독서) 알파음 재생 설정 (기본값 ON) */
+function getAlphaPref2() {
+  return localStorage.getItem('alphaSoundPref2') !== '0';
+}
+function saveAlphaPref2() {
+  const cb = document.getElementById('alphaSoundPref2');
+  const on = cb ? cb.checked : true;
+  localStorage.setItem('alphaSoundPref2', on ? '1' : '0');
+  updateAlphaToggleUI2();
+  if (!on) stopAlpha2();
+  else if (TM!=='vision' && tState==='running') startAlpha2();
+}
+function updateAlphaToggleUI2() {
+  const on = getAlphaPref2();
+  const cb = document.getElementById('alphaSoundPref2');
+  const track = document.getElementById('alphaTrack2');
+  const knob = document.getElementById('alphaKnob2');
   if(cb) cb.checked = on;
   if(track) track.style.background = on ? '#2d8c4e' : '#ccc';
   if(knob) knob.style.transform = on ? 'translateX(20px)' : 'translateX(0)';
@@ -3092,6 +3241,8 @@ function toggleTTS(){}
 /* 초기화 */
 document.addEventListener('DOMContentLoaded', function() {
   updateAudioToggleUI();
+  updateAlphaToggleUI();
+  updateAlphaToggleUI2();
 });
 
 /* ══════ 스케일링 (통합) ══════ */
