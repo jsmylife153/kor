@@ -170,7 +170,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
 .tm-sel-btn.active{background:#2d8c4e;color:#fff;}
 .tm-drop-btn{height:34px;padding:0 12px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;transition:all .15s;user-select:none;}
 .tm-drop-btn:hover{background:rgba(255,255,255,.7);}
-.fmDItem{padding:10px 16px;font-size:13px;cursor:pointer;color:#1a1a1a;font-weight:500;transition:background .12s;border-bottom:.5px solid #f0f0f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fmDItem{padding:12px 16px;font-size:19px;cursor:pointer;color:#1a1a1a;font-weight:500;transition:background .12s;border-bottom:.5px solid #f0f0f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:400px;}
 .fmDItem:last-child{border-bottom:none;}
 .fmDItem:hover{background:#e8f5ec;}
 .fmDItem.active{background:#2d8c4e;color:#fff;font-weight:700;}
@@ -452,12 +452,12 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
       <!-- ③ 독서능력 설정 -->
       <div id="cv3" style="display:none;align-items:center;gap:6px;flex-shrink:0;">
         <!-- 문장선택 드롭업 -->
-        <div id="fmDropWrap" style="position:relative;flex-shrink:0;">
-          <button id="fmDropBtn" onclick="toggleFmDrop(event)" style="height:42px;padding:0 14px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:17px;font-weight:700;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;">
-            <span id="fmDropLabel">📖 문장선택</span>
-            <span id="fmDropArrow" style="font-size:11px;transition:transform .2s;">▲</span>
+        <div id="fmDropWrap" style="position:relative;flex-shrink:1;min-width:0;max-width:220px;">
+          <button id="fmDropBtn" onclick="toggleFmDrop(event)" style="height:42px;padding:0 14px;border-radius:8px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:17px;font-weight:700;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;max-width:220px;overflow:hidden;">
+            <span id="fmDropLabel" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;">📖 문장선택</span>
+            <span id="fmDropArrow" style="font-size:11px;transition:transform .2s;flex-shrink:0;">▲</span>
           </button>
-          <div id="fmDropMenu" onclick="event.stopPropagation()" style="display:none;position:absolute;bottom:calc(100% + 6px);left:0;background:#fff;border-radius:10px;box-shadow:0 -4px 24px rgba(0,0,0,.22);overflow-y:auto;max-height:280px;min-width:200px;z-index:9999;border:1px solid #e0e0e0;">
+          <div id="fmDropMenu" onclick="event.stopPropagation()" style="display:none;position:absolute;bottom:calc(100% + 6px);left:0;background:#fff;border-radius:10px;box-shadow:0 -4px 24px rgba(0,0,0,.22);overflow-y:auto;max-height:360px;min-width:260px;max-width:420px;z-index:9999;border:1px solid #e0e0e0;">
             <div id="fmDropItems"></div>
           </div>
         </div>
