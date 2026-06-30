@@ -490,7 +490,7 @@ body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
       <!-- 우측: 설정 + 전체화면 (절대 우측 고정) -->
       <div style="position:absolute;right:12px;bottom:8px;display:flex;align-items:center;gap:4px;z-index:10;">
         <button class="cfg-btn" onclick="openSett()" style="font-size:22px;">⚙</button>
-        <button onclick="toggleFS()" style="height:48px;padding:0 16px;border-radius:10px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">⛶ 전체화면</button>
+        <button id="fsBtnReal" onclick="toggleFS()" style="height:48px;padding:0 16px;border-radius:10px;border:1.5px solid #2d8c4e;background:rgba(255,255,255,.7);color:#1a5e33;font-size:18px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">⛶ 전체화면</button>
       </div>
 
     </div><!-- /outer flex -->
@@ -1377,57 +1377,88 @@ const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
 let _iosFSOn = false;
 
 function applyFS(on) {
-  const app = document.getElementById('app');
-  const fab = document.getElementById('fsFab');
-  const btn = document.getElementById('fsbtn');
-  btn.textContent = on ? '✕' : '⛶';
-  fab.style.display = on ? 'none' : 'block';
-  if (isIOS) {
-    if (on) {
-      app.classList.add('ios-fs');
-      /* 브라우저 주소창 숨기기 시도 */
-      setTimeout(() => window.scrollTo(0, 1), 100);
-    } else {
-      app.classList.remove('ios-fs');
-    }
-  } else {
-    if (on) {
-      app.style.width='100vw'; app.style.height='100vh'; app.style.borderRadius='0';
-    } else {
-      app.style.width=''; app.style.height=''; app.style.borderRadius='10px';
-    }
-  }
-  setTimeout(() => {
-    upDims(); drawGrid();
-    if (TM==='sentence' && (tState==='idle'||tState==='paused')) buildSlots();
-    if (TM==='focus'&&fmChapter&&fmChWords.length){
-      fmLoadPageGray(fmWordStart);
-    }
-    if (tState==='running'||tState==='paused') {
-      if (TM==='vision') { apSh(); plSh(posIdx); apCl(curColor); }
-      else if (TM==='concentration'||TM==='memory') {
-        const {x,y}=gXY(posIdx);
-        WE.style.left=x+'px'; WE.style.top=y+'px'; WE.style.fontSize=lay.fs+'px';
+  try {
+    const app = document.getElementById('app');
+    const fab = document.getElementById('fsFab');
+    const btn = document.getElementById('fsBtnReal');
+    if (btn) btn.textContent = on ? '✕ 전체화면' : '⛶ 전체화면';
+    if (fab) fab.style.display = on ? 'none' : 'block';
+    const usingNativeAPI = !!(document.fullscreenElement || document.webkitFullscreenElement);
+    if (app) {
+      if (isIOS) {
+        if (on) {
+          app.classList.add('ios-fs');
+          /* 브라우저 주소창 숨기기 시도 */
+          setTimeout(() => { try { window.scrollTo(0, 1); } catch(e){} }, 100);
+        } else {
+          app.classList.remove('ios-fs');
+        }
+      } else if (usingNativeAPI) {
+        /* 네이티브 Fullscreen API 사용 중: #app은 1280x720 고정 가상캔버스를
+           transform:scale로만 맞추는 구조이므로 width/height를 직접 건드리지 않는다.
+           (덮어쓰면 scaleApp()의 좌표계가 깨져서 화면이 좌상단에 찌그러져 보이는 버그 발생) */
+        app.style.borderRadius = on ? '0' : '10px';
+        try { window.dispatchEvent(new Event('resize')); } catch(e){}
+      } else {
+        /* Fullscreen API 자체가 없는 환경(Android WebView/TWA 등)의 CSS 폴백 */
+        if (on) {
+          app.style.width='100vw'; app.style.height='100vh'; app.style.borderRadius='0';
+        } else {
+          app.style.width=''; app.style.height=''; app.style.borderRadius='10px';
+        }
       }
     }
+  } catch (e) {}
+  setTimeout(() => {
+    try {
+      upDims(); drawGrid();
+      if (TM==='sentence' && (tState==='idle'||tState==='paused')) buildSlots();
+      if (TM==='focus'&&fmChapter&&fmChWords.length){
+        fmLoadPageGray(fmWordStart);
+      }
+      if (tState==='running'||tState==='paused') {
+        if (TM==='vision') { apSh(); plSh(posIdx); apCl(curColor); }
+        else if (TM==='concentration'||TM==='memory') {
+          const {x,y}=gXY(posIdx);
+          WE.style.left=x+'px'; WE.style.top=y+'px'; WE.style.fontSize=lay.fs+'px';
+        }
+      }
+    } catch (e) {}
   }, 200);
 }
 
+const hasFullscreenAPI = !!(document.documentElement.requestFullscreen ||
+  document.documentElement.webkitRequestFullscreen ||
+  document.documentElement.mozRequestFullScreen ||
+  document.documentElement.msRequestFullscreen);
+
 function toggleFS() {
-  if (isIOS) {
-    _iosFSOn = !_iosFSOn;
-    applyFS(_iosFSOn);
-    return;
-  }
-  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-    const el = document.documentElement;
-    (el.requestFullscreen||el.webkitRequestFullscreen||el.mozRequestFullScreen||el.msRequestFullscreen)
-      .call(el).catch(() => {
-        /* requestFullscreen 실패 시 CSS 방식으로 폴백 */
+  try {
+    if (isIOS || !hasFullscreenAPI) {
+      /* Fullscreen API 미지원 환경(iOS Safari, Android WebView/TWA 등) → CSS 방식 폴백 */
+      _iosFSOn = !_iosFSOn;
+      applyFS(_iosFSOn);
+      return;
+    }
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      const el = document.documentElement;
+      const reqFn = el.requestFullscreen||el.webkitRequestFullscreen||el.mozRequestFullScreen||el.msRequestFullscreen;
+      const result = reqFn.call(el);
+      if (result && typeof result.catch === 'function') {
+        result.catch(() => { _iosFSOn = !_iosFSOn; applyFS(_iosFSOn); });
+      }
+    } else {
+      const exitFn = document.exitFullscreen||document.webkitExitFullscreen||document.mozCancelFullScreen;
+      if (exitFn) {
+        const result = exitFn.call(document);
+        if (result && typeof result.catch === 'function') result.catch(()=>{});
+      } else {
         _iosFSOn = !_iosFSOn; applyFS(_iosFSOn);
-      });
-  } else {
-    (document.exitFullscreen||document.webkitExitFullscreen||document.mozCancelFullScreen).call(document);
+      }
+    }
+  } catch (e) {
+    /* 어떤 이유로든 표준 Fullscreen API 호출이 실패하면 CSS 방식으로 안전하게 폴백 */
+    _iosFSOn = !_iosFSOn; applyFS(_iosFSOn);
   }
 }
 function onFSChange() {
@@ -1964,7 +1995,9 @@ function startCD() {
 function showOvMsg() { document.getElementById('ov-msg').style.display='flex'; document.getElementById('ov-ans').style.display='none'; }
 function setOv(t,n,w,s,b) {
   document.getElementById('ovT').textContent=t;
-  document.getElementById('ovN').textContent=n||'';
+  const nEl=document.getElementById('ovN');
+  if (n!==null && n!==undefined && n!=='') { nEl.textContent=n; nEl.style.display='block'; }
+  else { nEl.textContent=''; nEl.style.display='none'; }
   const wEl=document.getElementById('ovW');
   if (w) { wEl.textContent=w; wEl.style.display='block'; } else wEl.style.display='none';
   document.getElementById('ovS').textContent=s||'';
@@ -2140,10 +2173,8 @@ function handleEnd() {
 
   if (TM==='focus') {
     fmSpans.forEach(sp=>{sp.className='fm-w';});
-    showAd(()=>{
-      document.getElementById('fmCompleteOV').style.display='flex';
-      document.getElementById('fmCompInfo').textContent=fmChapter?`${fmPageIdx+1}/${fmChapter.pages.length} 페이지까지 읽음`:'';
-    });
+    /* 완독하지 않은 상태로 종료한 것이므로 광고 후 바로 초기화 (문제풀이 화면은 완독 시에만 노출) */
+    showAd(fullReset);
     return;
   }
   if (TM==='vision') { showAd(fullReset); return; }
