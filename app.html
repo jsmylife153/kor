@@ -14,27 +14,17 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{width:100%;height:100%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-family:-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;overflow:hidden;font-weight:500;}
+html,body{width:100%;height:100%;background:#1a1a1a;margin:0;padding:0;overflow:hidden;font-family:-apple-system,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;font-weight:500;}
 #app{
-  position:relative;
+  position:absolute;
   display:flex;
   flex-direction:column;
   border-radius:10px;
   overflow:hidden;
   box-shadow:0 8px 40px rgba(0,0,0,.6);
-}
-@media (orientation:landscape){
-  #app{
-    width:min(100vw, calc(100dvh * 16/9));
-    height:min(100dvh, calc(100vw * 9/16));
-  }
-}
-@media (orientation:portrait){
-  #app{
-    width:100vw;
-    height:100dvh;
-    border-radius:0;
-  }
+  width:1280px;
+  height:720px;
+  transform-origin:top left;
 }
 #TR{flex:1 1 auto;min-height:0;position:relative;background:#f0efe8;}
 canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
@@ -87,7 +77,7 @@ canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
   #cbar .row2-sep{ display:none; }
 }
 /* 모바일: transform:scale로 비율 유지 - 별도 미디어쿼리 불필요 */
-button{font-size:clamp(9px,1vw,10px);padding:2px 6px;border:1px solid #2a9e00;border-radius:5px;background:transparent;cursor:pointer;white-space:nowrap;transition:background .1s;}
+button{font-size:10px;padding:2px 6px;border:1px solid #2a9e00;border-radius:5px;background:transparent;cursor:pointer;white-space:nowrap;transition:background .1s;}
 button:hover{background:#f0f0f0;}
 button.active{background:#cce0ff;color:#0047cc;border-color:#0047cc;font-weight:600;}
 .sep{width:.5px;height:14px;background:#ddd;flex-shrink:0;}
@@ -116,12 +106,12 @@ input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 .fm-w.on{color:#111 !important;}
 #fmCompleteOV,#fmQuizOV,#fmResultOV{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:36;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;box-sizing:border-box;}
 .fmBtn{font-size:14px;padding:10px 26px;border-radius:8px;cursor:pointer;}
-.fmOptBtn{width:100%;text-align:left;font-size:clamp(12px,1.8vw,15px);padding:10px 16px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;cursor:pointer;transition:background .15s;}
+.fmOptBtn{width:100%;text-align:left;font-size:15px;padding:10px 16px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;cursor:pointer;transition:background .15s;}
 .fmOptBtn:hover{background:rgba(255,255,255,.22);}
 /* Settings modal */
-#settBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;}
+#settBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:400;align-items:center;justify-content:center;padding:4% 0;box-sizing:border-box;}
 #settBg.open{display:flex;}
-#settBox{background:#fff;border-radius:16px;width:94%;max-width:660px;max-height:70%;overflow:hidden;display:flex;flex-direction:column;}
+#settBox{background:#fff;border-radius:16px;width:94%;max-width:660px;max-height:88%;overflow:hidden;display:flex;flex-direction:column;}
 #settTabs{display:flex;border-bottom:.5px solid #eee;}
 .stab{flex:1;padding:11px 0;font-size:12px;font-weight:500;text-align:center;cursor:pointer;color:#888;border:none;border-radius:0;background:transparent;}
 .stab.on{color:#185fa5;border-bottom:2px solid #185fa5;}
@@ -134,9 +124,9 @@ input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 .settFoot{padding:12px 20px;border-top:.5px solid #eee;display:flex;gap:8px;}
 .settFoot button{flex:1;font-size:16px;padding:13px 0;border-radius:10px;}
 /* Data modal */
-#dataBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;}
+#dataBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center;padding:4% 0;box-sizing:border-box;}
 #dataBg.open{display:flex;}
-#dataBox{background:#fff;border-radius:12px;padding:20px 22px;width:min(92vw,460px);max-height:90vh;overflow-y:auto;}
+#dataBox{background:#fff;border-radius:12px;padding:20px 22px;width:min(92vw,460px);max-height:88%;overflow-y:auto;box-sizing:border-box;}
 #dataBox h3{font-size:14px;font-weight:500;margin-bottom:14px;color:#111;}
 #dataBox input{width:100%;font-size:12px;padding:8px 10px;border:.5px solid #ccc;border-radius:6px;background:#f9f9f9;color:#111;margin-bottom:8px;outline:none;}
 #dataBox input:focus{border-color:#378ADD;}
@@ -147,7 +137,7 @@ input[type=range]{flex:1;min-width:50px;max-width:100px;height:5px;}
 #loadSt.err{color:#D32F2F;}
 .lsItem{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#f5f5f5;border-radius:6px;margin-bottom:6px;}
 /* Fullscreen */
-body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;border-radius:0;}
+body:fullscreen #app,body:-webkit-full-screen #app{border-radius:0;}
 /* ── New Control Bar ── */
 /* cbar 추가 스타일 - 위 기본 CSS와 통합됨 */
 #cbar-top{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap;}
@@ -222,9 +212,9 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 
 #fsFab{display:none;}
 /* 사용자 등록 모달 */
-#nameBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;}
+#nameBg{display:none;position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;padding:4% 0;box-sizing:border-box;}
 #nameBg.open{display:flex;}
-#nameBox{background:#fff;border-radius:14px;padding:26px 28px;width:min(88vw,380px);text-align:center;}
+#nameBox{background:#fff;border-radius:14px;padding:26px 28px;width:min(88vw,380px);max-height:85%;overflow-y:auto;text-align:center;box-sizing:border-box;}
 #nameBox h3{font-size:16px;font-weight:500;color:#111;margin-bottom:8px;}
 #nameBox p{font-size:12px;color:#888;margin-bottom:16px;line-height:1.6;}
 #nameInput{width:100%;font-size:14px;padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;outline:none;text-align:center;margin-bottom:12px;box-sizing:border-box;}
@@ -323,12 +313,12 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
 
     <!-- 집중기억 훈련 영역 -->
     <div id="fmArea">
-      <div id="fmTitleBar" style="font-size:clamp(11px,1.4vw,14px);color:#888;font-weight:600;margin-bottom:4px;padding-left:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></div>
+      <div id="fmTitleBar" style="font-size:14px;color:#888;font-weight:600;margin-bottom:4px;padding-left:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></div>
       <div id="fmContent"></div>
     </div>
     <!-- FM 완독 오버레이 -->
     <div id="fmCompleteOV">
-      <p style="color:#fff;font-size:clamp(16px,2.5vw,26px);font-weight:600;">모든 페이지를 읽었습니다! 📖</p>
+      <p style="color:#fff;font-size:26px;font-weight:600;">모든 페이지를 읽었습니다! 📖</p>
       <p id="fmCompInfo" style="color:rgba(255,255,255,.55);font-size:13px;"></p>
       <div style="display:flex;gap:14px;margin-top:6px;">
         <button class="fmBtn" onclick="fmReplay()" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.4);">↺ 다시보기</button>
@@ -338,13 +328,13 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
     <!-- FM 퀴즈 오버레이 -->
     <div id="fmQuizOV">
       <p id="fmQNum" style="color:rgba(255,255,255,.45);font-size:11px;"></p>
-      <p id="fmQText" style="color:#fff;font-size:clamp(14px,2.2vw,20px);font-weight:500;text-align:center;line-height:1.65;max-width:600px;"></p>
+      <p id="fmQText" style="color:#fff;font-size:20px;font-weight:500;text-align:center;line-height:1.65;max-width:600px;"></p>
       <div id="fmQOpts" style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:520px;"></div>
     </div>
     <!-- FM 결과 오버레이 -->
     <div id="fmResultOV">
-      <p style="color:#FFE082;font-size:clamp(16px,2.8vw,26px);font-weight:700;">퀴즈 결과</p>
-      <p id="fmResultScore" style="color:#fff;font-size:clamp(30px,5.5vw,52px);font-weight:700;"></p>
+      <p style="color:#FFE082;font-size:26px;font-weight:700;">퀴즈 결과</p>
+      <p id="fmResultScore" style="color:#fff;font-size:52px;font-weight:700;"></p>
       <div id="fmResultList" style="width:100%;max-width:540px;max-height:46vh;overflow-y:auto;"></div>
       <button class="fmBtn" onclick="fullReset()" style="margin-top:6px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.4);">훈련 종료</button>
     </div>
@@ -357,14 +347,14 @@ body:fullscreen #app,body:-webkit-full-screen #app{width:100vw;height:100vh;bord
     <!-- Training overlay -->
     <div id="OV">
       <div id="ov-msg">
-        <p id="ovT" style="font-size:clamp(14px,2.4vw,21px);font-weight:500;color:#fff;letter-spacing:.05em;"></p>
-        <p id="ovN" style="font-size:clamp(26px,4.5vw,48px);font-weight:500;color:#fff;line-height:1;min-height:1.1em;"></p>
-        <p id="ovW" style="display:none;font-size:clamp(20px,3.2vw,36px);font-weight:700;color:#FFE082;font-family:'Malgun Gothic',sans-serif;letter-spacing:.06em;"></p>
-        <p id="ovS" style="font-size:clamp(11px,1.5vw,13px);color:rgba(255,255,255,.5);"></p>
+        <p id="ovT" style="font-size:21px;font-weight:500;color:#fff;letter-spacing:.05em;"></p>
+        <p id="ovN" style="font-size:48px;font-weight:500;color:#fff;line-height:1;min-height:1.1em;"></p>
+        <p id="ovW" style="display:none;font-size:36px;font-weight:700;color:#FFE082;font-family:'Malgun Gothic',sans-serif;letter-spacing:.06em;"></p>
+        <p id="ovS" style="font-size:13px;color:rgba(255,255,255,.5);"></p>
         <button id="ovB" onclick="handleOvBtn()" style="display:none;margin-top:8px;font-size:13px;padding:8px 26px;background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.4);border-radius:8px;"></button>
       </div>
       <div id="ov-ans">
-        <p style="font-size:clamp(14px,1.9vw,18px);font-weight:500;color:#fff;text-align:center;margin-bottom:12px;">정답 확인</p>
+        <p style="font-size:18px;font-weight:500;color:#fff;text-align:center;margin-bottom:12px;">정답 확인</p>
         <div id="ovRows" style="text-align:left;"></div>
         <div id="ovQlTitle" style="display:none;font-size:13px;color:rgba(255,200,0,.85);font-weight:500;border-top:.5px solid rgba(255,255,255,.2);padding-top:10px;margin:8px 0;"></div>
         <div id="ovQl" style="margin-bottom:10px;"></div>
@@ -1998,7 +1988,7 @@ function showAnswers() {
     if (isS) {
       item.sents.forEach((s,si) => {
         const row=document.createElement('p');
-        row.style.cssText='margin:0 0 3px;font-size:clamp(11px,1.6vw,13px);color:#fff;font-family:"Malgun Gothic",sans-serif;display:flex;align-items:baseline;gap:5px;';
+        row.style.cssText='margin:0 0 3px;font-size:13px;color:#fff;font-family:"Malgun Gothic",sans-serif;display:flex;align-items:baseline;gap:5px;';
         const ns=document.createElement('span');
         ns.style.cssText='font-size:10px;color:rgba(255,200,0,.7);min-width:14px;flex-shrink:0;';
         ns.textContent=(si+1)+'.';
@@ -2016,12 +2006,12 @@ function showAnswers() {
       ww.style.cssText='display:flex;flex-wrap:wrap;gap:5px;';
       if (!words.length) {
         const e=document.createElement('span');
-        e.style.cssText='font-size:clamp(11px,1.6vw,13px);color:rgba(255,255,255,.3);font-style:italic;';
+        e.style.cssText='font-size:13px;color:rgba(255,255,255,.3);font-style:italic;';
         e.textContent='—'; ww.appendChild(e);
       } else {
         words.forEach(w => {
           const c=document.createElement('span');
-          c.style.cssText='font-size:clamp(12px,1.7vw,14px);font-weight:700;color:#fff;font-family:"Malgun Gothic",sans-serif;background:rgba(55,138,221,.38);border:.5px solid rgba(55,138,221,.55);border-radius:4px;padding:2px 9px;';
+          c.style.cssText='font-size:14px;font-weight:700;color:#fff;font-family:"Malgun Gothic",sans-serif;background:rgba(55,138,221,.38);border:.5px solid rgba(55,138,221,.55);border-radius:4px;padding:2px 9px;';
           c.textContent=w; ww.appendChild(c);
         });
       }
@@ -2040,7 +2030,7 @@ function showAnswers() {
       l.style.cssText='font-size:10px;color:rgba(255,255,255,.4);min-width:50px;';
       l.textContent='라운드 '+(i+1);
       const chip=document.createElement('span');
-      chip.style.cssText='font-size:clamp(12px,1.8vw,15px);font-weight:700;color:#FFE082;font-family:"Malgun Gothic",sans-serif;';
+      chip.style.cssText='font-size:15px;font-weight:700;color:#FFE082;font-family:"Malgun Gothic",sans-serif;';
       chip.textContent='"'+(rd.quiz?.word||'')+'"';
       const ans=document.createElement('span');
       ans.style.cssText='font-size:11px;color:rgba(255,255,255,.5);';
@@ -2366,6 +2356,35 @@ window.addEventListener('resize', () => {
     }
   }
 });
+/* ═══ 앱 비율 스케일링 ══════════════════════════════
+   #app은 1280×720 고정 크기, transform:scale로 화면에 맞춤
+   모바일 OS 확대(125% 등) 설정과 무관하게 항상 동일 비율 유지
+══════════════════════════════════════════════════ */
+(function scaleApp() {
+  const BASE_W = 1280, BASE_H = 720;
+
+  function fit() {
+    const app = document.getElementById('app');
+    if (!app) return;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const scale = Math.min(vw / BASE_W, vh / BASE_H);
+    const scaledW = BASE_W * scale;
+    const scaledH = BASE_H * scale;
+    const left = (vw - scaledW) / 2;
+    const top  = (vh - scaledH) / 2;
+    app.style.transform = 'scale(' + scale + ')';
+    app.style.left = left + 'px';
+    app.style.top  = top  + 'px';
+  }
+
+  window.addEventListener('load', fit);
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', function(){ setTimeout(fit, 200); });
+  document.addEventListener('DOMContentLoaded', fit);
+  fit();
+})();
+
 setTimeout(init, 100);
 
 /* ══════════════════════════════════════════════════════
@@ -2928,7 +2947,7 @@ function fmShowResults(){
     const div=document.createElement('div');
     div.style.cssText='padding:9px 12px;margin-bottom:6px;background:rgba(255,255,255,.07);border-radius:7px;border-left:3px solid '+(ok?'#66FF33':'#ff6b6b')+';';
     div.innerHTML='<p style="font-size:11px;color:'+(ok?'#99FF66':'#ff9999')+';font-weight:700;margin-bottom:3px;">'+(ok?'✓ 정답':'✗ 오답')+'  문제 '+(i+1)+'</p>'
-      +'<p style="font-size:clamp(11px,1.5vw,13px);color:#fff;margin-bottom:3px;">'+q.q+'</p>'
+      +'<p style="font-size:13px;color:#fff;margin-bottom:3px;">'+q.q+'</p>'
       +'<p style="font-size:11px;color:rgba(255,255,255,.6);">정답: '+(q.ans+1)+'. '+q.opts[q.ans]
       +(q.userAns!==q.ans&&q.userAns>=0?' &nbsp;|&nbsp; 선택: '+(q.userAns+1)+'. '+q.opts[q.userAns]:'')+'</p>';
     list.appendChild(div);
