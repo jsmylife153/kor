@@ -2643,7 +2643,8 @@ function cStep() {
   WE.style.left=x+'px'; WE.style.top=y+'px'; WE.textContent=word;
   WE.style.fontSize=tickFs+'px';
   WE.style.color = cTick===1 ? '#3366FF' : '#111'; /* 영어=파란색, 한글=검정 */
-  WE.style.transform='translate(0,-50%)';
+  /* 한글: -50%(em 중앙) / 영어: -62%(디센더 보정, 시각적 중심을 위로) */
+  WE.style.transform = cTick===0 ? 'translate(0,-50%)' : 'translate(0,-62%)';
   WE.style.opacity='1';
   if (cTick===0) { counter++; updB(); }
   bId=setTimeout(() => {
@@ -2706,7 +2707,7 @@ function mStep() {
   WE.style.left=x+'px'; WE.style.top=y+'px'; WE.textContent=word;
   WE.style.fontSize=tickFs+'px';
   WE.style.color = cTick===1 ? '#3366FF' : '#111'; /* 영어=파란색, 한글=검정 */
-  WE.style.transform='translate(0,-50%)';
+  WE.style.transform = cTick===0 ? 'translate(0,-50%)' : 'translate(0,-62%)';
   WE.style.opacity='1';
   bId=setTimeout(() => {
     WE.style.opacity='0';
