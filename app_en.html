@@ -3481,15 +3481,15 @@ let totalScore = 0;    /* 누적 점수 (localStorage) */
 
 function loadUserData() {
   try {
-    const saved = localStorage.getItem('jstr_username_en');
+    const saved = localStorage.getItem('jstr_username');
     userName = (saved && saved.trim()) ? saved.trim() : '';
-    totalScore = parseInt(localStorage.getItem('jstr_totalscore_en') || '0');
+    totalScore = parseInt(localStorage.getItem('jstr_totalscore') || '0');
   } catch(e) {}
 }
 function saveUserData() {
   try {
-    if (userName) localStorage.setItem('jstr_username_en', userName);
-    localStorage.setItem('jstr_totalscore_en', String(totalScore));
+    if (userName) localStorage.setItem('jstr_username', userName);
+    localStorage.setItem('jstr_totalscore', String(totalScore));
   } catch(e) {}
 }
 
@@ -3533,10 +3533,10 @@ function updateScoreBadge() {
   const today = getKSTDateStr();           /* KST 기준 오늘 */
   let todayScore = 0;
   try {
-    const saved = localStorage.getItem('jstr_todayscore_en');
-    const savedDate = localStorage.getItem('jstr_todaydate_en');
+    const saved = localStorage.getItem('jstr_todayscore');
+    const savedDate = localStorage.getItem('jstr_todaydate');
     if (savedDate === today) todayScore = parseInt(saved||'0');
-    else { localStorage.setItem('jstr_todaydate_en', today); localStorage.setItem('jstr_todayscore_en','0'); }
+    else { localStorage.setItem('jstr_todaydate', today); localStorage.setItem('jstr_todayscore','0'); }
   } catch(e) {}
   el.textContent = '오늘 ' + todayScore + '점';
 }
@@ -3554,12 +3554,12 @@ function addScore(points) {
   /* 오늘 날짜 점수 누적 */
   try {
     const today = getKSTDateStr();  /* KST 기준 */
-    const savedDate = localStorage.getItem('jstr_todaydate_en');
+    const savedDate = localStorage.getItem('jstr_todaydate');
     let todayScore = 0;
-    if (savedDate === today) todayScore = parseInt(localStorage.getItem('jstr_todayscore_en')||'0');
+    if (savedDate === today) todayScore = parseInt(localStorage.getItem('jstr_todayscore')||'0');
     todayScore += points;
-    localStorage.setItem('jstr_todaydate_en', today);
-    localStorage.setItem('jstr_todayscore_en', String(todayScore));
+    localStorage.setItem('jstr_todaydate', today);
+    localStorage.setItem('jstr_todayscore', String(todayScore));
   } catch(e) {}
   updateScoreBadge();
 }
@@ -3572,7 +3572,7 @@ async function submitScore() {
     const now = new Date();
     const docRef = _fdb.collection('scores').doc();
     const today = now.toISOString().slice(0,10);
-    const todayScore = parseInt(localStorage.getItem('jstr_todayscore_en')||'0');
+    const todayScore = parseInt(localStorage.getItem('jstr_todayscore')||'0');
     await docRef.set({
       name: userName,
       score: totalScore,        /* 누적 총점 (랭킹 기준) */
@@ -4082,14 +4082,14 @@ function getAudioPref() {
   return localStorage.getItem('audioAutoPlay_en') !== '0';
 }
 function saveAudioPref() {
-  const cb = document.getElementById('audioAutoPlay_en');
+  const cb = document.getElementById('audioAutoPlay');
   const on = cb ? cb.checked : true;
   localStorage.setItem('audioAutoPlay_en', on ? '1' : '0');
   updateAudioToggleUI();
 }
 function updateAudioToggleUI() {
   const on = getAudioPref();
-  const cb = document.getElementById('audioAutoPlay_en');
+  const cb = document.getElementById('audioAutoPlay');
   const track = document.getElementById('audioTrack');
   const knob = document.getElementById('audioKnob');
   if(cb) cb.checked = on;
@@ -4102,7 +4102,7 @@ function getAlphaPref() {
   return localStorage.getItem('alphaSoundPref_en') !== '0';
 }
 function saveAlphaPref() {
-  const cb = document.getElementById('alphaSoundPref_en');
+  const cb = document.getElementById('alphaSoundPref');
   const on = cb ? cb.checked : true;
   localStorage.setItem('alphaSoundPref_en', on ? '1' : '0');
   updateAlphaToggleUI();
@@ -4111,7 +4111,7 @@ function saveAlphaPref() {
 }
 function updateAlphaToggleUI() {
   const on = getAlphaPref();
-  const cb = document.getElementById('alphaSoundPref_en');
+  const cb = document.getElementById('alphaSoundPref');
   const track = document.getElementById('alphaTrack');
   const knob = document.getElementById('alphaKnob');
   if(cb) cb.checked = on;
@@ -4124,7 +4124,7 @@ function getAlphaPref2() {
   return localStorage.getItem('alphaSoundPref2_en') !== '0';
 }
 function saveAlphaPref2() {
-  const cb = document.getElementById('alphaSoundPref2_en');
+  const cb = document.getElementById('alphaSoundPref2');
   const on = cb ? cb.checked : true;
   localStorage.setItem('alphaSoundPref2_en', on ? '1' : '0');
   updateAlphaToggleUI2();
@@ -4133,7 +4133,7 @@ function saveAlphaPref2() {
 }
 function updateAlphaToggleUI2() {
   const on = getAlphaPref2();
-  const cb = document.getElementById('alphaSoundPref2_en');
+  const cb = document.getElementById('alphaSoundPref2');
   const track = document.getElementById('alphaTrack2');
   const knob = document.getElementById('alphaKnob2');
   if(cb) cb.checked = on;
