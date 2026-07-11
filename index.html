@@ -562,7 +562,7 @@ section[id], div[id]{scroll-margin-top:150px;}
   <div class="header-btns">
     <a href="./app.html" class="hbtn hbtn-kor">▶ 두뇌한글 시작</a>
     <a href="./app_en.html" class="hbtn hbtn-en">▶ 두뇌영어 시작</a>
-    <button class="hbtn hbtn-exit" onclick="if(confirm('두뇌훈련을 종료하시겠습니까?')){window.close();}"><span style="display:inline-block;width:14px;height:14px;border:2.5px solid #fff;border-radius:2px;flex-shrink:0;"></span> 두뇌훈련 종료</button>
+    <button class="hbtn hbtn-exit" onclick="exitApp()"><span style="display:inline-block;width:14px;height:14px;border:2.5px solid #fff;border-radius:2px;flex-shrink:0;"></span> 두뇌훈련 종료</button>
   </div>
 </header>
 
@@ -1173,6 +1173,19 @@ section[id], div[id]{scroll-margin-top:150px;}
 </footer>
 
 <script>
+
+function exitApp() {
+  try { window.close(); } catch(e) {}
+  setTimeout(function() {
+    if (window.history.length > 1) {
+      window.history.go(-(window.history.length - 1));
+    }
+    setTimeout(function() {
+      window.location.replace('about:blank');
+    }, 300);
+  }, 200);
+}
+
 document.querySelectorAll('.faq-q').forEach(q => {
   q.addEventListener('click', () => {
     const item = q.parentElement;
