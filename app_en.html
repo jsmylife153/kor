@@ -3415,6 +3415,7 @@ function fmShowTransOv(){
       fmWordStart=0; fmWordIdx=0;
       fmLoadPageGray(0);
       tState='running'; updPlayBtns('running'); startAlpha2();
+      ding(); /* 영어 본문 시작 알림음 */
       fmTimer=setTimeout(fmStep,0);
     }
   }, 1000);
